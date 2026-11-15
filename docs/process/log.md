@@ -274,3 +274,18 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Work:** category labels are white on black.
 - **ROI:** all topics are set in Bodoni Moda (900 for regions), projects in Zilla Slab. A dictionary box opens on hover (headword, part of speech, short definition). AI drafted about 140 entries in `js/roi-dict.js` for me to edit.
 - **Headers on every page:** the title sits left on its steady grid, with one short line under it. The page texts were shortened, including Home's.
+
+---
+
+## Event Horizon as a bubble timeline (2026-11-15)
+
+**My direction:** the large events must never overlap: it's a bubble timeline. The people become lines instead of bubbles; they start at their births and continue, except one that ends.
+**AI questioned consent before building:** (1) a line ending at an event's year would let visitors infer that event's meaning; (2) line starts would make birth years readable against the event years.
+**I decided:** keep the ending as it is, and blur the starts.
+**Built:**
+- Time runs left to right (compressed before 2007). The event circles sit by year on alternating rows, with radii grown as large as possible without touching, breathing in place.
+- People are lines that fade in over a window around each birth. The window is offset by the secret seed, so exact years can't be read. Each line then runs on, and one ends.
+- Where a line crosses a circle, black turns white.
+- The data is generated into `js/horizon-data.js` from `secrets/` (fade windows and an end year only; no dates). Which line ends is recorded only in `secrets/lines.json`.
+
+**Next:** the whole site pushed live for a full browser check.

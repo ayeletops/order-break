@@ -1,55 +1,65 @@
-/* EVENT HORIZON — only circles, on red.
-   Five large circles: the cataclysmic events. Their year appears, large, only when you hover.
-   Eight small bubbles: the people I love (sized and placed by their relative ages from css/grids.css — no dates, no labels).
-   Centres sit on this page's own invisible grid: 12 month-columns (one per letter of EVENTHORIZON) × 4 rows.
-   Where circles overlap the fill flips: odd layers black, even layers white. The circles don't move; they breathe.
+/* EVENT HORIZON — a bubble timeline, on red.
+   Time runs left to right (compressed before 2007). Five large circles: the cataclysmic events, placed by year,
+   never overlapping; they breathe in place. Their year appears, large, only on hover.
+   The people I love are lines: each fades in around when they were born (blurred on purpose) and runs on.
+   One line ends. Where a line crosses a circle, black turns white (odd layers black, even white). The grid is invisible.
+   Data: js/horizon-data.js (generated; no dates).
 */
 (() => {
   const EVENTS = [2010, 2014, 2016, 2019, 2023];
-  const FROM = 2007, TO = 2026;
+  const LINES = window.LINES || [];
   const cv = document.getElementById('sky'), x = cv.getContext('2d');
-  const ages = Stretch.weights('ages');                     // % of the oldest (relative only)
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const A = document.createElement('canvas'), B = document.createElement('canvas');   // union mask, parity mask
+  const A = document.createElement('canvas'), B = document.createElement('canvas');
   const a = A.getContext('2d'), b = B.getContext('2d');
-  let W = 0, H = 0, dpr = 1, hover = -1, C = [];
+  let W = 0, H = 0, dpr = 1, hover = -1, C = [], LY = [];
+  // time → x: 1936–2007 squeezed into the first 30%, 2007–2027 opened across the rest
+  const X = y => W * (y < 2007 ? .03 + (y - 1936) / (2007 - 1936) * .27 : .30 + (y - 2007) / (2027 - 2007) * .67);
 
   function layout() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     const r = cv.getBoundingClientRect(); if (r.width === W && r.height === H) return;
-    W = r.width; H = r.height;
-    [cv, A, B].forEach(c => { c.width = W * dpr; c.height = H * dpr; });
-    const m = Math.min(W, H);
-    const col = c => (Math.max(0, Math.min(11, c)) + .5) / 12, row = k => (k + .5) / 4;           // the invisible 12 × 4 grid
-    C = EVENTS.map((y, i) => ({ ev: y, bx: col(Math.round((y - FROM) / (TO - FROM) * 11)), by: row([1, 2, 1, 2, 1][i]), r: m * [.19, .26, .16, .22, .3][i], ph: i * 1.7 }))
-      .concat(ages.map((g, i) => ({ bx: col(Math.round((1 - g / 100) * 11)), by: row([0, 3, 0, 3, 1, 2, 0, 3][i]), r: m * (.035 + g / 100 * .05), ph: 10 + i * 2.3 })));
+    W = r.width; H = r.height; [cv, A, B].forEach(c => { c.width = W * dpr; c.height = H * dpr; });
+    // events: x by year, alternating rows; grow radii as large as possible without any overlap
+    const want = [.19, .26, .16, .22, .3], rows = [.36, .66, .34, .64, .4];
+    C = EVENTS.map((y, i) => ({ ev: y, x: X(y), y: rows[i] * H, w: want[i] }));
+    let k = Math.min(W, H);
+    const ok = s => C.every((c, i) => c.w * s <= Math.min(c.y, H - c.y) - 6 &&
+      C.every((d, j) => j <= i || Math.hypot(c.x - d.x, c.y - d.y) >= (c.w + d.w) * s * 1.08 + 8));   // breathing room
+    while (k > 10 && !ok(k)) k *= .97;
+    C.forEach(c => c.r = c.w * k);
+    LY = LINES.map((_, i) => H * (.1 + .8 * (i + .5) / LINES.length));
   }
-  const pos = c => ({ x: c.bx * W, y: c.by * H });                     // fixed: no drift
-  const breathe = (c, t) => 1 + Math.sin(t / 2400 + c.ph) * (c.ev ? .035 : .06);
+  const breathe = (c, t) => 1 + Math.sin(t / 2400 + c.ev) * .035;
 
+  function shapes(k, t) {   // draw every circle and solid line segment into a mask context
+    C.forEach((c, i) => { k.beginPath(); k.arc(c.x, c.y, c.r * breathe(c, t) * (hover === i ? 1.03 : 1), 0, 6.283); k.fill(); });
+    LINES.forEach((l, i) => { const x0 = X(l.b), x1 = l.end ? X(l.end) : W; k.fillRect(x0, LY[i] - 1.5, x1 - x0, 3); });
+  }
   function frame(t) {
     layout(); if (reduce) t = 0;
-    const P = C.map((c, i) => ({ ...pos(c), r: c.r * breathe(c, t) * (hover === i ? 1.05 : 1), c, i }));
     [a, b].forEach(k => { k.setTransform(dpr, 0, 0, dpr, 0, 0); k.clearRect(0, 0, W, H); });
-    a.fillStyle = '#fff'; P.forEach(p => { a.beginPath(); a.arc(p.x, p.y, p.r, 0, 6.283); a.fill(); });                       // anything covered
-    b.globalCompositeOperation = 'xor'; b.fillStyle = '#000'; P.forEach(p => { b.beginPath(); b.arc(p.x, p.y, p.r, 0, 6.283); b.fill(); });   // odd layers
-    x.setTransform(1, 0, 0, 1, 0, 0);
+    a.fillStyle = '#fff'; shapes(a, t);
+    b.globalCompositeOperation = 'xor'; b.fillStyle = '#000'; shapes(b, t);
+    x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = 'source-over';
     x.fillStyle = '#e5332a'; x.fillRect(0, 0, cv.width, cv.height);
-    x.drawImage(A, 0, 0); x.drawImage(B, 0, 0);               // red ground · white where even · black where odd
-    // event years: centred in each event circle, always readable
-    x.setTransform(dpr, 0, 0, dpr, 0, 0); x.globalCompositeOperation = 'difference';
-    x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
-    P.forEach(p => { if (p.c.ev && p.i === hover) { x.font = `900 ${Math.round(p.r * .55)}px "Bodoni Moda", Didot, serif`; x.fillText(String(p.c.ev), p.x, p.y); } });
+    x.drawImage(A, 0, 0); x.drawImage(B, 0, 0);
+    x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // blurred starts: each line fades in over its window
+    LINES.forEach((l, i) => { const x0 = X(l.a), x1 = X(l.b), g = x.createLinearGradient(x0, 0, x1, 0);
+      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)'); x.fillStyle = g; x.fillRect(x0, LY[i] - 1.5, x1 - x0, 3); });
+    // the year, only on hover, large and inside its circle
+    x.globalCompositeOperation = 'difference'; x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    if (hover >= 0) { const c = C[hover]; x.font = `900 ${Math.round(c.r * .55)}px "Bodoni Moda", Didot, serif`; x.fillText(String(c.ev), c.x, c.y); }
     x.globalCompositeOperation = 'source-over';
     if (!reduce) requestAnimationFrame(frame);
   }
   cv.addEventListener('pointermove', e => {
     const r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
-    let best = -1, bd = Infinity;   // smallest event circle under the pointer
-    C.forEach((c, i) => { if (!c.ev) return; const d = Math.hypot(mx - pos(c).x, my - pos(c).y); if (d < c.r && c.r < bd) { bd = c.r; best = i; } });
-    hover = best; cv.style.cursor = best >= 0 ? 'default' : '';
+    hover = C.findIndex(c => Math.hypot(mx - c.x, my - c.y) < c.r);
+    if (reduce) requestAnimationFrame(frame);
   });
-  cv.addEventListener('pointerleave', () => hover = -1);
+  cv.addEventListener('pointerleave', () => { hover = -1; if (reduce) requestAnimationFrame(frame); });
   addEventListener('resize', () => { W = 0; });
   requestAnimationFrame(frame);
 })();
