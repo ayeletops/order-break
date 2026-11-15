@@ -41,4 +41,11 @@ Each entry records what the AI proposed and how I responded.
 
 **Publishing detour:** the push from Terminal failed (the oh-my-zsh update prompt swallowed the `cd`; then GitHub asked for a token). I switched to GitHub Desktop, which created a second, empty local repo and published *that* as `order-break` (one auto commit, `.gitattributes`). AI merged that commit into the real folder instead of force-pushing, so Desktop's stored login could push without a token. Desktop is now pointed at the real folder. Lesson: check which folder a GUI tool is acting on.
 
-**Next decision:** start Phase 1 (Position), or first set up GitHub Pages and record the Phase 0 tag and screenshot.
+**Closing Phase 0:**
+- GitHub Pages turned on: deploy from `main`, root. Live at https://ayeletops.github.io/order-break/
+- Removed the stray empty repo Desktop had created (`~/Documents/GitHub/Order-Break`). Before that, I deleted the real folder by mistake and restored it from the Trash. Nothing was lost.
+- AI tried to install a headless browser for automatic phase screenshots. The sandbox network blocks it, so I take phase screenshots myself.
+- `docs/iterations/phase-00.png`: the live site as a blank white page. The zero state: a URL, no decisions yet.
+- Tagged `phase-00`.
+
+**Next decision:** Phase 1 (Position).
