@@ -63,3 +63,8 @@ Each entry records what the AI proposed and how I responded.
 
 **AI proposed a reading:** "you design for things that spread invisibly between bodies and spaces, make the invisible system visible, and question who controls it."
 **I responded:** _pending_
+
+**Working space:** `~/Downloads/ME` is my private studio, outside the repo. AI copied (never moved) the chosen works there, grouped by project, and built a local contact sheet so I can see everything at once. Nothing in ME is public.
+
+**AI proposed extra layers:** a metadata timeline (file dates as an unintended diary), family as the hidden grid, pets, hand + voice, reading trail, work clock.
+**I chose:** family as the hidden grid · hand + voice · reading trail / work clock. **Not** the metadata timeline.
