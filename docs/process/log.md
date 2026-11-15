@@ -110,3 +110,8 @@ The typology confrontation, the stance text and the process documentation are fo
 - Latent Field: made rhizomatic. Regions and projects form a network with no fixed centre. Clicking a node moves it to the centre and the age rings re-form around it. Project positions are placeholders for me to place.
 - Work: kept as is.
 - Black Holes: unresolved, left open.
+
+**Second round of feedback:**
+- **No bottom menu.** One menu, at the top, on each page's own grid.
+- **Cover:** line breaks are responsive, not preset. Letter slots wrap by themselves as the screen narrows. Each slot's width is weighted by a day of birth (cycling through the 8), so the breaks fall where the days meet the screen.
+- **Latent Field:** AI had misread "rhizomatic" as a network diagram with boxes and lines. I clarified: it should look like the first version (concentric age rings, crosshair, words), but the field is larger than the screen. As you move through it (drag or click), the chosen word becomes the centre of the circular grid. Rebuilt that way: the rings stay fixed, the words move underneath, and the word nearest the centre takes focus.
