@@ -68,3 +68,5 @@ Each entry records what the AI proposed and how I responded.
 
 **AI proposed extra layers:** a metadata timeline (file dates as an unintended diary), family as the hidden grid, pets, hand + voice, reading trail, work clock.
 **I chose:** family as the hidden grid · hand + voice · reading trail / work clock. **Not** the metadata timeline.
+
+**References:** I asked for research on the most original portfolio sites (awards, Wix and others) as a "LoRA" for inspiration. AI explained that a LoRA is a trained image model, and proposed a written reference brief with a lens instead: take the decision, not the look. It also flagged that award sites form a second typology (WebGL, cursor theatre) next to the AI default. Saved as `docs/research/references.md`: 25 sites tagged ORDER / BREAK / ENCOUNTER / TYPOLOGY-TRAP, plus a list of clichés.
