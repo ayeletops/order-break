@@ -95,3 +95,11 @@ The typology confrontation, the stance text and the process documentation are fo
 - Documents and tickets appear only redacted, with thick black bars. Minors' eyes are also covered with black bars. AI: bars are burned into the pixels, metadata is stripped, unredacted originals never enter the repo. The black bar becomes part of the visual language.
 - Black Holes: only encrypted text is committed; the key is a long passphrase only I hold. The events are not named in this public log.
 - AI noted the brief says "not a CV". I decided the CV is part of my ID, framed as how I got here.
+
+**Grid family built.** `tools/derive-grids.py` reads the dates and a random shuffle seed (both in `secrets/`) and writes only derived values to `css/grids.css`. Visual sheet: `docs/grids/grid-sheet.html`.
+- **Cover, from days:** 8 uneven columns, each width in fr = one person's day of birth.
+- **Latent Field, from ages:** 8 rings, radius = age as % of the oldest; the four regions as quadrants.
+- **Work, from birth years:** 7 horizontal intervals = the gaps between sorted birth years. Their years measure mine.
+- **Black Holes, from months:** a 12-column grid (the generic default) where each column is a month; birth months mark void positions and sizes.
+- **Shared by the family:** baseline 24px (mean age ÷ 2), gutter 12px, margins 2vw/3vw (youngest : oldest), type-scale ratio 1.482 (√ of mean day : mean month).
+- **Privacy:** the public values are unlinked sets of days, ages, year-gaps and months. Without the secret seed they can't be recombined into dates.
