@@ -39,4 +39,6 @@ Each entry records what the AI proposed and how I responded.
 - Folder structure from CLAUDE.md: `index.html` (empty), `css/`, `js/`, `assets/`, `docs/process/annotations/`, `docs/iterations/`, `secrets/` (git-ignored). Empty folders hold a `.gitkeep`.
 - Moved this log from the root to `docs/process/log.md` with history kept.
 
+**Publishing detour:** the push from Terminal failed (the oh-my-zsh update prompt swallowed the `cd`; then GitHub asked for a token). I switched to GitHub Desktop, which created a second, empty local repo and published *that* as `order-break` (one auto commit, `.gitattributes`). AI merged that commit into the real folder instead of force-pushing, so Desktop's stored login could push without a token. Desktop is now pointed at the real folder. Lesson: check which folder a GUI tool is acting on.
+
 **Next decision:** start Phase 1 (Position), or first set up GitHub Pages and record the Phase 0 tag and screenshot.
