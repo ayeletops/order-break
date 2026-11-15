@@ -42,8 +42,7 @@ window.Stretch = (() => {
       const slot = { el: s, c, ch, glyph: ch, face: FACES[0] };
       slots.push(slot);
       if (opt.lock) {        // cover: the hovered block turns negative and holds its face; every other letter takes that face
-        s.addEventListener('mouseenter', () => { paused = true; slot.neg = true; slot.glyph = slot.ch;
-          slots.forEach(o => { o.face = slot.face; o.glyph = o.ch; }); s.classList.add('neg'); drawAll(); });
+        s.addEventListener('mouseenter', () => { paused = true; slot.neg = true; s.classList.add('neg'); draw(slot); });   // freeze everything as it is
         s.addEventListener('mouseleave', () => { paused = false; slot.neg = false; s.classList.remove('neg'); drawAll(); });
       } else if (opt.hover !== false && !opt.steady) {
         s.addEventListener('mouseenter', () => { s.style.setProperty('--grow', opt.grow || 2.4); if (opt.onEnter) opt.onEnter(slot); draw(slot); });
@@ -85,10 +84,11 @@ window.Stretch = (() => {
       if (paused) return;
       const s = rand(slots); let n = 0;
       const t = setInterval(() => {
+        if (paused) { clearInterval(t); return; }                 // hover: hold the exact current state
         if (n++ < 5) { s.face = rand(FACES); s.glyph = Math.random() < .3 ? rand(SYMBOLS) : s.ch; }
         else { clearInterval(t); s.face = rand(FACES); s.glyph = s.ch; }
         draw(s);
-      }, 75);
+      }, opt.flick || 75);
     }
     if (!reduce && opt.mutate !== false) setInterval(mutate, opt.every || 1100);
     slots.forEach(s => { s.face = rand(FACES); });

@@ -76,3 +76,8 @@ main{padding-top:var(--nav-h)}
 .secret{position:fixed;z-index:60;top:calc(var(--nav-h) / 2);right:var(--margin-r);width:9px;height:9px;margin-top:-4.5px;border-radius:50%;
         border:1px solid currentColor;opacity:.35;transition:opacity .3s,transform .3s}
 .secret:hover,.secret:focus-visible{opacity:1;transform:scale(1.6);background:currentColor}
+
+/* ── rupture (js/rupture.js) ── */
+.st-slot.slip canvas{transform:translate(var(--sx,0),var(--sy,0))}          /* the letter slipped… */
+.st-slot.slip::after{border-style:dashed}                                     /* …its frame stayed on the grid */
+.tearing{will-change:filter,transform}

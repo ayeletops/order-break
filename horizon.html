@@ -32,6 +32,8 @@
   <canvas id="sky" aria-label="A field of stars with five black holes, marked only by year"></canvas>
 </main>
 <script src="js/stretch.js"></script>
+<script src="js/rupture.js"></script>
 <script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', Stretch.weights('months'), { steady: true, every: 1500 });</script>
 <script src="js/horizon.js"></script>
+<script>Rupture.schedule(document.getElementById("sky"), 4200);</script>
 </body></html>

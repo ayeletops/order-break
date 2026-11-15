@@ -7,7 +7,12 @@
 */
 (() => {
   const cover = document.getElementById('cover');
-  const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { lock: true, every: 900 });
+  const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { lock: true, every: 260, flick: 45 });
+
+  // rupture: the blocks that fall on the event years slip out of line, the red frame stays where the grid put it
+  Rupture.YEARS.forEach((y, k) => { const s = T.slots[y % T.slots.length]; if (!s) return;
+    s.el.classList.add('slip'); s.el.style.setProperty('--sx', `${[-7, 5, -4, 8, -6][k]}px`); s.el.style.setProperty('--sy', `${[11, -8, 14, -10, 7][k]}px`); });
+  Rupture.schedule(document.querySelector('main'), 6500);
 
   const names = ['ayeletops', 'sella_vie'];
   let cur = 0;
