@@ -46,6 +46,6 @@ Each entry records what the AI proposed and how I responded.
 - Removed the stray empty repo Desktop had created (`~/Documents/GitHub/Order-Break`). Before that, I deleted the real folder by mistake and restored it from the Trash. Nothing was lost.
 - AI tried to install a headless browser for automatic phase screenshots. The sandbox network blocks it, so I take phase screenshots myself.
 - `docs/iterations/phase-00.png`: the live site as a blank white page. The zero state: a URL, no decisions yet.
-- Tagged `phase-00`.
+- **Tags:** AI proposed tagging `phase-00`. I decided against it: tagging starts only once the site has real content and drafts, since a bookmark on an empty page marks nothing. (Also learned: GitHub Desktop only pushes tags it created.)
 
 **Next decision:** Phase 1 (Position).

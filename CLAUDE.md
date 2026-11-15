@@ -40,7 +40,7 @@ This is an ID, **not a portfolio or CV**. "What I do" should come through as way
 1. Work **step by step**. One decision at a time. Ask Ayelet for content, data and decisions — don't fill personal content in yourself.
 2. After each step, append to `docs/process/log.md`: date, what Claude proposed, what Ayelet decided or changed, and why.
 3. Commit small and often with clear messages. **Ask before pushing.**
-4. At the end of each phase: tag `phase-NN`, save a screenshot to `docs/iterations/phase-NN.png`. These feed the final hover-to-see-iterations feature.
+4. At the end of each phase: save a screenshot to `docs/iterations/phase-NN.png`. Tag `phase-NN` only once the site has real content and drafts (decided in Phase 0). Create tags in GitHub Desktop (History → right-click commit → Create Tag), because Desktop only pushes tags it made. These feed the final hover-to-see-iterations feature.
 5. Wacom hand annotations go in `docs/process/annotations/phase-NN/` (PNG/SVG). Reference them in the log.
 6. Never commit secrets (dates, keys, passphrases). Keep them in `secrets/` (git-ignored).
 
