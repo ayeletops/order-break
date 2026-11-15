@@ -70,3 +70,15 @@ Each entry records what the AI proposed and how I responded.
 **I chose:** family as the hidden grid · hand + voice · reading trail / work clock. **Not** the metadata timeline.
 
 **References:** I asked for research on the most original portfolio sites (awards, Wix and others) as a "LoRA" for inspiration. AI explained that a LoRA is a trained image model, and proposed a written reference brief with a lens instead: take the decision, not the look. It also flagged that award sites form a second typology (WebGL, cursor theatre) next to the AI default. Saved as `docs/research/references.md`: 25 sites tagged ORDER / BREAK / ENCOUNTER / TYPOLOGY-TRAP, plus a list of clichés.
+
+---
+
+## Phase 2 — Order (2026-11-15)
+
+**Dates:** I put 8 birthdays in `secrets/` (git-ignored). AI read them without ever printing them, and checked format (DD/MM/YY) and validity. I fixed one typo.
+
+**AI proposed four date→grid mappings:** distances between birthdays · each person as a ratio · calendar as ruler · digit sequence. It flagged that "calendar" and "distances" leak the dates. I asked for whichever is most Swiss. AI recommended a regular 8-column grid with field proportion 134:61 (sum of days : sum of months), keeping uneven columns for a private break layer.
+**I decided otherwise:** these are web grids. I like uneven columns, so not just sums: use days, months, years and ages, as a **family** of grids, one per page or chapter. The site map comes first, to know how many grids are needed.
+**AI added:** shuffle person order per grid, so the public method can't re-link a day, month and year into a date.
+
+**I dropped** the entry questionnaire and the camera: the site is the same for everyone. AI noted this also drops owner mode and encryption.

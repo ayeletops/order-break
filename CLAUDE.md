@@ -37,12 +37,9 @@ References: `docs/research/references.md`.
 
 - Plain HTML / CSS / JS, no framework. Static, hosted on GitHub Pages. Everything runs client-side.
 - **Order = a secret personal grid.** Grid proportions derive from birthdays of people I love (a personal Modulor). **Raw dates are never committed** — only derived ratios. The date→ratio mapping is a designed decision to document.
-- **Owner-only content** is encrypted, not hidden: key derived from the secret numbers (WebCrypto, PBKDF2 + AES-GCM). Client-side "hiding" is not secrecy.
-- **Under consideration (not decided):**
-  - Entry ritual of private/emotional questions; answers hashed (SHA-256 + random salt) to seed a shuffle that maps questions to design parameter slots differently each visit.
-  - Camera at entry. If used: treat it as a light/colour sensor, not face recognition; process on-device only; show the viewer what is and isn't stored; always offer a skip.
-  - Skipping the ritual lands the viewer on the generic AI-default page — refusing gets you the typology.
-- Assessors can't see owner mode → record a screen capture of the unlock for the docs.
+- **Dropped (Phase 2):** entry questionnaire, camera, owner-only/encrypted mode. The site is the same for every visitor.
+- **Grid family (Phase 2):** web grids (responsive CSS), uneven columns derived from days, months, years and ages of the 8 people; one grid per chapter, related as a family. Person order is shuffled per grid, so day/month/year can't be re-linked from the public method.
+- **Site map drives the grids:** one grid per chapter. Map being decided in Phase 2.
 - Watch scope: the brief rewards the order/break dialogue, not machinery.
 
 ## Working method (follow this every session)
@@ -61,7 +58,7 @@ References: `docs/research/references.md`.
 2. Order — birthday grid, type system, hierarchy
 3. Break — handwork, personal material
 4. Typology — generate the AI default on purpose, document it, decide how to act against it
-5. Encounter — how they interact; entry ritual / camera logic (if kept)
+5. Encounter — how they interact
 6. Text — 300–500 words
 7. Hover iterations + final documentation
 
