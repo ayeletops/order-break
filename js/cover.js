@@ -20,18 +20,8 @@
   cover.addEventListener('click', () => show(1 - cur));
 
   const fs = document.getElementById('fs'), fsv = document.getElementById('fsv');
-  const setFs = v => { cover.style.setProperty('--fs', v); fsv.textContent = v; fs.value = v; };
+  const setFs = v => { cover.style.setProperty('--fs', v); document.documentElement.style.setProperty('--fs', v); fsv.textContent = v; fs.value = v; };
   fs.addEventListener('input', e => setFs(e.target.value));
   setFs(Math.round(Math.min(340, innerWidth / 3.2, Math.max(90, (innerHeight - 140) / 2.2))));
 
-  const def = document.getElementById('default');
-  document.getElementById('replay').addEventListener('click', e => {
-    e.preventDefault();
-    const lines = def.querySelectorAll('.ln');
-    def.classList.remove('gone', 'redacted'); lines.forEach(l => l.style.setProperty('--dl', '0s'));
-    setTimeout(() => {
-      lines.forEach((l, i) => l.style.setProperty('--dl', `${i * 0.18}s`)); def.classList.add('redacted');
-      setTimeout(() => def.classList.add('gone'), 1600 + lines.length * 180);
-    }, 1400);
-  });
 })();

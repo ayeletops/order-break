@@ -293,3 +293,15 @@ The typology confrontation, the stance text and the process documentation are fo
 **Then:** lines as thick as a crosswalk (red/black), and circles may overlap rows but not columns (different years). **AI:** the people-lines are now bands exactly as thick as the gaps between them, filling the page. Each event gets its own column as wide as its circle, side by side. The years keep their order but not their spacing, like Work following its grid rather than the calendar. The time axis bends through the event centres so the lines still meet their years.
 **Then:** thicker lines. **AI:** bands now take 72% of each slot, with 28% red gaps.
 **Then:** on hover a circle turns solid black with its year in white. **AI:** done.
+
+---
+
+## Cover and stance, round 2 (2026-11-15)
+
+**My report:** the cover isn't working as described (it still goes to a landing page, hover doesn't work, the sella_vie switch doesn't work). Remove the word "Stance" and the two texts on the right. The stance text is bad: make it far shorter and cryptic, use my earlier phrases, don't quote *A Scanner Darkly* (it was only an example). Say something about things that live only inside me and the gap I keep from the machine, with a *Ghost in the Shell* feeling. Two wide columns that also change with the title-size slider.
+**AI tested the live site in the browser:** it opens directly on the cover, the switch swaps the name, and hover turns the letter negative and gives every letter its font. What I saw was most likely a cached old version (fix: hard refresh or a private window). It found one real fault: in *sella_vie* the underscore was stretched into a solid black block (and the l's into bars), which reads as broken.
+**AI changed:**
+- The underscore now stays a low bar.
+- The "Stance" heading, the "See the default" aside and the bottom-right note are removed.
+- The new stance is 6 short paragraphs in Bodoni, in two wide columns. The type size, and with it the columns, follow the size slider. It uses my line "The modernist is the system; the anarchist is the outcome" and my question "how do you use the machine without being devoured by it?". It ends "The shell can be read. What moves inside it cannot." and "Give it the grid. Keep the ghost." No quotes from either film.
+- **Flag:** with the "See the default" link gone, the typology confrontation (required by the brief) has no visible home on the site. Still to decide.

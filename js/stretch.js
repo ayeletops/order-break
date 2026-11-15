@@ -59,6 +59,9 @@ window.Stretch = (() => {
       const x = c.getContext('2d');
       x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, c.width, c.height);
       if (slot.neg) { x.fillStyle = color; x.fillRect(0, 0, c.width, c.height); }
+      if (slot.glyph === '_') {           // an underscore stays an underscore: a low bar, not a block
+        x.fillStyle = slot.neg ? (opt.bg || '#ffffff') : color; x.fillRect(0, c.height * .86, c.width, c.height * .1); return;
+      }
       x.font = fontStr(slot.face, 200); x.textBaseline = 'alphabetic';
       const m = x.measureText(slot.glyph);
       const gw = (m.actualBoundingBoxLeft + m.actualBoundingBoxRight) || 1, gh = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) || 1;

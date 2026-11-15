@@ -19,16 +19,12 @@
   .switch button:hover{outline:1px solid var(--grid);outline-offset:2px}
   .size input{width:min(32vw,220px);accent-color:var(--ink)}
   .size output{min-width:3ch;text-align:right;font-weight:400}
-  .controls .note-home{margin-left:auto;max-width:46ch;display:block;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px;line-height:17px}
-  /* STANCE — below the cover, on the same day-columns */
-  .stance{display:grid;grid-template-columns:var(--cover-cols);gap:var(--gutter);padding:calc(var(--baseline)*3) var(--margin-r) calc(var(--baseline)*6) var(--margin-l);
-          background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--baseline) - 1px),rgba(229,51,42,.18) calc(var(--baseline) - .5px) var(--baseline))}
-  .stance h2{grid-column:1 / 3;margin:0;font:900 var(--s3)/1 var(--f-display);font-style:italic}
-  .stance .body{grid-column:3 / 7;max-width:62ch}
-  .stance .body p{margin:0 0 var(--baseline)}
-  .stance .body .lead{font:400 var(--s2)/calc(var(--baseline)*1.5) var(--f-display)}
-  .stance aside{grid-column:7 / 9;font-size:12px;line-height:var(--baseline)}
-  @media (max-width:900px){.stance{display:block}.controls .note-home{margin-left:0}}
+  /* STANCE — two wide columns; type and columns follow the size slider */
+  .stance{columns:2 22em;column-gap:calc(var(--gutter) * 4);padding:calc(var(--baseline)*3) var(--margin-r) calc(var(--baseline)*6) var(--margin-l);
+          font:400 clamp(17px, calc(var(--fs, 220) * .12px), 40px)/1.32 var(--f-display)}
+  .stance p{margin:0 0 .9em;break-inside:avoid}
+  .stance p:first-child{font-weight:900;font-style:italic}
+  @media (max-width:900px){.stance{columns:1}}
   /* THE DEFAULT — the AI typology, shown only on request, then redacted */
   #default{position:fixed;inset:0;z-index:80;display:grid;place-items:center;text-align:center;
            background:radial-gradient(1200px 600px at 30% 20%,#c7b8ff 0,transparent 60%),radial-gradient(900px 600px at 80% 80%,#9fe7ff 0,transparent 60%),#f6f4ff;
@@ -54,27 +50,19 @@
 <main>
   <section class="cover st-row" id="cover" aria-label="ayeletops" role="img" title="click to switch"></section>
 
-  <section class="stance" id="stance">
-    <h2>Stance</h2>
-    <div class="body">
-      <p class="lead">Who am I, if the machine can describe me?</p>
-      <p>It has read everything. Give it my name and it returns a designer: a gradient, a rounded card, a friendly hand waving hello. An average of everyone, which is to say no one. That page exists. I made it, and then I blacked it out.</p>
-      <p>For fifteen years my job has been to make images consistent: to catch the frame that jumps, the colour that drifts, the cut that lies. I am the one who checks that the surface holds. Now surfaces generate themselves, and consistency is the cheapest thing in the world. What is left to check is whether anyone is behind them.</p>
-      <p>In <i>A Scanner Darkly</i>, an undercover agent wears a suit that shows a shifting blur of a thousand faces, so that no one watching can see him. Slowly he stops being able to see himself. That is the danger I take seriously: not that the machine replaces me, but that I dissolve into its smooth, plausible average and don't notice.</p>
-      <p>So I use the machine, and I set the terms. The order here is real, and it is mine: every grid is measured from the birthdays of eight people I love. The dates are never shown, only what they measure. The letters keep changing their face, like the suit, but they always return to my name. The events that made me are here as black holes with a year beside them. You can see where they bent everything. What they were, I will tell you in person, or not at all.</p>
-      <p>The modernists believed a system could be neutral. I don't. A system is a portrait of whoever chose its numbers. I design for things that spread invisibly between bodies and spaces, make the invisible system visible, and ask who controls it. I use the machine the way I use a grid: as a structure strict enough to push against. What breaks through is me.</p>
-      <p class="todo" style="display:inline-block">[draft by Claude, for Ayelet to edit]</p>
-    </div>
-    <aside>
-      <p><a href="#" id="replay">See the default</a>: the page a machine would have made for me, refused.</p>
-    </aside>
+  <section class="stance" id="stance" aria-label="Stance">
+    <p>Who am I, if the machine can already describe me?</p>
+    <p>The modernist is the system; the anarchist is the outcome.</p>
+    <p>I feed it what it asks for. It returns an average, polite and smiling, and calls it me. I let it. Between the prompt and the answer there is a gap, and I keep it open on purpose.</p>
+    <p>Some things live only inside me. They have no file, no caption, no training data. Here you will find their outlines, never their contents.</p>
+    <p>The shell can be read. What moves inside it cannot.</p>
+    <p>How do you use the machine without being devoured by it? Give it the grid. Keep the ghost.</p>
   </section>
 </main>
 
 <div class="controls">
   <div class="switch" role="group" aria-label="Name"><button data-w="ayeletops" aria-pressed="true">ayeletops</button><span>⇄</span><button data-w="sella_vie" aria-pressed="false">sella_vie</button></div>
   <label class="size">Size <input id="fs" type="range" min="60" max="420" value="220"> <output id="fsv">220</output></label>
-  <p class="note-home">Two names, one person. Each block is as wide as a day someone I love was born. Click to switch.</p>
 </div>
 
 <div id="default" class="gone" aria-hidden="true">
