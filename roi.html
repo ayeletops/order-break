@@ -27,17 +27,24 @@
            transform:translate(-50%,-50%);animation:breathe var(--dur,6s) ease-in-out infinite alternate;animation-delay:var(--dl,0s)}
   @keyframes breathe{from{transform:translate(-50%,-50%) scale(.9)}to{transform:translate(-50%,-50%) scale(1.06)}}
   .n .dt{position:absolute;left:0;top:0;width:var(--ds);height:var(--ds);transform:translate(-50%,-50%);border-radius:50%;background:var(--ink);cursor:pointer;border:0;padding:0}
-  .n .lb{position:absolute;left:calc(var(--ds) / 2 + 8px);top:0;transform:translateY(-50%);white-space:nowrap;cursor:pointer;line-height:1}
-  .n.lv0{--ds:12px;--ts:160px}.n.lv0 .lb{font-size:54px;text-transform:uppercase}
+  .n .lb{position:absolute;left:calc(var(--ds) / 2 + 8px);top:0;transform:translateY(-50%);white-space:nowrap;cursor:help;line-height:1;font-family:var(--f-display);font-weight:400}
+  .n.lv0{--ds:12px;--ts:160px}.n.lv0 .lb{font-size:54px;font-weight:900}
   .n.lv05{--ds:9px;--ts:110px}.n.lv05 .lb{font-size:24px;font-style:italic}
   .n.lv1{--ds:8px;--ts:90px}.n.lv1 .lb{font-size:22px}
   .n.lv2{--ds:5px;--ts:52px}.n.lv2 .lb{font-size:14px}
   .n.proj{--ds:20px;--ts:120px}.n.proj .dt{background:var(--grid)}
-  .n.proj .lb{font:700 13px/1.2 var(--f-type);letter-spacing:.04em;text-transform:uppercase}
-  .n.proj .lb b{display:block;font:900 22px/1 var(--f-display);text-transform:none;letter-spacing:0}
+  .n.proj .lb{font:700 13px/1.2 var(--f-slab);letter-spacing:.06em;cursor:pointer}
+  .n.proj .lb b{display:block;font:700 22px/1 var(--f-slab);letter-spacing:0}
   .n.focus{--ts:min(78vh,78vw);z-index:3}
   .n.focus .lb{background:var(--paper);padding:3px 6px}
   .n .dt:hover,.n .lb:hover{outline:var(--gw) solid var(--grid);outline-offset:4px}
+  /* dictionary pop-up */
+  .def{position:absolute;z-index:9;width:300px;padding:10px 12px;background:var(--paper);border:var(--gw) solid var(--ink);opacity:0;transform:translateY(-4px);
+       pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
+  .def.on{opacity:1;transform:none}
+  .def b{font:400 20px/1.1 var(--f-display)}
+  .def i{font:400 italic 13px/1 var(--f-display);margin-left:4px}
+  .def span{display:block;margin-top:6px;font:400 12px/17px var(--f-type)}
   /* thumbnail card: eases in from the dot */
   .card{position:absolute;z-index:8;background:var(--paper);border:var(--gw) solid var(--ink);cursor:pointer;opacity:0;transform:scale(.4);pointer-events:none;
         transition:opacity .35s cubic-bezier(.2,.7,.2,1),transform .45s cubic-bezier(.2,.8,.2,1)}
@@ -84,12 +91,13 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="ROI"></div>
-    <p class="page-note">Regions of interest: a latent field of what I think about. Biology, governance, communication and freedom branch into fields and terms, and the terms talk across borders. Every point carries the circles of the people I love; the one you reach becomes the centre and its circles open up. Red points are projects. Drag to travel, scroll to zoom.</p>
+    <p class="page-note">A latent field of what I think about. Hover a word for its meaning. Red points are projects. Drag to travel, scroll to zoom.</p>
   </header>
   <div id="field" aria-label="Field: drag to travel, click a point to centre it">
     <div class="cross"></div>
     <div class="layer" id="layer"></div>
     <div class="card" id="card"></div>
+    <div class="def" id="def" role="tooltip"></div>
   </div>
   <p class="hud"><b>Centre:</b> <span id="centre"></span></p>
   <div class="zoom"><button data-zoom="1.4" aria-label="Zoom in">+</button><button data-zoom="0.7" aria-label="Zoom out">−</button></div>
@@ -103,5 +111,6 @@
 </div>
 <script src="js/stretch.js"></script>
 <script>Stretch.make(document.getElementById('title'), 'ROI', Stretch.weights('ages'), { steady: true, every: 1500 });</script>
+<script src="js/roi-dict.js"></script>
 <script src="js/roi.js"></script>
 </body></html>

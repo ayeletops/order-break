@@ -103,15 +103,29 @@
     n.el = d; layer.appendChild(d); return d;
   }
   N.forEach(n => {
-    const d = node(n, 'lv' + String(n.lv).replace('.', ''), n.t), fc = rand(FACES), lb = d.querySelector('.lb');
-    lb.style.fontFamily = `"${fc.f}"`; lb.style.fontWeight = fc.w; lb.style.fontStyle = fc.s;
+    const d = node(n, 'lv' + String(n.lv).replace('.', ''), n.t);
     d.addEventListener('click', () => { if (!dragged) glideTo(n); });
+    d.querySelector('.lb').addEventListener('mouseenter', e => showDef(n, e.currentTarget));
+    d.querySelector('.lb').addEventListener('mouseleave', hideDef);
   });
   P.forEach(p => {
     const d = node(p, 'proj', `<b>${p.t}</b>${p.y_}`);
     d.querySelector('.dt').addEventListener('mouseenter', () => showCard(p));
     d.addEventListener('click', e => { e.stopPropagation(); if (dragged) return; if (open === p) openGallery(p); else { glideTo(p); setTimeout(() => showCard(p), 760); } });
   });
+
+  // ── dictionary pop-up
+  const def = document.getElementById('def');
+  function showDef(n, el) {
+    const e = (window.DICT || {})[n.t]; if (!e || dragged) return;
+    def.innerHTML = `<b>${n.t}</b> <i>${e[0]}</i><span>${e[1]}</span>`;
+    const r = el.getBoundingClientRect(), fr = field.getBoundingClientRect();
+    let x = r.left - fr.left, y = r.bottom - fr.top + 10;
+    if (x + 300 > fr.width - 12) x = fr.width - 312; if (y + 120 > fr.height) y = r.top - fr.top - 130;
+    def.style.left = Math.max(12, x) + 'px'; def.style.top = Math.max(12, y) + 'px';
+    def.classList.remove('on'); void def.offsetWidth; def.classList.add('on');
+  }
+  function hideDef() { def.classList.remove('on'); }
 
   // ── thumbnail card
   let open = null;

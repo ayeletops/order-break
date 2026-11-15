@@ -258,3 +258,19 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Work:** rows size to the available height, so there is no vertical scrolling. Each entry shows year, role and organisation; the description and link open on hover. Tools sit in two columns at the end. Filters removed to save space.
 - **Photos removed:** life images and thumbnails deleted from the site and the files. AI flagged that they remain in the public git history unless the history is rewritten (that needs a force-push; my decision).
 - **ROI:** every point carries its own target (8 rings from the ages) that breathes with staggered timings. The point nearest the centre is chosen and its target grows into the large grid; projects can be chosen too. Projects are 20px red dots labelled with title and year. Clicking a project centres it and eases in its thumbnail. The gallery is a window over a light backdrop; click outside to close.
+
+---
+
+## Round: breathe, dictionary, headers (2026-11-15)
+
+**My direction:**
+- Event Horizon: the circles only breathe, they don't move. The grid should be different. Years appear only on hover, bigger and inside the circle. The text only says "Ask me in person. I might even answer."
+- Work: categories in negative colour.
+- ROI: one font for the topics and a different font for projects. Hovering a topic brings up its dictionary explanation in a pop-up box.
+- Page titles aligned left, with a shorter page text under them.
+
+**What AI did:**
+- **Event Horizon:** the circles stay fixed and breathe (a slow scale pulse). AI read "a different grid" as snapping all centres to this page's own invisible grid: 12 month-columns (one per letter of EVENTHORIZON) by 4 rows. The year appears only on hover, set in Bodoni 900 inside the circle. The page text is exactly my line.
+- **Work:** category labels are white on black.
+- **ROI:** all topics are set in Bodoni Moda (900 for regions), projects in Zilla Slab. A dictionary box opens on hover (headword, part of speech, short definition). AI drafted about 140 entries in `js/roi-dict.js` for me to edit.
+- **Headers on every page:** the title sits left on its steady grid, with one short line under it. The page texts were shortened, including Home's.
