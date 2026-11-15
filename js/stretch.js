@@ -24,7 +24,12 @@ window.Stretch = (() => {
 
   function make(container, word, weights, opt = {}) {
     const color = opt.color || '#0b0b0b';
-    const slots = [];
+    const slots = []; let paused = false;
+    if (opt.steady) {   // steady grid: fixed widths from the page's numbers, scaled to a set total
+      container.classList.add('st-steady');
+      const sum = [...word].reduce((a, _, i) => a + weights[i % weights.length], 0);
+      container.style.setProperty('--u', `calc((min(48vw, ${word.length * 84}px) - ${word.length * 32}px) / ${sum})`);
+    }
     [...word].forEach((ch, i) => {
       const s = document.createElement('div');
       s.className = 'st-slot';
@@ -36,7 +41,11 @@ window.Stretch = (() => {
       container.appendChild(s);
       const slot = { el: s, c, ch, glyph: ch, face: FACES[0] };
       slots.push(slot);
-      if (opt.hover !== false) {
+      if (opt.lock) {        // cover: the hovered block turns negative and holds its face; every other letter takes that face
+        s.addEventListener('mouseenter', () => { paused = true; slot.neg = true; slot.glyph = slot.ch;
+          slots.forEach(o => { o.face = slot.face; o.glyph = o.ch; }); s.classList.add('neg'); drawAll(); });
+        s.addEventListener('mouseleave', () => { paused = false; slot.neg = false; s.classList.remove('neg'); drawAll(); });
+      } else if (opt.hover !== false && !opt.steady) {
         s.addEventListener('mouseenter', () => { s.style.setProperty('--grow', opt.grow || 2.4); if (opt.onEnter) opt.onEnter(slot); draw(slot); });
         s.addEventListener('mouseleave', () => { s.style.removeProperty('--grow'); if (opt.onLeave) opt.onLeave(slot); draw(slot); });
       }
@@ -49,11 +58,12 @@ window.Stretch = (() => {
       const c = slot.c; if (c.width !== W * dpr || c.height !== H * dpr) { c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px'; }
       const x = c.getContext('2d');
       x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, c.width, c.height);
+      if (slot.neg) { x.fillStyle = color; x.fillRect(0, 0, c.width, c.height); }
       x.font = fontStr(slot.face, 200); x.textBaseline = 'alphabetic';
       const m = x.measureText(slot.glyph);
       const gw = (m.actualBoundingBoxLeft + m.actualBoundingBoxRight) || 1, gh = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) || 1;
       x.setTransform(W / gw * dpr, 0, 0, H / gh * dpr, 0, 0);
-      x.fillStyle = color;
+      x.fillStyle = slot.neg ? (opt.bg || '#ffffff') : color;
       x.fillText(slot.glyph, m.actualBoundingBoxLeft, m.actualBoundingBoxAscent);
     }
     const drawAll = () => slots.forEach(draw);
@@ -69,6 +79,7 @@ window.Stretch = (() => {
 
     // mutation: one slot flickers through faces/symbols, then resolves — always returning to a letter (a loop, not a drift)
     function mutate() {
+      if (paused) return;
       const s = rand(slots); let n = 0;
       const t = setInterval(() => {
         if (n++ < 5) { s.face = rand(FACES); s.glyph = Math.random() < .3 ? rand(SYMBOLS) : s.ch; }

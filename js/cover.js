@@ -7,7 +7,7 @@
 */
 (() => {
   const cover = document.getElementById('cover');
-  const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { grow: 2.6, every: 900 });
+  const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { lock: true, every: 900 });
 
   const names = ['ayeletops', 'sella_vie'];
   let cur = 0;

@@ -9,6 +9,7 @@
 <style>
   /* HOME — the cover is the first thing you see. 9 letters on 8 day-columns (cycling). */
   .nav{grid-template-columns:var(--cover-cols)}
+  .cover .st-slot.neg{background:var(--ink)}
   .cover{padding:var(--gutter) var(--margin-r) var(--gutter) var(--margin-l);align-content:flex-start;--fs:220;cursor:pointer}
   .controls{position:fixed;left:var(--margin-l);right:var(--margin-r);bottom:var(--gutter);z-index:40;display:flex;flex-wrap:wrap;gap:var(--gutter);align-items:stretch;pointer-events:none}
   .controls > *{pointer-events:auto;background:var(--paper);border:1px solid var(--ink);display:flex;align-items:center;gap:10px;padding:6px 10px;margin:0;

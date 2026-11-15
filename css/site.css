@@ -64,7 +64,12 @@ main{padding-top:var(--nav-h)}
 .st-slot::after{content:"";position:absolute;inset:0;border:1px solid var(--grid);pointer-events:none}   /* the grid, visible */
 .st-slot canvas{display:block}
 .st-slot:hover::after{border-width:2px}
-/* page titles: same language, smaller */
-.page-title{--fs:110;padding:var(--gutter) var(--margin-r) var(--gutter) var(--margin-l);position:relative;z-index:6;background:var(--paper)}
-.page-note{margin:0;padding:0 var(--margin-r) var(--gutter) var(--margin-l);max-width:calc(62ch + var(--margin-l));font:400 13px/20px var(--f-type);background:var(--paper);position:relative;z-index:6}
-@media (max-width:720px){.page-title{--fs:64}}
+/* page header: explanatory line left, title right on a steady grid */
+.page-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:var(--gutter) calc(var(--gutter)*3);
+           padding:var(--gutter) var(--margin-r) var(--gutter) var(--margin-l);position:relative;z-index:6;background:var(--paper);border-bottom:1px solid var(--ink)}
+.page-title{--fs:64;display:flex;flex-wrap:nowrap;gap:6px;justify-content:flex-end;padding:0;background:transparent}
+.st-steady .st-slot{flex:0 0 calc(var(--d) * var(--u, 3.2px) + 26px);transition:none}
+.page-note{margin:0;padding:0;max-width:62ch;font:400 13px/20px var(--f-type);background:transparent}
+.page-head .page-note{grid-column:1;grid-row:1}.page-head .page-title{grid-column:2;grid-row:1}
+.st-slot.neg::after{border-color:var(--ink)}
+@media (max-width:720px){.page-head{grid-template-columns:1fr}.page-head .page-title{--fs:44;justify-content:flex-start;grid-column:1;grid-row:1}.page-head .page-note{grid-column:1;grid-row:2}}

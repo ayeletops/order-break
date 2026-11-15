@@ -218,3 +218,30 @@ The typology confrontation, the stance text and the process documentation are fo
   - AI re-cropped the Peres thumbnail to avoid children's faces.
 - **Event Horizon:** redesigned as space: a slow starfield with lensing, thin red year lines, a constellation of eight stars (the people I love, positioned from shuffled grid values), and five black holes with only a year beside each. The encryption UI and code are removed. Details are deliberately not documented here.
 - **Fix:** content below each page header now starts exactly where the header ends (it is measured, not estimated).
+
+---
+
+## Round: hover, titles, vast field, work categories (2026-11-15)
+
+**My direction:**
+- Cover hover makes the letter negative and keeps it on that font, and all the other letters switch to that font.
+- Titles on the other pages: smaller, on a steady grid, aligned right.
+- The rhizomatic map should be much larger and more extensive: latent fields (biology → microbiology → immune system…), wide and vast.
+- Event Horizon needs to be subtle and look better.
+- Work: more legible type hierarchy, with categories. The grid is "random", and the years should follow it even though that's not "right".
+
+**What AI did:**
+- **Cover:** the hovered block turns negative (black block, white letter) and holds its face. Every other letter takes that face; mutation pauses until the pointer leaves.
+- **Page titles:** a steady grid with fixed widths from the page's numbers, no widening, no wrap. Set right, with the explanatory line on the left in a two-column header.
+- **ROI as a vast latent field:**
+  - Four regions, each with 5–6 fields and 4–5 terms per field.
+  - Hybrid zones where regions meet (biopolitics, contagion of ideas, electromagnetic colonialism, the right to opt out, free radio, bodily autonomy), with "invisible systems" in the middle.
+  - Hairline branches, plus dashed cross-links where terms talk across regions (the rhizome).
+  - Projects and life items sit next to the term they're about.
+  - Wheel/pinch zoom and +/− buttons. It opens zoomed out to show the scale, then settles into Biology. The HUD shows the path (region › field › term).
+- **Event Horizon, subtle:** dim drifting stars with slight parallax, small true-black holes noticed mostly by absence (stars bend and vanish at the edge), hairline rings, small spaced years, faint red year lines and a faint constellation. The year brightens on hover.
+- **Work:**
+  - **Each year takes one column of the uneven birthday-gap grid**, so time is drawn to their scale, not the calendar's.
+  - Category rows: education, editing & post, restoration, finishing & colour, video & AI, recognition. Sticky labels and filter toggles.
+  - Hierarchy: year (mono), role (slab 700), organisation (Bodoni italic), description (mono).
+  - Tools sit outside time, at the end of the track. Shift-scroll moves down.

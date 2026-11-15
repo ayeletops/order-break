@@ -6,34 +6,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
 <style>
-  /* WORK — the CV as a horizontal timeline. Each role is a heavy black bar across its years.
-     The red columns are spaced by the gaps between 8 birth years: their years measure mine. */
+  /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
+     (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
   .nav{grid-template-columns:var(--work-intervals)}
   html,body{height:100%;overflow:hidden}
-  .page-head{position:relative;z-index:6;background:var(--paper)}
-  .track-wrap{position:fixed;inset:var(--content-top, 240px) 0 0 0;overflow-x:auto;overflow-y:auto;scrollbar-width:thin}
-  .track{position:relative;min-height:100%;width:max(320vw,2600px)}
-  .cols{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,var(--work-intervals));pointer-events:none}
-  .cols div{border-left:1px solid var(--grid)}
-  .years{position:relative;height:32px;z-index:3;background:var(--paper);border-bottom:1px solid var(--ink)}
-  .years .yr{color:var(--ink);white-space:nowrap}
-  .yr{position:absolute;top:10px;font:700 11px/1 var(--f-type);letter-spacing:.08em;transform:translateX(-50%)}
-  .lanes{position:relative;padding:28px 0 120px;border-top:1px solid var(--ink)}
-  .lanes .yr{position:absolute;top:8px;font:700 11px/1 var(--f-type);letter-spacing:.08em;transform:translateX(-50%);color:var(--ink);background:var(--paper);padding:0 3px;z-index:2}
-  .role{position:absolute;height:auto}
-  .role .bar{height:22px;background:var(--ink)}
-  .role .bar.open{background:linear-gradient(90deg,var(--ink) 80%,transparent)}
-  .role .txt{padding:8px 0 0;max-width:min(36ch,100%);min-width:220px}
+  .wrap{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;overflow:auto;scrollbar-width:thin}
+  .track{position:relative;padding-bottom:64px}
+  .col{position:absolute;top:0;bottom:0;border-left:1px solid var(--grid);pointer-events:none}
+  .years{position:sticky;top:0;z-index:4;height:34px;background:var(--paper);border-bottom:1px solid var(--ink)}
+  .years span{position:absolute;top:0;height:34px;display:flex;align-items:center;padding-left:6px;font:700 11px/1 var(--f-type);letter-spacing:.08em;border-left:1px solid var(--grid)}
+  .cat{position:relative;border-bottom:1px solid var(--ink)}
+  .cat h2{position:sticky;left:0;z-index:3;display:inline-block;margin:0;padding:10px 12px 10px var(--margin-l);background:var(--paper);
+          font:700 11px/1 var(--f-type);letter-spacing:.14em;text-transform:uppercase;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .cat h2 sup{font-weight:400;letter-spacing:0;margin-left:4px}
+  .role{position:absolute;min-width:8px}
+  .role .bar{height:14px;background:var(--ink)}
+  .role .bar.open{background:linear-gradient(90deg,var(--ink) 75%,rgba(11,11,11,.15))}
+  .role.point .bar{width:14px}
+  .role .txt{position:relative;padding:8px 10px 0 0;width:max-content;max-width:34ch;background:var(--paper)}
   .role .when{font:700 11px/1 var(--f-type);letter-spacing:.08em}
-  .role h3{margin:6px 0 2px;font:900 var(--s2)/1 var(--f-display)}
-  .role .org{font:400 italic var(--s1)/1.1 var(--f-display)}
-  .role p{margin:6px 0 0;font-size:12px;line-height:17px}
+  .role h3{margin:6px 0 2px;font:700 17px/1.15 var(--f-slab)}
+  .role .org{font:400 italic 16px/1.2 var(--f-display)}
+  .role p{margin:6px 0 0;font:400 12px/17px var(--f-type)}
   .role a{text-decoration:none;border-bottom:1px solid var(--ink)}
   .role:hover .bar{outline:1px solid var(--grid);outline-offset:3px}
-  .role a:hover,.tools a:hover{outline:1px solid var(--grid);outline-offset:2px}
-  .tools{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-  .tools a{font:700 10px/1 var(--f-type);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);padding:3px 5px}
-  .edu .bar{height:6px}
+  .role a:hover,.tools a:hover,.filters button:hover{outline:1px solid var(--grid);outline-offset:2px}
+  /* tools: outside time, at the end of the track */
+  .toolbox{position:absolute;top:34px;bottom:0;padding:16px 24px 40px;border-left:1px solid var(--ink);background:var(--paper);z-index:2}
+  .toolbox h2{margin:0 0 14px;font:900 28px/1 var(--f-display)}
+  .toolbox h4{margin:14px 0 6px;font:700 11px/1 var(--f-type);letter-spacing:.12em;text-transform:uppercase}
+  .tools{display:flex;flex-wrap:wrap;gap:4px;max-width:420px}
+  .tools a{font:700 10px/1 var(--f-type);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);padding:4px 6px;text-decoration:none}
+  /* category filters */
+  .filters{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:6;display:flex;flex-wrap:wrap;gap:4px;max-width:calc(100vw - var(--margin-l) - var(--margin-r))}
+  .filters button{font:700 10px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);background:var(--paper);padding:6px 8px;cursor:pointer}
+  .filters button[aria-pressed=false]{color:rgba(11,11,11,.35);border-color:rgba(11,11,11,.35);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -46,57 +53,75 @@
 </nav>
 <main>
   <header class="page-head">
-    <div class="page-title st-row" id="title" aria-label="Work" style="--fs:90"></div>
-    <p class="page-note">How I got here. Fifteen years of cutting, conforming, grading, restoring and checking other people's images until they held, then turning toward design. Each black bar is a stretch of work. Scroll sideways. The red columns are spaced by the years between the people I love: their years measure mine.</p>
+    <div class="page-title st-row" id="title" aria-label="Work"></div>
+    <p class="page-note">How I got here. Fifteen years of cutting, conforming, grading, restoring and checking other people's images until they held, then turning toward design. Each year here is as wide as a gap between the birth years of the people I love, so time is drawn to their scale, not the calendar's. Scroll sideways (shift-scroll to go down); switch categories below.</p>
   </header>
-  <div class="track-wrap" id="wrap"><div class="track" id="track"><div class="cols" id="cols"></div><div class="lanes" id="lanes"></div></div></div>
+  <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
+  <div class="filters" id="filters" role="group" aria-label="Categories"></div>
 </main>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'WORK', Stretch.weights('gaps'), { every: 1500 });</script>
+<script>Stretch.make(document.getElementById('title'), 'WORK', Stretch.weights('gaps'), { steady: true, every: 1500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
-const FROM = 2005, TO = 2027, NOW = 2026.9;
+const FROM = 2005, TO = 2026, NOW = 2026.85;
 const L = (t, h) => [t, h];
+const CATS = [['edu', 'Education'], ['edit', 'Editing & post-production'], ['rest', 'Restoration'], ['finish', 'Finishing & colour'], ['ai', 'Video & AI'], ['prize', 'Recognition']];
 const R = [
-  { a: 2008, b: 2009, t: 'Assistant Editor', o: '2Shot Films', d: 'Documentaries.' },
-  { a: 2009, b: 2018, t: 'Freelance Video Editor & Post-Production Consultant', o: 'Broadcast & agencies',
-    d: 'Reshet, Keshet, Channel 10, Ananey, Greenhouse, Snowball Studios, McCann. From shaping story, structure and pacing to finishing.' },
-  { a: 2013, b: 2013.9, t: 'Analog Film Archive Restoration', o: 'Israel PBS', d: 'Project.' },
-  { a: 2013, b: 2014, t: 'Digital Restoration Specialist', o: 'Realworks Studios', d: 'Frame-by-frame repair of archival film. The Decent One (2014).' },
-  { a: 2014, b: 2018, t: 'Conform & Color Grading', o: 'Opus Post Productions',
-    d: 'Online conform, finishing, mastering and DCP. Abulele (2015), Sirens (2014), Absentia (2017), Survivor Israel, Gidi & Aharoni.',
-    tools: [L('Avid', 'https://www.avid.com'), L('DaVinci Resolve', 'https://www.blackmagicdesign.com/products/davinciresolve')] },
-  { a: 2018, b: NOW, open: true, t: 'Video Specialist', o: 'Wix.com', link: L('wix.com', 'https://www.wix.com'),
-    d: 'Quality control, workflows and delivery for editorial, marketing and educational video. AI video R&D. 1st place, Design Guild AI Hackathon (2025).',
-    tools: [L('Premiere', 'https://www.adobe.com/products/premiere.html'), L('After Effects', 'https://www.adobe.com/products/aftereffects.html'), L('Cinema 4D', 'https://www.maxon.net/cinema-4d'),
-            L('Topaz', 'https://www.topazlabs.com'), L('Frame.io', 'https://frame.io'), L('Kling', 'https://klingai.com'), L('ElevenLabs', 'https://elevenlabs.io'), L('Weavy', 'https://www.weavy.ai'),
-            L('Higgsfield', 'https://higgsfield.ai'), L('Freepik', 'https://www.freepik.com'), L('Deepgram', 'https://deepgram.com'), L('ComfyUI', 'https://www.comfy.org')] },
-  { a: 2025, b: NOW, open: true, t: 'M.Des, Design for Technology-Rich Environments', o: 'HIT, Holon Institute of Technology', link: L('hit.ac.il', 'https://www.hit.ac.il'), edu: true,
-    d: 'In progress.', tools: [L('Unity', 'https://unity.com'), L('Figma', 'https://www.figma.com'), L('Claude', 'https://claude.ai'), L('GitHub', 'https://github.com')] },
-  { a: 2005, b: 2008, t: 'B.Des, Motion Graphics', o: 'Shenkar College of Engineering, Design and Art', edu: true, d: '[years to confirm]' },
-  { a: 2005, b: 2006, t: 'Video Editing & Broadcast Design', o: 'Jumpcut', edu: true, d: 'Editing, VFX & Animation School. [years to confirm]' },
+  { c: 'edu', a: 2005, b: 2006, t: 'Video Editing & Broadcast Design', o: 'Jumpcut', d: 'Editing, VFX & animation school. [years to confirm]' },
+  { c: 'edu', a: 2006, b: 2008, t: 'B.Des, Motion Graphics', o: 'Shenkar College of Engineering, Design and Art', d: '[years to confirm]' },
+  { c: 'edu', a: 2025, b: NOW, open: true, t: 'M.Des, Design for Technology-Rich Environments', o: 'HIT, Holon Institute of Technology', d: 'In progress.', link: L('hit.ac.il', 'https://www.hit.ac.il') },
+  { c: 'edit', a: 2008, b: 2009, t: 'Assistant Editor', o: '2Shot Films', d: 'Documentaries.' },
+  { c: 'edit', a: 2009, b: 2018, t: 'Freelance Video Editor & Post-Production Consultant', o: 'Broadcast & agencies', d: 'Reshet, Keshet, Channel 10, Ananey, Greenhouse, Snowball Studios, McCann. From story, structure and pacing to finishing.' },
+  { c: 'rest', a: 2013, b: 2013.95, t: 'Analog Film Archive Restoration', o: 'Israel PBS', d: 'Project.' },
+  { c: 'rest', a: 2013.95, b: 2014.95, t: 'Digital Restoration Specialist', o: 'Realworks Studios', d: 'Frame-by-frame repair of archival film. The Decent One (2014).' },
+  { c: 'finish', a: 2014, b: 2018, t: 'Conform & Color Grading', o: 'Opus Post Productions', d: 'Online conform, finishing, mastering and DCP. Abulele (2015), Sirens (2014), Absentia (2017), Survivor Israel, Gidi & Aharoni.' },
+  { c: 'ai', a: 2018, b: NOW, open: true, t: 'Video Specialist', o: 'Wix.com', d: 'Quality control, workflows and delivery for editorial, marketing and educational video. AI video R&D, folding generative tools into production.', link: L('wix.com', 'https://www.wix.com') },
+  { c: 'prize', a: 2025, b: 2025, point: true, t: '1st place, Design Guild AI Hackathon', o: 'Wix', d: 'Deepgram, Whisper, ComfyUI, several LLMs and video generation engines.' },
 ];
-const pct = y => ((y - FROM) / (TO - FROM) * 100);
-document.getElementById('cols').innerHTML = '<div></div>'.repeat(getComputedStyle(document.documentElement).getPropertyValue('--work-intervals').trim().split(/\s+/).length * 3);
-
-// lanes: greedy, so bars never overlap their text
-const lanes = [], LANE_H = 210, box = document.getElementById('lanes');
-R.sort((x, y) => x.a - y.a).forEach(r => {
-  const textEnd = r.a + 4.2;                      // reserve room for the label
-  let i = lanes.findIndex(end => end <= r.a); if (i < 0) { i = lanes.length; lanes.push(0); }
-  lanes[i] = Math.max(r.b, textEnd);
-  box.insertAdjacentHTML('beforeend', `
-    <article class="role ${r.edu ? 'edu' : ''}" style="left:${pct(r.a)}%;width:${pct(r.b) - pct(r.a)}%;top:${40 + i * LANE_H}px">
+const TOOLS = [
+  ['Generative AI', [L('Weavy', 'https://www.weavy.ai'), L('Freepik', 'https://www.freepik.com'), L('Kling', 'https://klingai.com'), L('Higgsfield', 'https://higgsfield.ai'), L('ElevenLabs', 'https://elevenlabs.io')]],
+  ['Other AI', [L('Topaz Labs', 'https://www.topazlabs.com'), L('Colourlab AI', 'https://colourlab.ai'), L('Deepgram', 'https://deepgram.com'), L('Whisper', 'https://openai.com/research/whisper'), L('Claude Code & Cowork', 'https://claude.ai')]],
+  ['Editing & colour', [L('Avid', 'https://www.avid.com'), L('Premiere', 'https://www.adobe.com/products/premiere.html'), L('DaVinci Resolve', 'https://www.blackmagicdesign.com/products/davinciresolve')]],
+  ['Motion, 3D & design', [L('After Effects', 'https://www.adobe.com/products/aftereffects.html'), L('Cinema 4D', 'https://www.maxon.net/cinema-4d'), L('Unity', 'https://unity.com'), L('Figma', 'https://www.figma.com')]],
+  ['Collaboration & dev', [L('Frame.io', 'https://frame.io'), L('monday.com', 'https://monday.com'), L('Slack', 'https://slack.com'), L('Google Workspace', 'https://workspace.google.com'), L('GitHub', 'https://github.com')]],
+];
+// ── the grid: one column per year; widths cycle through the gaps between the 8 birth years
+const gaps = getComputedStyle(document.documentElement).getPropertyValue('--work-intervals').trim().split(/\s+/).map(parseFloat);
+const years = []; for (let y = FROM; y <= TO; y++) years.push(y);
+const UNIT = 26, MIN = 120;
+const widths = years.map((_, i) => MIN + gaps[i % gaps.length] * UNIT);
+const starts = widths.reduce((acc, w, i) => (acc.push(i ? acc[i - 1] + widths[i - 1] : 0), acc), []);
+const X = y => { const i = Math.min(years.length - 1, Math.max(0, Math.floor(y) - FROM)); return starts[i] + (y - Math.floor(y)) * widths[i]; };
+const total = starts[starts.length - 1] + widths[widths.length - 1], LEFT = 240, TOOLBOX_W = 480, ROW_H = 132;
+const track = document.getElementById('track'); track.style.width = (LEFT + total + TOOLBOX_W) + 'px';
+let h = `<div class="years">` + years.map((y, i) => `<span style="left:${LEFT + starts[i]}px;width:${widths[i]}px">${y}</span>`).join('') + `</div>`;
+years.forEach((y, i) => h += `<div class="col" style="left:${LEFT + starts[i]}px"></div>`);
+CATS.forEach(([k, name]) => {
+  const items = R.filter(r => r.c === k).sort((a, b) => a.a - b.a), lanes = []; let inner = '';
+  items.forEach(r => {
+    const x0 = X(r.a), x1 = r.point ? x0 + 14 : X(r.b), reserve = Math.max(x1, x0 + 300);
+    let li = lanes.findIndex(e => e <= x0); if (li < 0) { li = lanes.length; lanes.push(0); } lanes[li] = reserve + 16;
+    const when = r.point ? `${r.a}` : `${Math.floor(r.a)}${Math.floor(r.b) > Math.floor(r.a) || r.open ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}`;
+    inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${46 + li * ROW_H}px">
       <div class="bar ${r.open ? 'open' : ''}"></div>
-      <div class="txt"><div class="when">${Math.floor(r.a)}${r.b - r.a >= 1 ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}</div>
-        <h3>${r.t}</h3><div class="org">${r.o}</div><p>${r.d}</p>
-        ${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}
-        ${r.tools ? `<div class="tools">${r.tools.map(([n, h]) => `<a href="${h}" target="_blank" rel="noopener">${n}</a>`).join('')}</div>` : ''}</div>
-    </article>`);
+      <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div><p>${r.d}</p>
+      ${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></article>`;
+  });
+  h += `<section class="cat" data-cat="${k}" style="height:${46 + Math.max(1, lanes.length) * ROW_H + 20}px"><h2>${name}<sup>${items.length}</sup></h2>${inner}</section>`;
 });
-box.style.height = (28 + lanes.length * LANE_H + 80) + 'px';
-for (let y = FROM; y <= TO; y++) box.insertAdjacentHTML('afterbegin', `<span class="yr" style="left:${pct(y)}%">${y}</span>`);
+h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
+     TOOLS.map(([g, ts]) => `<h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div>`).join('') + `</aside>`;
+track.innerHTML = h;
+const fl = document.getElementById('filters');
+CATS.forEach(([k, name]) => {
+  const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', 'true');
+  b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); track.querySelector(`[data-cat="${k}"]`).hidden = !on; };
+  fl.appendChild(b);
+});
 const wrap = document.getElementById('wrap');
-wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.shiftKey) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
+wrap.addEventListener('wheel', e => {
+  if (e.shiftKey) { wrap.scrollTop += e.deltaY || e.deltaX; e.preventDefault(); return; }
+  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); }
+}, { passive: false });
 </script>
 </body></html>

@@ -15,7 +15,9 @@
   .page-head{position:relative;z-index:6;background:var(--ink)}
   .page-head .page-title,.page-head .page-note{background:var(--ink);color:var(--paper)}
   #sky{position:fixed;left:0;top:var(--content-top, 240px);width:100vw;height:calc(100vh - var(--content-top, 240px));display:block}
-  .tag{position:fixed;z-index:5;transform:translate(-50%,0);font:700 13px/1 var(--f-type);letter-spacing:.12em;pointer-events:none;color:var(--paper)}
+  .tag{position:fixed;z-index:5;transform:translate(-50%,0);font:400 11px/1 var(--f-type);letter-spacing:.24em;pointer-events:none;color:rgba(255,255,255,.55);transition:color .4s}
+  .tag.on{color:#fff}
+  .page-head{border-bottom-color:rgba(255,255,255,.5)}
 </style>
 </head>
 <body style="background:#0b0b0b">
@@ -28,12 +30,12 @@
 </nav>
 <main>
   <header class="page-head">
-    <div class="page-title st-row" id="title" aria-label="Event Horizon" style="--fs:90"></div>
-    <p class="page-note">Five cataclysmic events: points past which nothing that came before stayed the same. You can see where they are, and when. What they are stays on this side of the screen. Ask me, in person.</p>
+    <div class="page-title st-row" id="title" aria-label="Event Horizon"></div>
+    <p class="page-note">Five cataclysmic events. Points past which nothing that came before stayed the same. You can see where they are, and when; light bends around them. What they are stays on this side of the screen. Ask me, in person.</p>
   </header>
   <canvas id="sky" aria-label="A field of stars with five black holes, marked only by year"></canvas>
 </main>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', Stretch.weights('months'), { every: 1500, color: '#ffffff' });</script>
+<script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', Stretch.weights('months'), { steady: true, every: 1500, color: '#ffffff' });</script>
 <script src="js/horizon.js"></script>
 </body></html>
