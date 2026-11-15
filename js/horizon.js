@@ -13,7 +13,7 @@
   const A = document.createElement('canvas'), B = document.createElement('canvas');
   const a = A.getContext('2d'), b = B.getContext('2d');
   let W = 0, H = 0, dpr = 1, hover = -1, C = [], LY = [];
-  const LW = () => H / (2 * Math.max(1, LINES.length));            // line weight = gap
+  const LW = () => H / Math.max(1, LINES.length) * .72;             // line weight: 72% band, 28% red gap
   // time → x: piecewise, through the event centres (set in layout)
   let KN = [[1936, 0], [2027, 1]];
   const X = y => { for (let i = 1; i < KN.length; i++) if (y <= KN[i][0]) { const [y0, x0] = KN[i - 1], [y1, x1] = KN[i]; return x0 + (y - y0) / (y1 - y0) * (x1 - x0); } return KN[KN.length - 1][1]; };
