@@ -53,10 +53,13 @@
     // blurred starts: each line fades in over its window
     LINES.forEach((l, i) => { const x0 = X(l.a), x1 = X(l.b), g = x.createLinearGradient(x0, 0, x1, 0);
       g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)'); x.fillStyle = g; x.fillRect(x0, LY[i] - LW() / 2, x1 - x0, LW()); });
-    // the year, only on hover, large and inside its circle
-    x.globalCompositeOperation = 'difference'; x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
-    if (hover >= 0) { const c = C[hover]; x.font = `900 ${Math.round(c.r * .55)}px "Bodoni Moda", Didot, serif`; x.fillText(String(c.ev), c.x, c.y); }
-    x.globalCompositeOperation = 'source-over';
+    // on hover: the circle goes solid black, its year in white
+    if (hover >= 0) {
+      const c = C[hover], rr = c.r * breathe(c, t) * 1.03;
+      x.fillStyle = '#000'; x.beginPath(); x.arc(c.x, c.y, rr, 0, 6.283); x.fill();
+      x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = `900 ${Math.round(c.r * .55)}px "Bodoni Moda", Didot, serif`; x.fillText(String(c.ev), c.x, c.y);
+    }
     if (!reduce) requestAnimationFrame(frame);
   }
   cv.addEventListener('pointermove', e => {
