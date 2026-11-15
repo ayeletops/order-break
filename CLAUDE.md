@@ -39,7 +39,7 @@ References: `docs/research/references.md`.
 - **Order = a secret personal grid.** Grid proportions derive from birthdays of people I love (a personal Modulor). **Raw dates are never committed** — only derived ratios. The date→ratio mapping is a designed decision to document.
 - **Dropped (Phase 2):** entry questionnaire, camera, owner-only mode. The site is the same for every visitor.
 - **Grid family (Phase 2):** web grids (responsive CSS), uneven columns derived from days, months, years and ages of the 8 people; one grid per chapter, related as a family. Person order is shuffled per grid, so day/month/year can't be re-linked from the public method.
-- **Site map (Phase 2):** Cover · Latent Field · Work (CV timeline) · Black Holes (5 encrypted events; topics only in `secrets/black-holes.md`, never in public files). Typology, stance text and process are folded into these pages. One grid per page.
+- **Site map:** Home (the cover: ayeletops ⇄ sella_vie) · ROI (rhizomatic field of school projects + life) · Work (CV timeline) · Event Horizon (5 encrypted events; topics only in `secrets/black-holes.md`). No landing page. Typology confronted via "See the default" on Home. Each page has a short explanatory line.
 - **Redaction:** documents and tickets get thick black bars over all data; minors' eyes get black bars. Burned into pixels, metadata stripped, originals never committed.
 - **Encryption is back, for Black Holes only:** ciphertext committed, plaintext in `secrets/`, key = Ayelet's passphrase (not derived from dates).
 - Watch scope: the brief rewards the order/break dialogue, not machinery.
@@ -64,7 +64,7 @@ References: `docs/research/references.md`.
 6. Text — 300–500 words
 7. Hover iterations + final documentation
 
-**Palette:** heavy black dominant · circular grids millennial pink #f7cac9 + butter #fbe7a1 · hover = turquoise frame #08a8a0 (from Vaccine Futures). **Type:** Bodoni Moda (900 on cover), Zilla Slab, Courier Prime.
+**Palette:** content black and white only. Grids visible as thin red lines and circles (#e5332a) on every page; hover = thin red frame. Red belongs to the system, never to content. **Type (titles):** Bodoni Moda, Abril Fatface, Zilla Slab, Alfa Slab One, Courier Prime, Special Elite. Symbols come from the same fonts. Letters are stretched to fill their grid blocks (js/stretch.js), after Julien von Schultzendorff.
 
 **Current status:** Phase 0 and Phase 1 done (2026-11-15). Repo: github.com/ayeletops/order-break, live at ayeletops.github.io/order-break (Pages, main, root). Phase 2: grid family done. First full draft built (2026-11-15), not yet pushed: it adds PDFs and images, so Ayelet approves before pushing. Open: Black Holes design, CV content, stance text, placing projects in the field, handles' platforms.
 

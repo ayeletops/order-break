@@ -20,6 +20,14 @@
     { t: 'Calculating Empires', x:  170, y: -350, k: 'proj', img: 'assets/img/proj-calculating-empires.jpg', pdf: 'assets/pdf/calculating-empires.pdf', note: 'essay' },
     { t: 'This and That',       x: -480, y: -330, k: 'proj', img: 'assets/img/proj-this-and-that.jpg', pdf: 'assets/pdf/this-and-that.pdf', note: 'future burial' },
     { t: 'Peres Center',        x:  520, y:  -20, k: 'proj', img: 'assets/img/proj-peres.jpg', pdf: null, note: 'lab · client deck held back' },
+    // personal regions: life, not school (approved: cat & creature, me & walking). Click opens the photo.
+    { t: 'the cat',      x: -620, y:  260, k: 'proj life', img: 'assets/img/life-cat.jpg',          pdf: 'assets/img/life-cat.jpg', note: 'life' },
+    { t: 'found creature', x: -380, y: -470, k: 'proj life', img: 'assets/img/life-creature.jpg',   pdf: 'assets/img/life-creature.jpg', note: 'life · biology' },
+    { t: 'walking',      x:  560, y:  380, k: 'proj life', img: 'assets/img/life-walking.jpg',      pdf: 'assets/img/life-walking.jpg', note: 'life · freedom' },
+    { t: 'on the rock',  x:  430, y:  520, k: 'proj life', img: 'assets/img/life-walking-rock.jpg', pdf: 'assets/img/life-walking-rock.jpg', note: 'life · freedom' },
+    { t: 'landscape',    x:  680, y:  140, k: 'proj life', img: 'assets/img/life-landscape.jpg',    pdf: 'assets/img/life-landscape.jpg', note: 'life' },
+    { t: 'me, garden',   x: -640, y: -120, k: 'proj life', img: 'assets/img/life-me-garden.jpg',    pdf: 'assets/img/life-me-garden.jpg', note: 'me' },
+    { t: 'me, mirror',   x: -150, y:  520, k: 'proj life', img: 'assets/img/life-me-mirror.jpg',    pdf: 'assets/img/life-me-mirror.jpg', note: 'me · communication' },
   ];
   const FACES = Stretch.FACES;
   const field = document.getElementById('field'), layer = document.getElementById('layer');
@@ -37,9 +45,9 @@
   });
 
   function show(w) {
-    if (!w || w.k !== 'proj') { panel.classList.remove('on'); return; }
+    if (!w || !w.k.startsWith('proj')) { panel.classList.remove('on'); return; }
     pImg.src = w.img; pTitle.textContent = `${w.t} — ${w.note}`;
-    if (w.pdf) { pLink.href = w.pdf; pAct.textContent = 'open pdf ↗'; } else { pLink.removeAttribute('href'); pAct.textContent = 'not public'; }
+    if (w.pdf) { pLink.href = w.pdf; pAct.textContent = w.k.includes('life') ? 'open photo ↗' : 'open pdf ↗'; } else { pLink.removeAttribute('href'); pAct.textContent = 'not public'; }
     panel.classList.add('on');
   }
   function nearest() {
