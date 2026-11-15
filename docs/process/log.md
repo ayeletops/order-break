@@ -348,3 +348,5 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Work:** a lens on each event year's column.
 - **ROI:** the lenses are fixed over the field and the map slides beneath them.
 - **Event Horizon:** none (the circles are visible there). Not documented: what the circles stand for.
+**Then:** are the distortions aligned to the circles? They don't breathe. **AI (honestly):** no. The lenses had been placed by eye on each page and were static. Fixed: one shared layout for Event Horizon and every lens, lenses fixed to the screen (content scrolls beneath them), breathing in phase with the balls.
+**Then:** smaller circles that follow the mouse, with billiard-ball collisions. **AI:** `js/rupture.js` is now one physics simulation of the five bodies, shared by every page. They are 46% of their former size, with mass ∝ r². They chase the pointer (heavier ones lag), collide elastically with each other (restitution .92), bounce off the screen edges, breathe, and drift back to their columns when the pointer leaves. On Event Horizon they're the black balls (white with the year on hover); on Home, Work and ROI they're the invisible lenses.

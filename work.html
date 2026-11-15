@@ -120,7 +120,7 @@ function build() {
   track.innerHTML = h;
 }
 build(); new ResizeObserver(build).observe(wrapEl);
-Rupture.lens(track, (w, h) => Rupture.YEARS.map((y, k) => ({ x: LEFT + X(y + .5), y: 34 + (h - 34) * [.32, .62, .42, .7, .5][k], r: (h - 34) * [.3, .36, .26, .33, .4][k] })), .55);
+Rupture.lens(document.getElementById('wrap'), .55);
 const wrap = document.getElementById('wrap');
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>

@@ -115,5 +115,5 @@
 <script>Stretch.make(document.getElementById('title'), 'ROI', Stretch.weights('ages'), { steady: true, every: 1500 });</script>
 <script src="js/roi-dict.js"></script>
 <script src="js/roi.js"></script>
-<script>Rupture.lens(document.getElementById("field"), (w, h) => Rupture.YEARS.map((y, k) => ({ x: w * [.14, .36, .55, .72, .88][k], y: h * [.35, .68, .3, .62, .4][k], r: Math.min(w, h) * [.2, .26, .17, .23, .3][k] * .8 })), .5);</script>
+<script>Rupture.lens(document.getElementById("field"), .5);</script>
 </body></html>

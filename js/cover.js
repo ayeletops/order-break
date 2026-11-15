@@ -10,7 +10,7 @@
   const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { lock: true, every: 260, flick: 45 });
 
   // rupture: five invisible lenses, placed across the cover by year, blow the letters up where they sit
-  Rupture.lens(cover, (w, h) => Rupture.YEARS.map((y, k) => ({ x: w * ((y - 2007) / 19 * .84 + .08), y: h * [.3, .7, .45, .25, .65][k], r: Math.min(w, h) * [.2, .26, .17, .23, .3][k] * .9 })), .5);
+  Rupture.lens(cover, .5);
 
   const names = ['ayeletops', 'sella_vie'];
   let cur = 0;
