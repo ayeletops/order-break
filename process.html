@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Process — ayeletops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
+<style>
+  /* PROCESS — how this was made: the default I refused, the references, and the log of every decision. On the day-columns. */
+  .nav{grid-template-columns:var(--cover-cols)}
+  .wrap{display:grid;grid-template-columns:var(--cover-cols);gap:0 var(--gutter);padding:calc(var(--baseline)*2) var(--margin-r) calc(var(--baseline)*6) var(--margin-l)}
+  .wrap > section{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;border-top:var(--gw) solid var(--grid);padding-top:var(--baseline);margin-bottom:calc(var(--baseline)*3)}
+  .wrap h2{grid-column:1 / 3;margin:0;font:900 var(--s3)/1 var(--f-display)}
+  .wrap .body{grid-column:3 / -1;min-width:0}
+  @media (max-width:900px){.wrap,.wrap > section{display:block}.wrap h2{margin-bottom:var(--baseline)}}
+  /* the default, refused */
+  .stage{position:relative;aspect-ratio:16/9;max-height:70vh;width:100%;overflow:hidden;border:var(--gw) solid var(--ink);display:grid;place-items:center;text-align:center;
+         background:radial-gradient(60% 60% at 30% 20%,#c7b8ff 0,transparent 60%),radial-gradient(50% 60% at 80% 80%,#9fe7ff 0,transparent 60%),#f6f4ff;
+         font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1b2e}
+  .stage .card{padding:clamp(20px,4vw,48px) clamp(24px,5vw,56px);border-radius:28px;background:rgba(255,255,255,.6);backdrop-filter:blur(12px);box-shadow:0 20px 60px rgba(60,40,140,.18)}
+  .stage h3{font-size:clamp(22px,3.4vw,44px);font-weight:700;margin:0 0 12px;letter-spacing:-.02em}
+  .stage p{font-size:clamp(13px,1.4vw,18px);margin:0 0 24px;color:#5b5873}
+  .stage .btn{display:inline-block;padding:12px 26px;border-radius:999px;background:linear-gradient(90deg,#7c5cff,#3fb6ff);color:#fff;font-weight:600}
+  .stage .ln{position:relative;display:inline-block}
+  .stage .ln::after{content:"";position:absolute;left:-.1em;right:-.1em;top:.05em;bottom:.05em;background:#0b0b0b;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.7,0,.3,1) var(--dl,0s)}
+  .stage.redacted .ln::after{transform:scaleX(1)}
+  .ctrl{display:flex;gap:6px;margin:10px 0 0}
+  .ctrl button{font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase;border:var(--gw) solid var(--ink);background:var(--paper);padding:8px 10px;cursor:pointer}
+  .ctrl button:hover{outline:var(--gw) solid var(--grid);outline-offset:2px}
+  .note{max-width:62ch;font:400 14px/22px var(--f-type)}
+  /* references */
+  .refs{display:flex;flex-wrap:wrap;gap:6px}
+  .refs a{font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase;border:var(--gw) solid var(--ink);padding:8px 10px;text-decoration:none}
+  .refs a:hover{outline:var(--gw) solid var(--grid);outline-offset:2px}
+  .iters{display:flex;gap:var(--gutter);flex-wrap:wrap;margin-top:var(--baseline)}
+  .iters figure{margin:0;width:min(280px,100%)}
+  .iters img{width:100%;display:block;border:var(--gw) solid var(--ink)}
+  .iters figcaption{font:700 10px/1.4 var(--f-type);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+  /* the log, rendered from docs/process/log.md */
+  .log{max-width:78ch;font:400 14px/22px var(--f-type)}
+  .log h1{display:none}
+  .log h2{font:900 var(--s2)/1.1 var(--f-display);margin:calc(var(--baseline)*2) 0 var(--baseline);padding-top:var(--baseline);border-top:var(--gw) solid var(--grid)}
+  .log h3{font:700 17px/1.2 var(--f-slab);margin:var(--baseline) 0 6px}
+  .log p{margin:0 0 12px}
+  .log ul,.log ol{margin:0 0 12px;padding-left:1.4em}
+  .log li{margin:0 0 4px}
+  .log code{font:inherit;background:rgba(0,0,0,.06);padding:0 3px}
+  .log hr{display:none}
+  .log a{text-decoration:none;border-bottom:var(--gw) solid var(--ink)}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Main">
+  <a href="index.html">Home</a>
+  <a href="roi.html">ROI</a>
+  <a href="work.html">Work</a>
+  <a href="horizon.html" style="grid-column:span 2">Event Horizon</a>
+  <a href="process.html" aria-current="page">Process</a>
+</nav>
+<main>
+  <header class="page-head">
+    <div class="page-title st-row" id="title" aria-label="Process"></div>
+    <p class="page-note">How this was made: the page the machine proposed, what I took from others, and every decision as it happened.</p>
+  </header>
+  <div class="wrap">
+    <section>
+      <h2>The default</h2>
+      <div class="body">
+        <div class="stage" id="stage">
+          <div class="card">
+            <h3><span class="ln">Hi, I'm Ayelet 👋</span></h3>
+            <p><span class="ln">Creative designer crafting meaningful</span><br><span class="ln">digital experiences that inspire.</span></p>
+            <span class="btn"><span class="ln">View my work →</span></span>
+          </div>
+        </div>
+        <div class="ctrl"><button id="redact">Redact</button><button id="restore">Restore</button></div>
+        <p class="note">Asked for my ID, the machine returns this: a gradient, a rounded card, a waving hand, "meaningful experiences". Order without a decision, the average of everyone. I kept it, and I blacked it out.</p>
+      </div>
+    </section>
+    <section>
+      <h2>Taken from</h2>
+      <div class="body">
+        <div class="refs">
+          <a href="docs/research/vision-board.html">Vision board ↗</a>
+          <a href="https://github.com/ayeletops/order-break/blob/main/docs/research/references.md" target="_blank" rel="noopener">References ↗</a>
+          <a href="https://github.com/ayeletops/order-break/blob/main/docs/research/wix-motion.md" target="_blank" rel="noopener">Wix motion language ↗</a>
+          <a href="https://github.com/ayeletops/order-break" target="_blank" rel="noopener">Repository ↗</a>
+        </div>
+        <div class="iters"><figure><img src="docs/iterations/phase-00.png" alt="Phase 0: an empty white page"><figcaption>Phase 00 · nothing decided yet</figcaption></figure></div>
+      </div>
+    </section>
+    <section>
+      <h2>Log</h2>
+      <div class="body"><div class="log" id="log">Loading the log…</div></div>
+    </section>
+  </div>
+</main>
+<script src="js/stretch.js"></script>
+<script>Stretch.make(document.getElementById('title'), 'PROCESS', Stretch.weights('days'), { steady: true, every: 1500 });</script>
+<script>
+// the default: redact line by line, or restore
+const stage = document.getElementById('stage'), lines = stage.querySelectorAll('.ln');
+document.getElementById('redact').onclick = () => { lines.forEach((l, i) => l.style.setProperty('--dl', `${i * .18}s`)); stage.classList.add('redacted'); };
+document.getElementById('restore').onclick = () => { lines.forEach(l => l.style.setProperty('--dl', '0s')); stage.classList.remove('redacted'); };
+setTimeout(() => document.getElementById('redact').click(), 1600);
+
+// a small markdown renderer for the log (headings, lists, bold, italics, code, links)
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const inline = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+  .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<i>$2</i>').replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+function md(src) {
+  const out = []; let list = null, para = [];
+  const flushP = () => { if (para.length) { out.push(`<p>${inline(para.join(' '))}</p>`); para = []; } };
+  const flushL = () => { if (list) { out.push(`<${list.t}>${list.items.map(i => `<li>${inline(i)}</li>`).join('')}</${list.t}>`); list = null; } };
+  src.split('\n').forEach(raw => {
+    const l = raw.replace(/\s+$/, ''), h = l.match(/^(#{1,3})\s+(.*)/), ul = l.match(/^\s*[-*]\s+(.*)/), ol = l.match(/^\s*\d+\.\s+(.*)/);
+    if (h) { flushP(); flushL(); out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`); }
+    else if (/^---+$/.test(l)) { flushP(); flushL(); out.push('<hr>'); }
+    else if (ul || ol) { flushP(); const t = ul ? 'ul' : 'ol'; if (!list || list.t !== t) { flushL(); list = { t, items: [] }; } list.items.push((ul || ol)[1]); }
+    else if (!l.trim()) { flushP(); flushL(); }
+    else if (list && /^\s{2,}/.test(raw)) list.items[list.items.length - 1] += ' ' + l.trim();
+    else { flushL(); para.push(l); }
+  });
+  flushP(); flushL(); return out.join('\n');
+}
+fetch('docs/process/log.md').then(r => r.ok ? r.text() : Promise.reject()).then(t => document.getElementById('log').innerHTML = md(t))
+  .catch(() => document.getElementById('log').innerHTML = '<p>The log lives at <a href="https://github.com/ayeletops/order-break/blob/main/docs/process/log.md">docs/process/log.md</a>.</p>');
+</script>
+</body></html>

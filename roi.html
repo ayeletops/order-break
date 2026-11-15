@@ -8,7 +8,7 @@
 <style>
   /* ROI — a vast latent field. Every dot carries its own target grid (8 rings = the ages of the people I love).
      The rings breathe. The dot nearest the centre is chosen: its target grows into the big grid. */
-  .nav{grid-template-columns:repeat(4,1fr)}
+  .nav{grid-template-columns:repeat(5,1fr)}
   html,body{height:100%;overflow:hidden}
   #field{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;cursor:grab;touch-action:none;overflow:hidden;user-select:none}
   #field.drag{cursor:grabbing}
@@ -16,9 +16,9 @@
          background:linear-gradient(var(--grid),var(--grid)) center/var(--gw) 100% no-repeat,linear-gradient(var(--grid),var(--grid)) center/100% var(--gw) no-repeat;opacity:.5}
   .layer{position:absolute;left:50%;top:50%;width:0;height:0;z-index:2;will-change:transform}
   .links{position:absolute;left:-3000px;top:-2000px;width:6000px;height:4000px;overflow:visible;pointer-events:none}
-  .links line{stroke:var(--ink);vector-effect:non-scaling-stroke;stroke-width:.5}
-  .links .tree{stroke-opacity:.16}
-  .links .rhizome{stroke-opacity:.3;stroke-dasharray:2 4}
+  .links line,.links polyline{stroke:var(--ink);vector-effect:non-scaling-stroke;stroke-width:.5}
+  .links .tree{stroke-opacity:.5}
+  .links .rhizome{stroke:var(--grid);stroke-opacity:.6;stroke-dasharray:2 3}
   /* node: dot + its own target + label */
   .n{position:absolute;width:0;height:0}
   .n .tg{position:absolute;left:0;top:0;width:var(--ts);height:var(--ts);transform:translate(-50%,-50%);pointer-events:none;
@@ -28,12 +28,12 @@
   @keyframes breathe{from{transform:translate(-50%,-50%) scale(.9)}to{transform:translate(-50%,-50%) scale(1.06)}}
   .n .dt{position:absolute;left:0;top:0;width:var(--ds);height:var(--ds);transform:translate(-50%,-50%);border-radius:50%;background:var(--ink);cursor:pointer;border:0;padding:0}
   .n .lb{position:absolute;left:calc(var(--ds) / 2 + 8px);top:0;transform:translateY(-50%);white-space:nowrap;cursor:help;line-height:1;font-family:var(--f-display);font-weight:400}
-  .n.lv0{--ds:12px;--ts:160px}.n.lv0 .lb{font-size:54px;font-weight:900}
-  .n.lv05{--ds:9px;--ts:110px}.n.lv05 .lb{font-size:24px;font-style:italic}
-  .n.lv1{--ds:8px;--ts:90px}.n.lv1 .lb{font-size:22px}
-  .n.lv2{--ds:5px;--ts:52px}.n.lv2 .lb{font-size:14px}
+  .n.lv0{--ds:12px;--ts:150px}.n.lv0 .lb{font-size:72px;font-weight:900;letter-spacing:-.02em;transform:translateY(-78%)}
+  .n.lv05{--ds:9px;--ts:96px}.n.lv05 .lb{font-size:22px;font-style:italic}
+  .n.lv1{--ds:8px;--ts:70px}.n.lv1 .lb{font-size:20px;font-weight:700}
+  .n.lv2{--ds:5px;--ts:34px}.n.lv2 .lb{font-size:14px}.n.lv2:not(.focus) .tg{opacity:.28}
   .n.proj{--ds:20px;--ts:120px}.n.proj .dt{background:var(--grid)}
-  .n.proj .lb{font:700 13px/1.2 var(--f-slab);letter-spacing:.06em;cursor:pointer}
+  .n.proj .lb{font:700 13px/1.2 var(--f-slab);letter-spacing:.06em;cursor:pointer;left:auto;right:calc(var(--ds) / 2 + 8px);text-align:right}
   .n.proj .lb b{display:block;font:700 22px/1 var(--f-slab);letter-spacing:0}
   .n.focus{--ts:min(78vh,78vw);z-index:3}
   .n.focus .lb{background:var(--paper);padding:3px 6px}
@@ -87,6 +87,7 @@
   <a href="roi.html" aria-current="page">ROI</a>
   <a href="work.html">Work</a>
   <a href="horizon.html">Event Horizon</a>
+  <a href="process.html">Process</a>
 </nav>
 <main>
   <header class="page-head">

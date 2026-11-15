@@ -305,3 +305,21 @@ The typology confrontation, the stance text and the process documentation are fo
 - The "Stance" heading, the "See the default" aside and the bottom-right note are removed.
 - The new stance is 6 short paragraphs in Bodoni, in two wide columns. The type size, and with it the columns, follow the size slider. It uses my line "The modernist is the system; the anarchist is the outcome" and my question "how do you use the machine without being devoured by it?". It ends "The shell can be read. What moves inside it cannot." and "Give it the grid. Keep the ghost." No quotes from either film.
 - **Flag:** with the "See the default" link gone, the typology confrontation (required by the brief) has no visible home on the site. Still to decide.
+
+---
+
+## Round: Swiss ROI, red Work grid, black balls, Process page (2026-11-15)
+
+**My direction:** ROI tighter, with less empty space, and really good, like a Swiss design poster. Work grid in red only. Event Horizon: lose the stripes, only big black balls for the events, turning white with the year on hover. A Process page.
+
+**What AI did:**
+- **ROI as a Swiss poster:** every point snaps to a 24px module. Each region is a block in its quadrant: the region name in Bodoni 900 at 72px, fields in two flush-left columns (Bodoni 700), terms listed one module apart beneath each field.
+  - A cross of empty space runs through the middle, where the hybrid zones sit, with *invisible systems* at the centre.
+  - Branches are square-cornered (down, then across). Cross-region links are dashed red.
+  - Terms' targets are faint until chosen. Project labels sit to the left of their red dots.
+- **Work:** all grid and frame lines are red; only content stays black.
+- **Event Horizon:** the people-lines are removed (and their generated data with them). Only five black balls remain, each in its own column, breathing; on hover a ball turns white with its year in black Bodoni.
+- **Process page** (`process.html`, in the menu on every page):
+  - *The default*: the AI typology, rebuilt and redacted line by line, with Redact/Restore. This gives the brief's typology confrontation a home again.
+  - *Taken from*: links to the vision board, the references, the Wix motion notes and the repository, plus the Phase 0 iteration image.
+  - *Log*: this file, rendered live from `docs/process/log.md`.

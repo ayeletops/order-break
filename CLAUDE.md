@@ -39,7 +39,7 @@ References: `docs/research/references.md`.
 - **Order = a secret personal grid.** Grid proportions derive from birthdays of people I love (a personal Modulor). **Raw dates are never committed** — only derived ratios. The date→ratio mapping is a designed decision to document.
 - **Dropped (Phase 2):** entry questionnaire, camera, owner-only mode. The site is the same for every visitor.
 - **Grid family (Phase 2):** web grids (responsive CSS), uneven columns derived from days, months, years and ages of the 8 people; one grid per chapter, related as a family. Person order is shuffled per grid, so day/month/year can't be re-linked from the public method.
-- **Site map:** Home (the cover: ayeletops ⇄ sella_vie) · ROI (rhizomatic field of school projects + life) · Work (CV timeline) · Event Horizon (5 events as black holes with years only). No landing page. Typology confronted via "See the default" on Home. Each page has a short explanatory line.
+- **Site map:** Home (the cover: ayeletops ⇄ sella_vie, plus the stance) · ROI (a Swiss-poster latent field of interests + projects) · Work (CV on the birthday grid) · Event Horizon (5 black balls on red, years on hover; topics only in `secrets/`) · Process (the AI default refused, the references, the rendered log). No landing page.
 - **Redaction:** documents and tickets get thick black bars over all data; minors' eyes get black bars. Burned into pixels, metadata stripped, originals never committed.
 - **Event Horizon:** no encryption. Only years appear; what the events are is told in person only. Topics and the year mapping are kept only in `secrets/black-holes.md`. Never document them in public files.
 - Watch scope: the brief rewards the order/break dialogue, not machinery.

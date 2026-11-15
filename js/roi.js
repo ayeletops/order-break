@@ -67,24 +67,31 @@
   const N = [];   // {t, x, y, lv}
   const byName = {};
   const add = (t, x, y, lv) => { const n = { t, x, y, lv }; N.push(n); byName[t] = n; return n; };
+  // Swiss layout: everything snaps to a 24px module. Each region is a block in its quadrant:
+  // region name on top, fields in two columns, terms listed under each field (flush left, one module apart).
+  const M = 24, snap = v => Math.round(v / M) * M;
+  const QUAD = { Biology: [-1, -1], Governance: [1, -1], Communication: [-1, 1], Freedom: [1, 1] };
   Object.entries(TREE).forEach(([R, def]) => {
-    const [rx, ry] = def.at, reg = add(R, rx, ry, 0);
-    const fs = Object.entries(def.fields), base = Math.atan2(-ry, -rx);   // fan the fields away from the centre... and around
+    const [sx, sy] = QUAD[R], fs = Object.entries(def.fields);
+    const colW = 13 * M, blockH = f => (f[1].length + 1) * M + 2 * M;
+    const rows = Math.ceil(fs.length / 2), colH = [0, 0];
+    fs.forEach((f, i) => colH[i % 2] += blockH(f));
+    const W = 2 * colW, H = Math.max(...colH) + 4 * M;
+    const x0 = sx < 0 ? -W - 6 * M : 6 * M, y0 = sy < 0 ? -H - 4 * M : 4 * M;   // a cross of empty space through the middle
+    const reg = add(R, snap(x0), snap(y0), 0);
+    const cy = [y0 + 4 * M, y0 + 4 * M];
     fs.forEach(([F, terms], i) => {
-      const a = base + Math.PI + (i - (fs.length - 1) / 2) * (Math.PI * 1.7 / fs.length) + (rnd() - .5) * .25;
-      const fr = 360 + rnd() * 120, fx = rx + Math.cos(a) * fr, fy = ry + Math.sin(a) * fr;
+      const c = i % 2, fx = snap(x0 + c * colW + M), fy = snap(cy[c]);
       const f = add(F, fx, fy, 1); f.parent = reg;
-      terms.forEach((T, j) => {
-        const b = a + (j - (terms.length - 1) / 2) * .55 + (rnd() - .5) * .3, tr = 150 + rnd() * 90;
-        const t = add(T, fx + Math.cos(b) * tr, fy + Math.sin(b) * tr, 2); t.parent = f;
-      });
+      terms.forEach((T, j) => { const t = add(T, fx + M, fy + (j + 1) * M, 2); t.parent = f; });
+      cy[c] += blockH([F, terms]);
     });
   });
-  HYBRIDS.forEach(([t, a, b]) => {
-    if (!a) return add(t, 0, 0, 0.5);
-    const A = byName[a], B = byName[b]; add(t, (A.x + B.x) / 2 + (rnd() - .5) * 140, (A.y + B.y) / 2 + (rnd() - .5) * 140, 0.5);
-  });
-  P.forEach(p => { const n = byName[p.near] || { x: 0, y: 0 }; const a = rnd() * 6.283; p.x = n.x + Math.cos(a) * 46; p.y = n.y + Math.sin(a) * 46; });
+  // hybrids sit on the empty cross between the regions; "invisible systems" at the centre
+  const HPOS = { 'Biopolitics': [0, -8], 'Contagion of ideas': [-14, 0], 'The right to opt out': [14, 0], 'Free radio': [0, 8],
+                 'Bodily autonomy': [-5, 4], 'Electromagnetic colonialism': [5, -4], 'Invisible systems': [0, 0] };
+  HYBRIDS.forEach(([t]) => { const [gx, gy] = HPOS[t] || [0, 0]; add(t, gx * M, gy * M, t === 'Invisible systems' ? 0 : 0.5); });
+  P.forEach(p => { const n = byName[p.near] || { x: 0, y: 0 }; p.x = n.x - M; p.y = n.y; });   // a project sits one module left of its term
 
   // ── render: every point is a dot with its own target grid (8 rings, ages) and a label
   const FACES = Stretch.FACES, rand = a => a[Math.floor(Math.random() * a.length)];
@@ -94,7 +101,9 @@
   svg.setAttribute('class', 'links'); svg.setAttribute('viewBox', '-3000 -2000 6000 4000'); layer.appendChild(svg);
   const line = (a, b, cls) => { const l = document.createElementNS(svg.namespaceURI, 'line');
     l.setAttribute('x1', a.x); l.setAttribute('y1', a.y); l.setAttribute('x2', b.x); l.setAttribute('y2', b.y); l.setAttribute('class', cls); svg.appendChild(l); };
-  N.forEach(n => { if (n.parent) line(n.parent, n, 'tree'); });
+  const elbow = (a, b) => { const l = document.createElementNS(svg.namespaceURI, 'polyline');   // down, then across: right angles only
+    l.setAttribute('points', `${a.x},${a.y} ${a.x},${b.y} ${b.x},${b.y}`); l.setAttribute('class', 'tree'); l.setAttribute('fill', 'none'); svg.appendChild(l); };
+  N.forEach(n => { if (n.parent) elbow(n.parent, n); });
   LINKS.forEach(([a, b]) => { if (byName[a] && byName[b]) line(byName[a], byName[b], 'rhizome'); });
   const rings = () => AGES.map((r, i) => `<i style="--r:${r}%;--dur:${5 + (i % 4) * 1.3}s;--dl:${-(i * .7 + Math.random() * 3).toFixed(2)}s"></i>`).join('');
   function node(n, cls, label) {
