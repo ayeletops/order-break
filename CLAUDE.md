@@ -23,6 +23,16 @@ Deadline: brief says 10.11.27 — **to confirm**.
 
 This is an ID, **not a portfolio or CV**. "What I do" should come through as ways of working, habits, obsessions, ways of seeing — not a list of projects or credits.
 
+## Position statement (Phase 1, accepted)
+
+"I design for things that spread invisibly between bodies and spaces, make the invisible system visible, and question who controls it."
+
+Material clusters: Vaccine Futures (graphic novel) · Frequencies / EM colonialism · Urban Healing + *In the Zone* · essays + small tools.
+Extra layers: family as hidden grid · hand + voice · reading trail / work clock. (Metadata timeline: declined.)
+Private studio with copied assets: `~/Downloads/ME` (outside repo). Private inventory: `secrets/inventory-phase1.md`.
+Privacy rules: never move originals, only copy · no personal or financial documents · family and other people only as context or abstracted, unless approved item by item · question consent when risky.
+References: `docs/research/references.md`.
+
 ## Decisions so far
 
 - Plain HTML / CSS / JS, no framework. Static, hosted on GitHub Pages. Everything runs client-side.
@@ -55,7 +65,7 @@ This is an ID, **not a portfolio or CV**. "What I do" should come through as way
 6. Text — 300–500 words
 7. Hover iterations + final documentation
 
-**Current status:** Phase 0 not started. Language decided (English). Start by confirming the repo and setting up the structure below.
+**Current status:** Phase 0 and Phase 1 done (2026-11-15). Repo: github.com/ayeletops/order-break, live at ayeletops.github.io/order-break (Pages, main, root). Next: Phase 2, Order (the birthday grid).
 
 ## Structure
 
