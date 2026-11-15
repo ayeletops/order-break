@@ -6,21 +6,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
 <style>
-  /* EVENT HORIZON — space. Five black holes, each with only a year. What they are is left unsaid.
-     Thin red lines: years. A constellation of eight stars: the people I love. */
+  /* EVENT HORIZON — only circles, on red. The grid is invisible here. */
   .nav{grid-template-columns:repeat(12,1fr)}
-  html,body{height:100%;overflow:hidden;background:var(--ink);color:var(--paper)}
-  .nav{background:var(--ink);color:var(--paper);border-bottom-color:var(--paper)}
-  .nav [aria-current]{box-shadow:inset 0 -5px 0 var(--paper)}
-  .page-head{position:relative;z-index:6;background:var(--ink)}
-  .page-head .page-title,.page-head .page-note{background:var(--ink);color:var(--paper)}
+  html,body{height:100%;overflow:hidden;background:var(--grid);color:var(--ink)}
+  .nav{background:var(--grid);border-bottom-color:var(--ink)}
+  .page-head{background:var(--grid);border-bottom:0}
+  .page-head .st-slot::after{border-color:transparent}
   #sky{position:fixed;left:0;top:var(--content-top, 240px);width:100vw;height:calc(100vh - var(--content-top, 240px));display:block}
-  .tag{position:fixed;z-index:5;transform:translate(-50%,0);font:400 11px/1 var(--f-type);letter-spacing:.24em;pointer-events:none;color:rgba(255,255,255,.55);transition:color .4s}
-  .tag.on{color:#fff}
-  .page-head{border-bottom-color:rgba(255,255,255,.5)}
 </style>
 </head>
-<body style="background:#0b0b0b">
+<body style="background:#e5332a">
 <nav class="nav" aria-label="Main">
   <a href="index.html" style="grid-column:span 2">Home</a>
   <a href="roi.html" style="grid-column:span 2">ROI</a>
@@ -31,11 +26,11 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="Event Horizon"></div>
-    <p class="page-note">Five cataclysmic events. Points past which nothing that came before stayed the same. You can see where they are, and when; light bends around them. What they are stays on this side of the screen. Ask me, in person.</p>
+    <p class="page-note">Five cataclysmic events, the large circles, each with only its year. The small ones are the people I love. Where lives overlap, black turns white and back. What the events were stays on this side of the screen. Ask me, in person.</p>
   </header>
   <canvas id="sky" aria-label="A field of stars with five black holes, marked only by year"></canvas>
 </main>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', Stretch.weights('months'), { steady: true, every: 1500, color: '#ffffff' });</script>
+<script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', Stretch.weights('months'), { steady: true, every: 1500 });</script>
 <script src="js/horizon.js"></script>
 </body></html>

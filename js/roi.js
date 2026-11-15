@@ -3,7 +3,8 @@
    Hybrid zones sit where regions meet. Projects (red dots) and pieces of life (hollow dots) sit near what they're about.
    The thin red circles (ages) stay centred; the field moves under them.
    Drag to travel (release → glide, ease-out, settle on the nearest word). Wheel / pinch to zoom.
-   Hover/click a dot → thumbnail eases in. Click the thumbnail → gallery.
+   Every point carries a breathing target grid; the point nearest the centre is chosen and its target grows.
+   Projects: larger red dots with a year. Click → centre + thumbnail; click again / thumbnail → gallery (a window).
 */
 (() => {
   // ── the field: region → fields → terms. Angles in degrees around the region, radii in px.
@@ -54,13 +55,6 @@
     { t: 'Learn not Confirm', y_: 2025, near: 'resonance', thumb: 'learn-not-confirm', note: 'system', gal: g('learn-not-confirm', 7), pdf: 'assets/pdf/learn-not-confirm.pdf' },
     { t: 'Urban Healing', y_: 2026, near: 'cities', thumb: 'urban-healing', note: 'ecology', gal: g('urban-healing', 10), pdf: 'assets/pdf/urban-healing.pdf' },
     { t: 'In the Zone', y_: 2026, near: 'the zone', type: true, note: 'thesis', gal: g('in-the-zone', 16), pdf: 'assets/pdf/in-the-zone.pdf' },
-    { t: 'found creature', y_: 2025, near: 'swarm logic', thumb: 'life-creature', life: true, gal: ['assets/img/life-creature.jpg'] },
-    { t: 'the cat', y_: 2024, near: 'self-care', thumb: 'life-cat', life: true, gal: ['assets/img/life-cat.jpg'] },
-    { t: 'me, garden', y_: 2026, near: 'gardens', thumb: 'life-me-garden', life: true, gal: ['assets/img/life-me-garden.jpg'] },
-    { t: 'me, mirror', y_: 2026, near: 'the screen', thumb: 'life-me-mirror', life: true, gal: ['assets/img/life-me-mirror.jpg'] },
-    { t: 'walking', y_: 2026, near: 'attention', thumb: 'life-walking', life: true, gal: ['assets/img/life-walking.jpg'] },
-    { t: 'on the rock', y_: 2026, near: 'improvisation', thumb: 'life-walking-rock', life: true, gal: ['assets/img/life-walking-rock.jpg'] },
-    { t: 'landscape', y_: 2024, near: 'repair', thumb: 'life-landscape', life: true, gal: ['assets/img/life-landscape.jpg'] },
   ];
   // cross-links: the rhizome (terms that talk across regions)
   const LINKS = [['quorum sensing', 'swarm logic'], ['herd immunity', 'mandates'], ['contagion', 'algorithms'], ['radio', 'pirate radio'],
@@ -92,8 +86,9 @@
   });
   P.forEach(p => { const n = byName[p.near] || { x: 0, y: 0 }; const a = rnd() * 6.283; p.x = n.x + Math.cos(a) * 46; p.y = n.y + Math.sin(a) * 46; });
 
-  // ── render
+  // ── render: every point is a dot with its own target grid (8 rings, ages) and a label
   const FACES = Stretch.FACES, rand = a => a[Math.floor(Math.random() * a.length)];
+  const AGES = Stretch.weights('ages');
   const field = document.getElementById('field'), layer = document.getElementById('layer'), centre = document.getElementById('centre'), card = document.getElementById('card');
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('class', 'links'); svg.setAttribute('viewBox', '-3000 -2000 6000 4000'); layer.appendChild(svg);
@@ -101,27 +96,28 @@
     l.setAttribute('x1', a.x); l.setAttribute('y1', a.y); l.setAttribute('x2', b.x); l.setAttribute('y2', b.y); l.setAttribute('class', cls); svg.appendChild(l); };
   N.forEach(n => { if (n.parent) line(n.parent, n, 'tree'); });
   LINKS.forEach(([a, b]) => { if (byName[a] && byName[b]) line(byName[a], byName[b], 'rhizome'); });
+  const rings = () => AGES.map((r, i) => `<i style="--r:${r}%;--dur:${5 + (i % 4) * 1.3}s;--dl:${-(i * .7 + Math.random() * 3).toFixed(2)}s"></i>`).join('');
+  function node(n, cls, label) {
+    const d = document.createElement('div'); d.className = 'n ' + cls; d.style.left = n.x + 'px'; d.style.top = n.y + 'px';
+    d.innerHTML = `<div class="tg">${rings()}</div><button class="dt" aria-label="${n.t}"></button><span class="lb">${label}</span>`;
+    n.el = d; layer.appendChild(d); return d;
+  }
   N.forEach(n => {
-    const d = document.createElement('span'), fc = rand(FACES);
-    d.className = 'w lv' + String(n.lv).replace('.', ''); d.textContent = n.t; d.style.left = n.x + 'px'; d.style.top = n.y + 'px';
-    d.style.fontFamily = `"${fc.f}"`; d.style.fontWeight = fc.w; d.style.fontStyle = fc.s;
+    const d = node(n, 'lv' + String(n.lv).replace('.', ''), n.t), fc = rand(FACES), lb = d.querySelector('.lb');
+    lb.style.fontFamily = `"${fc.f}"`; lb.style.fontWeight = fc.w; lb.style.fontStyle = fc.s;
     d.addEventListener('click', () => { if (!dragged) glideTo(n); });
-    n.el = d; layer.appendChild(d);
   });
   P.forEach(p => {
-    const d = document.createElement('button');
-    d.className = 'dot' + (p.life ? ' life' : ''); d.style.left = p.x + 'px'; d.style.top = p.y + 'px';
-    d.setAttribute('aria-label', `${p.t}, ${p.y_}`); d.innerHTML = `<span class="lbl">${p.t} · ${p.y_}</span>`;
-    d.addEventListener('mouseenter', () => showCard(p));
-    d.addEventListener('click', e => { e.stopPropagation(); if (dragged) return; open === p ? openGallery(p) : showCard(p); });
-    p.el = d; layer.appendChild(d);
+    const d = node(p, 'proj', `<b>${p.t}</b>${p.y_}`);
+    d.querySelector('.dt').addEventListener('mouseenter', () => showCard(p));
+    d.addEventListener('click', e => { e.stopPropagation(); if (dragged) return; if (open === p) openGallery(p); else { glideTo(p); setTimeout(() => showCard(p), 760); } });
   });
 
   // ── thumbnail card
   let open = null;
   function showCard(p) {
     open = p;
-    const r = p.el.getBoundingClientRect(), fr = field.getBoundingClientRect();
+    const r = p.el.querySelector('.dt').getBoundingClientRect(), fr = field.getBoundingClientRect();
     const W = Math.min(340, fr.width * .6), H = W * .75 + 74;
     let x = r.left - fr.left + 20, y = r.top - fr.top + 20;
     if (x + W > fr.width - 12) x = r.left - fr.left - W - 20;
@@ -147,18 +143,20 @@
   const closeG = () => { gal.classList.remove('on'); setTimeout(() => gal.hidden = true, 350); gp = null; };
   document.getElementById('g-prev').onclick = () => step(-1); document.getElementById('g-next').onclick = () => step(1);
   document.getElementById('g-close').onclick = closeG; gImg.onclick = () => step(1);
+  gal.addEventListener('click', e => { if (e.target === gal) closeG(); });
   addEventListener('keydown', e => { if (!gp) return; if (e.key === 'Escape') closeG(); if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
 
   // ── motion: pan + zoom
   let off = { x: 0, y: 0 }, z = .8, focused = null, raf = 0;
   const ALL = N.concat(P);
-  const nearest = () => { let b = null, bd = Infinity; N.forEach(n => { const d = (n.x * z + off.x) ** 2 + (n.y * z + off.y) ** 2; if (d < bd) { bd = d; b = n; } }); return b; };
+  const nearest = () => { let b = null, bd = Infinity; ALL.forEach(n => { const d = (n.x * z + off.x) ** 2 + (n.y * z + off.y) ** 2; if (d < bd) { bd = d; b = n; } }); return b; };
   function render() {
     layer.style.transform = `translate(${off.x}px,${off.y}px) scale(${z})`;
     const fade = 520 / Math.max(.4, z);
     ALL.forEach(n => n.el.style.opacity = Math.max(.12, 1 - Math.hypot(n.x + off.x / z, n.y + off.y / z) / fade));
     const b = nearest();
-    if (b !== focused) { if (focused) focused.el.classList.remove('focus'); focused = b; b.el.classList.add('focus'); centre.textContent = (b.parent ? (b.parent.parent ? b.parent.parent.t + ' › ' + b.parent.t + ' › ' : b.parent.t + ' › ') : '') + b.t; }
+    if (b !== focused) { if (focused) focused.el.classList.remove('focus'); focused = b; b.el.classList.add('focus');
+      centre.textContent = b.y_ ? `${b.t} · ${b.y_}` : (b.parent ? (b.parent.parent ? b.parent.parent.t + ' › ' + b.parent.t + ' › ' : b.parent.t + ' › ') : '') + b.t; }
   }
   function animTo(tx, ty, tz, ms = 750) {
     cancelAnimationFrame(raf); hideCard();

@@ -245,3 +245,16 @@ The typology confrontation, the stance text and the process documentation are fo
   - Category rows: education, editing & post, restoration, finishing & colour, video & AI, recognition. Sticky labels and filter toggles.
   - Hierarchy: year (mono), role (slab 700), organisation (Bodoni italic), description (mono).
   - Tools sit outside time, at the end of the track. Shift-scroll moves down.
+
+---
+
+## Round: circles, thinner grid, fit, no photos, targets (2026-11-15)
+
+**My direction:** Event Horizon is only circles and bubbles (the events much bigger, plus bubbles for the people I love), with intersections flipping between black and white, a red background and an invisible grid. The grid should be thinner everywhere. Work is side-scroll only and must fit the screen height. Remove the photos altogether: projects only. In ROI the target grid should move and animate on every dot and grow when chosen; projects are larger red dots with a year. The gallery is a smaller window, not full screen.
+
+**What AI did:**
+- **Event Horizon:** a red page with no visible grid. Large event circles carry only their years. Small bubbles are sized and placed from the *relative* ages already in `css/grids.css`, with no labels, so no birth year is published. Overlaps use parity: odd layers black, even white. Everything drifts slowly, so the intersections keep changing.
+- **Grid:** a single variable `--gw: .5px` now sets the grid and frame lines across the site.
+- **Work:** rows size to the available height, so there is no vertical scrolling. Each entry shows year, role and organisation; the description and link open on hover. Tools sit in two columns at the end. Filters removed to save space.
+- **Photos removed:** life images and thumbnails deleted from the site and the files. AI flagged that they remain in the public git history unless the history is rewritten (that needs a force-push; my decision).
+- **ROI:** every point carries its own target (8 rings from the ages) that breathes with staggered timings. The point nearest the centre is chosen and its target grows into the large grid; projects can be chosen too. Projects are 20px red dots labelled with title and year. Clicking a project centres it and eases in its thumbnail. The gallery is a window over a light backdrop; click outside to close.

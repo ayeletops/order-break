@@ -10,37 +10,36 @@
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
   .nav{grid-template-columns:var(--work-intervals)}
   html,body{height:100%;overflow:hidden}
-  .wrap{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;overflow:auto;scrollbar-width:thin}
-  .track{position:relative;padding-bottom:64px}
-  .col{position:absolute;top:0;bottom:0;border-left:1px solid var(--grid);pointer-events:none}
-  .years{position:sticky;top:0;z-index:4;height:34px;background:var(--paper);border-bottom:1px solid var(--ink)}
-  .years span{position:absolute;top:0;height:34px;display:flex;align-items:center;padding-left:6px;font:700 11px/1 var(--f-type);letter-spacing:.08em;border-left:1px solid var(--grid)}
-  .cat{position:relative;border-bottom:1px solid var(--ink)}
+  .wrap{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+  .track{position:relative;height:100%}
+  .col{position:absolute;top:0;bottom:0;border-left:var(--gw) solid var(--grid);pointer-events:none}
+  .years{position:sticky;top:0;z-index:4;height:34px;background:var(--paper);border-bottom:var(--gw) solid var(--ink)}
+  .years span{position:absolute;top:0;height:34px;display:flex;align-items:center;padding-left:6px;font:700 11px/1 var(--f-type);letter-spacing:.08em;border-left:var(--gw) solid var(--grid)}
+  .cat{position:relative;border-bottom:var(--gw) solid var(--ink)}
   .cat h2{position:sticky;left:0;z-index:3;display:inline-block;margin:0;padding:10px 12px 10px var(--margin-l);background:var(--paper);
-          font:700 11px/1 var(--f-type);letter-spacing:.14em;text-transform:uppercase;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+          font:700 11px/1 var(--f-type);letter-spacing:.14em;text-transform:uppercase;border-right:var(--gw) solid var(--ink);border-bottom:var(--gw) solid var(--ink)}
   .cat h2 sup{font-weight:400;letter-spacing:0;margin-left:4px}
   .role{position:absolute;min-width:8px}
-  .role .bar{height:14px;background:var(--ink)}
+  .role .bar{height:10px;background:var(--ink)}
   .role .bar.open{background:linear-gradient(90deg,var(--ink) 75%,rgba(11,11,11,.15))}
   .role.point .bar{width:14px}
-  .role .txt{position:relative;padding:8px 10px 0 0;width:max-content;max-width:34ch;background:var(--paper)}
+  .role .txt{position:relative;padding:6px 10px 0 0;width:max-content;max-width:30ch;background:var(--paper)}
   .role .when{font:700 11px/1 var(--f-type);letter-spacing:.08em}
-  .role h3{margin:6px 0 2px;font:700 17px/1.15 var(--f-slab)}
-  .role .org{font:400 italic 16px/1.2 var(--f-display)}
-  .role p{margin:6px 0 0;font:400 12px/17px var(--f-type)}
-  .role a{text-decoration:none;border-bottom:1px solid var(--ink)}
+  .role h3{margin:4px 0 1px;font:700 15px/1.12 var(--f-slab)}
+  .role .org{font:400 italic 14px/1.15 var(--f-display)}
+  .role .more{position:absolute;left:0;top:100%;z-index:6;width:30ch;padding:8px 10px;background:var(--paper);border:var(--gw) solid var(--ink);opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .2s,transform .3s}
+  .role:hover{z-index:7}.role:hover .more{opacity:1;transform:none;pointer-events:auto}
+  .role p{margin:0 0 4px;font:400 12px/17px var(--f-type)}
+  .role a{text-decoration:none;border-bottom:var(--gw) solid var(--ink)}
   .role:hover .bar{outline:1px solid var(--grid);outline-offset:3px}
   .role a:hover,.tools a:hover,.filters button:hover{outline:1px solid var(--grid);outline-offset:2px}
   /* tools: outside time, at the end of the track */
-  .toolbox{position:absolute;top:34px;bottom:0;padding:16px 24px 40px;border-left:1px solid var(--ink);background:var(--paper);z-index:2}
-  .toolbox h2{margin:0 0 14px;font:900 28px/1 var(--f-display)}
-  .toolbox h4{margin:14px 0 6px;font:700 11px/1 var(--f-type);letter-spacing:.12em;text-transform:uppercase}
+  .toolbox{position:absolute;top:34px;bottom:0;padding:14px 24px;overflow:hidden;columns:2 200px;column-gap:24px;border-left:var(--gw) solid var(--ink);background:var(--paper);z-index:2}
+  .toolbox h2{margin:0 0 10px;font:900 28px/1 var(--f-display);column-span:all}
+  .toolbox section{break-inside:avoid;margin-bottom:10px}
+  .toolbox h4{margin:0 0 6px;font:700 11px/1 var(--f-type);letter-spacing:.12em;text-transform:uppercase}
   .tools{display:flex;flex-wrap:wrap;gap:4px;max-width:420px}
   .tools a{font:700 10px/1 var(--f-type);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);padding:4px 6px;text-decoration:none}
-  /* category filters */
-  .filters{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:6;display:flex;flex-wrap:wrap;gap:4px;max-width:calc(100vw - var(--margin-l) - var(--margin-r))}
-  .filters button{font:700 10px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);background:var(--paper);padding:6px 8px;cursor:pointer}
-  .filters button[aria-pressed=false]{color:rgba(11,11,11,.35);border-color:rgba(11,11,11,.35);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -54,10 +53,9 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="Work"></div>
-    <p class="page-note">How I got here. Fifteen years of cutting, conforming, grading, restoring and checking other people's images until they held, then turning toward design. Each year here is as wide as a gap between the birth years of the people I love, so time is drawn to their scale, not the calendar's. Scroll sideways (shift-scroll to go down); switch categories below.</p>
+    <p class="page-note">How I got here. Fifteen years of cutting, conforming, grading, restoring and checking other people's images until they held, then turning toward design. Each year here is as wide as a gap between the birth years of the people I love, so time is drawn to their scale, not the calendar's. Scroll sideways. Hover a bar for more.</p>
   </header>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
-  <div class="filters" id="filters" role="group" aria-label="Categories"></div>
 </main>
 <script src="js/stretch.js"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', Stretch.weights('gaps'), { steady: true, every: 1500 });</script>
@@ -92,36 +90,34 @@ const UNIT = 26, MIN = 120;
 const widths = years.map((_, i) => MIN + gaps[i % gaps.length] * UNIT);
 const starts = widths.reduce((acc, w, i) => (acc.push(i ? acc[i - 1] + widths[i - 1] : 0), acc), []);
 const X = y => { const i = Math.min(years.length - 1, Math.max(0, Math.floor(y) - FROM)); return starts[i] + (y - Math.floor(y)) * widths[i]; };
-const total = starts[starts.length - 1] + widths[widths.length - 1], LEFT = 240, TOOLBOX_W = 480, ROW_H = 132;
-const track = document.getElementById('track'); track.style.width = (LEFT + total + TOOLBOX_W) + 'px';
-let h = `<div class="years">` + years.map((y, i) => `<span style="left:${LEFT + starts[i]}px;width:${widths[i]}px">${y}</span>`).join('') + `</div>`;
-years.forEach((y, i) => h += `<div class="col" style="left:${LEFT + starts[i]}px"></div>`);
-CATS.forEach(([k, name]) => {
-  const items = R.filter(r => r.c === k).sort((a, b) => a.a - b.a), lanes = []; let inner = '';
-  items.forEach(r => {
-    const x0 = X(r.a), x1 = r.point ? x0 + 14 : X(r.b), reserve = Math.max(x1, x0 + 300);
-    let li = lanes.findIndex(e => e <= x0); if (li < 0) { li = lanes.length; lanes.push(0); } lanes[li] = reserve + 16;
-    const when = r.point ? `${r.a}` : `${Math.floor(r.a)}${Math.floor(r.b) > Math.floor(r.a) || r.open ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}`;
-    inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${46 + li * ROW_H}px">
-      <div class="bar ${r.open ? 'open' : ''}"></div>
-      <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div><p>${r.d}</p>
-      ${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></article>`;
+const total = starts[starts.length - 1] + widths[widths.length - 1], LEFT = 240, TOOLBOX_W = 520, YEARS_H = 34;
+const track = document.getElementById('track'), wrapEl = document.getElementById('wrap');
+function build() {
+  const avail = wrapEl.clientHeight - YEARS_H, rowH = Math.max(70, Math.floor(avail / CATS.length));
+  track.style.width = (LEFT + total + TOOLBOX_W) + 'px';
+  let h = `<div class="years">` + years.map((y, i) => `<span style="left:${LEFT + starts[i]}px;width:${widths[i]}px">${y}</span>`).join('') + `</div>`;
+  years.forEach((y, i) => h += `<div class="col" style="left:${LEFT + starts[i]}px"></div>`);
+  CATS.forEach(([k, name]) => {
+    const items = R.filter(r => r.c === k).sort((a, b) => a.a - b.a), lanes = []; let inner = '';
+    items.forEach(r => { const x0 = X(r.a); let li = lanes.findIndex(e => e <= x0); if (li < 0) { li = lanes.length; lanes.push(0); }
+      lanes[li] = Math.max(r.point ? x0 + 14 : X(r.b), x0 + 280) + 12; r._lane = li; });
+    const laneH = rowH / Math.max(1, lanes.length);
+    items.forEach(r => {
+      const x0 = X(r.a), x1 = r.point ? x0 + 10 : X(r.b);
+      const when = r.point ? `${r.a}` : `${Math.floor(r.a)}${Math.floor(r.b) > Math.floor(r.a) || r.open ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}`;
+      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px">
+        <div class="bar ${r.open ? 'open' : ''}"></div>
+        <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div>
+          <div class="more"><p>${r.d}</p>${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></div></article>`;
+    });
+    h += `<section class="cat" data-cat="${k}" style="height:${rowH}px"><h2>${name}<sup>${items.length}</sup></h2>${inner}</section>`;
   });
-  h += `<section class="cat" data-cat="${k}" style="height:${46 + Math.max(1, lanes.length) * ROW_H + 20}px"><h2>${name}<sup>${items.length}</sup></h2>${inner}</section>`;
-});
-h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
-     TOOLS.map(([g, ts]) => `<h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div>`).join('') + `</aside>`;
-track.innerHTML = h;
-const fl = document.getElementById('filters');
-CATS.forEach(([k, name]) => {
-  const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', 'true');
-  b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); track.querySelector(`[data-cat="${k}"]`).hidden = !on; };
-  fl.appendChild(b);
-});
+  h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
+       TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
+  track.innerHTML = h;
+}
+build(); new ResizeObserver(build).observe(wrapEl);
 const wrap = document.getElementById('wrap');
-wrap.addEventListener('wheel', e => {
-  if (e.shiftKey) { wrap.scrollTop += e.deltaY || e.deltaX; e.preventDefault(); return; }
-  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); }
-}, { passive: false });
+wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
 </body></html>
