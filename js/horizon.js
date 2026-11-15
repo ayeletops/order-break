@@ -1,6 +1,6 @@
 /* EVENT HORIZON — a bubble timeline, on red.
-   Time runs left to right (compressed before 2007). Five large circles: the cataclysmic events, placed by year,
-   never overlapping; they breathe in place. Their year appears, large, only on hover.
+   Time runs left to right but bends: each event gets its own column, as wide as its circle; the years keep their order,
+   not their spacing. Columns never overlap; the circles breathe in place. Their year appears, large, only on hover.
    The people I love are lines: each fades in around when they were born (blurred on purpose) and runs on.
    One line ends. Where a line crosses a circle, black turns white (odd layers black, even white). The grid is invisible.
    Data: js/horizon-data.js (generated; no dates).
@@ -13,28 +13,27 @@
   const A = document.createElement('canvas'), B = document.createElement('canvas');
   const a = A.getContext('2d'), b = B.getContext('2d');
   let W = 0, H = 0, dpr = 1, hover = -1, C = [], LY = [];
-  const LW = () => Math.max(6, Math.round(H / 90));   // line weight
-  // time → x: 1936–2007 squeezed into the first 12%, 2007–2027 opened across the rest
-  const X = y => W * (y < 2007 ? .01 + (y - 1936) / (2007 - 1936) * .11 : .12 + (y - 2007) / (2027 - 2007) * .86);
+  const LW = () => H / (2 * Math.max(1, LINES.length));            // line weight = gap
+  // time → x: piecewise, through the event centres (set in layout)
+  let KN = [[1936, 0], [2027, 1]];
+  const X = y => { for (let i = 1; i < KN.length; i++) if (y <= KN[i][0]) { const [y0, x0] = KN[i - 1], [y1, x1] = KN[i]; return x0 + (y - y0) / (y1 - y0) * (x1 - x0); } return KN[KN.length - 1][1]; };
 
   function layout() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     const r = cv.getBoundingClientRect(); if (r.width === W && r.height === H) return;
     W = r.width; H = r.height; [cv, A, B].forEach(c => { c.width = W * dpr; c.height = H * dpr; });
     // events: x by year, alternating rows; grow radii as large as possible without any overlap
-    const want = [.2, .26, .17, .23, .3], ROWS = [.22, .5, .78];
-    // try every row arrangement; keep the one that lets the circles be largest without touching
-    const fit = cs => { let k = Math.min(W, H) * 3;
-      const ok = s => cs.every((c, i) => cs.every((d, j) => j <= i || Math.hypot(c.x - d.x, c.y - d.y) >= (c.w + d.w) * s * 1.04 + 6));
-      while (k > 10 && !ok(k)) k *= .98; return k; };
-    let best = null, bk = 0;
-    for (let n = 0; n < 243; n++) {
-      const cs = EVENTS.map((y, i) => ({ ev: y, x: X(y), y: ROWS[Math.floor(n / 3 ** i) % 3] * H, w: want[i] }));
-      const k = fit(cs); if (k > bk) { bk = k; best = cs; }
-    }
-    C = best; const k = bk;
-    C.forEach(c => c.r = c.w * k);
-    LY = LINES.map((_, i) => H * (.1 + .8 * (i + .5) / LINES.length));
+    // circles: one column per event, side by side, each column as wide as its circle (order of years kept, spacing not).
+    // Columns never overlap; circles may overlap the bands vertically.
+    const want = [.2, .26, .17, .23, .3], ys = [.46, .54, .42, .58, .5], x0 = .09 * W, span = W - x0 - 4, gap = 10;
+    const sum = want.reduce((p, q) => p + q, 0);
+    let d = want.map(w => Math.min(H * .96, (span - gap * (want.length - 1)) * w / sum));
+    const used = d.reduce((p, q) => p + q, 0) + gap * (want.length - 1), pad = (span - used) / want.length;
+    let cx = x0;
+    C = EVENTS.map((y, i) => { const c = { ev: y, x: cx + pad / 2 + d[i] / 2, y: ys[i] * H, r: d[i] / 2 }; cx += d[i] + gap + pad; return c; });
+    // time axis: before 2008 squeezed into the first 9%; after that it bends through the event centres
+    KN = [[1936, .005 * W], [2008, x0]].concat(C.map(c => [c.ev, c.x])).concat([[2027, W]]);
+    LY = LINES.map((_, i) => H * (i + .5) / LINES.length);           // crosswalk: bands as thick as the gaps
   }
   const breathe = (c, t) => 1 + Math.sin(t / 2400 + c.ev) * .035;
 
