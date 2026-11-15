@@ -1,0 +1,6 @@
+secrets/
+.env
+.DS_Store
+
+# course material (lecturer's, not published)
+*.pdf

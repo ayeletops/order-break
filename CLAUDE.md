@@ -1,0 +1,73 @@
+# Order / Break — personal ID web page
+
+M.Des, HIT (Design for Technology-Rich Environments). Homework 1: "ID card — order and break".
+Owner: Ayelet Sella. Page language: **English**.
+
+## The brief (summary)
+
+A personal web page that works as an ID card: who I am, what I do, how I think as a designer.
+It must contain:
+
+- **Order** — a real modernist layer (Swiss style, Müller-Brockmann): grid, systematic type, clear hierarchy. Every measure, font and ratio is chosen, never a default.
+- **Break** — disorder, expression, handwork, personal material, disruption (Weingart, punk, Carson, primitive design). It must carry something personal the model could not have known, not just look messy.
+- **The typology (טופסולוגיה)** — the AI default: rounded cards, gradients, centered hero, generic font, marketing copy. "Order without decision or ideology." The page must confront it visibly: distinguish it from real modernism, and disrupt / invert / expose / refuse it.
+- **The encounter** — how order and break live together is the central creative decision. Their relationship must produce meaning, not sit side by side.
+
+Deliverables: the page; short process documentation in this repo (including what the AI proposed and how I responded; hand sketches and raw material encouraged); a 300–500 word text on the site explaining my stance.
+
+Assessed on: quality/consistency of order · how personal and unreproducible the break is · telling conscious modernism from the typology · depth of dialogue between the two · whether the break holds as a stance, not a style.
+
+Deadline: brief says 10.11.27 — **to confirm**.
+
+## Position
+
+This is an ID, **not a portfolio or CV**. "What I do" should come through as ways of working, habits, obsessions, ways of seeing — not a list of projects or credits.
+
+## Decisions so far
+
+- Plain HTML / CSS / JS, no framework. Static, hosted on GitHub Pages. Everything runs client-side.
+- **Order = a secret personal grid.** Grid proportions derive from birthdays of people I love (a personal Modulor). **Raw dates are never committed** — only derived ratios. The date→ratio mapping is a designed decision to document.
+- **Owner-only content** is encrypted, not hidden: key derived from the secret numbers (WebCrypto, PBKDF2 + AES-GCM). Client-side "hiding" is not secrecy.
+- **Under consideration (not decided):**
+  - Entry ritual of private/emotional questions; answers hashed (SHA-256 + random salt) to seed a shuffle that maps questions to design parameter slots differently each visit.
+  - Camera at entry. If used: treat it as a light/colour sensor, not face recognition; process on-device only; show the viewer what is and isn't stored; always offer a skip.
+  - Skipping the ritual lands the viewer on the generic AI-default page — refusing gets you the typology.
+- Assessors can't see owner mode → record a screen capture of the unlock for the docs.
+- Watch scope: the brief rewards the order/break dialogue, not machinery.
+
+## Working method (follow this every session)
+
+1. Work **step by step**. One decision at a time. Ask Ayelet for content, data and decisions — don't fill personal content in yourself.
+2. After each step, append to `docs/process/log.md`: date, what Claude proposed, what Ayelet decided or changed, and why.
+3. Commit small and often with clear messages. **Ask before pushing.**
+4. At the end of each phase: tag `phase-NN`, save a screenshot to `docs/iterations/phase-NN.png`. These feed the final hover-to-see-iterations feature.
+5. Wacom hand annotations go in `docs/process/annotations/phase-NN/` (PNG/SVG). Reference them in the log.
+6. Never commit secrets (dates, keys, passphrases). Keep them in `secrets/` (git-ignored).
+
+## Phases
+
+0. Setup — repo, structure, log, conventions
+1. Position — what "me" means without a CV; inventory of raw material
+2. Order — birthday grid, type system, hierarchy
+3. Break — handwork, personal material
+4. Typology — generate the AI default on purpose, document it, decide how to act against it
+5. Encounter — how they interact; entry ritual / camera logic (if kept)
+6. Text — 300–500 words
+7. Hover iterations + final documentation
+
+**Current status:** Phase 0 not started. Language decided (English). Start by confirming the repo and setting up the structure below.
+
+## Structure
+
+```
+index.html
+css/
+js/
+assets/
+docs/
+  process/
+    log.md
+    annotations/
+  iterations/
+secrets/        (git-ignored)
+```
