@@ -61,7 +61,10 @@ window.Stretch = (() => {
     // live re-stretch while widths change (hover transitions, resize, slider)
     const ro = new ResizeObserver(drawAll); slots.forEach(s => ro.observe(s.el));
     const head = container.closest('.page-head');   // content below a page header follows its real (wrapped) height
-    if (head) new ResizeObserver(() => document.documentElement.style.setProperty('--title-h', head.offsetHeight + 'px')).observe(head);
+    if (head) {
+      const set = () => document.documentElement.style.setProperty('--content-top', Math.ceil(head.getBoundingClientRect().bottom) + 'px');
+      new ResizeObserver(set).observe(head); addEventListener('resize', set); ready.then(set); set();
+    }
     ready.then(drawAll);
 
     // mutation: one slot flickers through faces/symbols, then resolves — always returning to a letter (a loop, not a drift)

@@ -11,7 +11,7 @@
   .nav{grid-template-columns:repeat(4,1fr)}
   html,body{height:100%;overflow:hidden}
   .page-head{position:relative;z-index:6;background:var(--paper)}
-  #field{position:fixed;inset:calc(var(--nav-h) + var(--title-h, 160px)) 0 0 0;cursor:grab;touch-action:none;overflow:hidden;user-select:none}
+  #field{position:fixed;inset:var(--content-top, 240px) 0 0 0;cursor:grab;touch-action:none;overflow:hidden;user-select:none}
   #field.drag{cursor:grabbing}
   .rings{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:1}
   .rings span{position:absolute;height:calc(var(--r) * 0.94);aspect-ratio:1;border:1px solid var(--grid);border-radius:50%}
@@ -19,20 +19,41 @@
            background:linear-gradient(var(--grid),var(--grid)) center/1px 100% no-repeat,linear-gradient(var(--grid),var(--grid)) center/100% 1px no-repeat}
   .layer{position:absolute;left:50%;top:50%;width:0;height:0;z-index:2;will-change:transform}
   .w{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;cursor:pointer;line-height:1;transition:opacity .3s,font-size .45s cubic-bezier(.6,0,.2,1)}
-  .w.region{font-size:22px;text-transform:uppercase;letter-spacing:.06em}
-  .w.proj{font-size:26px}
-  .w.life{font-size:20px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
-  .w.focus{font-size:64px;background:var(--paper)}
-  .w.region.focus{font-size:52px}
-  .w:hover{outline:1px solid var(--grid);outline-offset:6px}
-  /* sample panel: one panel on hover/focus; click opens the whole PDF */
-  .panel{position:absolute;z-index:4;width:min(30vw,380px);background:var(--paper);border:1px solid var(--ink);opacity:0;pointer-events:none;transition:opacity .2s;
-         right:var(--margin-r);bottom:var(--gutter)}
-  .panel.on{opacity:1;pointer-events:auto}
-  .panel img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;filter:grayscale(1) contrast(1.1)}
-  .panel .meta{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;border-top:1px solid var(--ink);font:700 11px/1.3 var(--f-type);letter-spacing:.08em;text-transform:uppercase}
-  .panel a{text-decoration:none;display:block}
-  .panel a:hover{outline:1px solid var(--grid);outline-offset:3px}
+  .w{font-size:24px;text-transform:uppercase;letter-spacing:.06em}
+  .w.focus{font-size:52px}
+  /* project dots: red, in their regions; life = hollow */
+  .dot{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--grid);border:0;padding:0;cursor:pointer;transition:transform .25s cubic-bezier(.3,0,.2,1)}
+  .dot.life{background:var(--paper);box-shadow:inset 0 0 0 2px var(--grid)}
+  .dot:hover{transform:scale(1.5)}
+  .dot .lbl{position:absolute;left:22px;top:50%;transform:translateY(-50%);white-space:nowrap;font:700 10px/1 var(--f-type);letter-spacing:.08em;text-transform:uppercase;
+            color:var(--ink);opacity:0;transition:opacity .2s;pointer-events:none;background:var(--paper);padding:2px 4px}
+  .dot:hover .lbl{opacity:1}
+  /* thumbnail card: eases in from the dot */
+  .card{position:absolute;z-index:8;background:var(--paper);border:1px solid var(--ink);cursor:pointer;opacity:0;transform:scale(.4);pointer-events:none;
+        transition:opacity .35s cubic-bezier(.2,.7,.2,1),transform .45s cubic-bezier(.2,.8,.2,1)}
+  .card.on{opacity:1;transform:scale(1);pointer-events:auto}
+  .card:hover{outline:1px solid var(--grid);outline-offset:4px}
+  .card .media{aspect-ratio:4/3;overflow:hidden;border-bottom:1px solid var(--ink);background:var(--paper)}
+  .card .media img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1);transform:scale(1.06);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .card.on .media img{transform:scale(1)}
+  .card .media .type{--fs:999;height:100%;padding:10px;display:flex;flex-wrap:nowrap;gap:6px}
+  .card .media .type .st-slot{height:100%;flex-basis:0}
+  .card .cap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 12px 2px}
+  .card h3{margin:0;font:900 22px/1.05 var(--f-display)}
+  .card .yr{font:700 13px/1 var(--f-type);letter-spacing:.06em}
+  .card .sub{padding:4px 12px 12px;font:400 11px/1.4 var(--f-type);letter-spacing:.04em;text-transform:uppercase}
+  /* gallery */
+  .gallery{position:fixed;inset:0;z-index:90;background:var(--paper);display:grid;grid-template-rows:auto 1fr auto;opacity:0;transition:opacity .35s}
+  .gallery.on{opacity:1}
+  .gallery header{display:flex;justify-content:space-between;align-items:center;gap:var(--gutter);padding:12px var(--margin-r) 12px var(--margin-l);border-bottom:1px solid var(--ink)}
+  .gallery h2{margin:0;font:900 var(--s2)/1 var(--f-display)}
+  .gallery .stage{display:grid;place-items:center;overflow:hidden;padding:var(--gutter);
+                  background-image:linear-gradient(var(--grid),var(--grid)),linear-gradient(var(--grid),var(--grid));background-size:1px 100%,100% 1px;background-position:center;background-repeat:no-repeat}
+  .gallery img{max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(1);border:1px solid var(--ink);background:#fff;cursor:e-resize;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+  .gallery img.in{opacity:1;transform:none}
+  .gallery footer{display:flex;justify-content:space-between;align-items:center;padding:10px var(--margin-r) 10px var(--margin-l);border-top:1px solid var(--ink);font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
+  .gallery button,.gallery a{font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;border:1px solid var(--ink);padding:6px 10px;cursor:pointer;color:var(--ink);text-decoration:none}
+  .gallery button:hover,.gallery a:hover{outline:1px solid var(--grid);outline-offset:2px}
   .hud{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:5;margin:0;font:400 12px/18px var(--f-type);background:var(--paper);padding:2px 6px}
   .hud b{font-weight:700;text-transform:uppercase;letter-spacing:.1em}
   @media (max-width:720px){.panel{width:calc(100vw - var(--margin-l) - var(--margin-r));bottom:52px}.w.proj{font-size:18px}.w.focus{font-size:36px}}
@@ -48,16 +69,21 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="ROI" style="--fs:90"></div>
-    <p class="page-note">Regions of interest. School projects and pieces of life, scattered between biology, governance, communication and freedom. Drag through the field: whatever lands in the middle becomes the centre, and the circles of the people I love re-form around it. <span class="todo">[draft line]</span></p>
+    <p class="page-note">Regions of interest. Red dots are things I made; hollow dots are pieces of life. They sit between biology, governance, communication and freedom, where they belong. Drag through the field; whatever lands in the middle becomes the centre, and the circles of the people I love form around it.</p>
   </header>
   <div id="field" aria-label="Field: drag to travel, click a word to centre it">
     <div class="rings"><i></i><span class="ring-1"></span><span class="ring-2"></span><span class="ring-3"></span><span class="ring-4"></span>
       <span class="ring-5"></span><span class="ring-6"></span><span class="ring-7"></span><span class="ring-8"></span></div>
     <div class="layer" id="layer"></div>
-    <div class="panel" id="panel"><a id="panel-link" target="_blank" rel="noopener"><img id="panel-img" alt=""><div class="meta"><span id="panel-title"></span><span id="panel-act">open pdf ↗</span></div></a></div>
+    <div class="card" id="card"></div>
   </div>
   <p class="hud"><b>Centre:</b> <span id="centre"></span></p>
 </main>
+<div class="gallery" id="gallery" hidden role="dialog" aria-label="Project gallery">
+  <header><h2 id="g-title"></h2><div><a id="g-pdf" target="_blank" rel="noopener">PDF ↗</a> <button id="g-close" aria-label="Close">Close ×</button></div></header>
+  <div class="stage"><img id="g-img" alt=""></div>
+  <footer><button id="g-prev">← prev</button><span id="g-n"></span><button id="g-next">next →</button></footer>
+</div>
 <script src="js/stretch.js"></script>
 <script>Stretch.make(document.getElementById('title'), 'ROI', Stretch.weights('ages'), { every: 1500 });</script>
 <script src="js/roi.js"></script>

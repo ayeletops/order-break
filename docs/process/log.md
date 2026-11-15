@@ -190,3 +190,31 @@ The typology confrontation, the stance text and the process documentation are fo
 
 **My decisions:** the last page is called **Event Horizon** (AI noticed that *EVENTHORIZON* has 12 letters, matching the page's 12-month grid). The images go in from group B (cat, creature) and group C (me, walking), not material/hand or family.
 **AI:** renamed the page (`horizon.html`). Added 7 personal regions to ROI as underlined "life" words. Each shows one black-and-white photo and opens the full photo on click. The photos were converted to greyscale and stripped of all metadata, including GPS. AI flagged that the creature photo looks like a screenshot of a post, possibly someone else's photo; it cropped the caption off, and I need to confirm the photo is mine.
+
+---
+
+## Content and pages round (2026-11-15)
+
+**My requests:**
+- Draft the text for each page from what we discussed; I'll edit.
+- A ~300-word stance: derived a bit from the brief, a bit philosophical, a bit *A Scanner Darkly*. Who am I? How can I use the machine without being devoured by it?
+- The CV comes from my May 2026 CV file.
+- ROI: projects as coloured dots in their region. A thumbnail opens with a smooth ease-in; clicking opens a gallery. Thumbnails well designed and cropped, with title and year beneath.
+- Event Horizon should look like space: constellations, black holes with years only, and a line saying these are cataclysmic events. What they are is left unsaid.
+
+**What AI did:**
+- **Page lines:** drafted for Home, ROI, Work and Event Horizon.
+- **Stance (~330 words):**
+  - Opens with "Who am I, if the machine can describe me?"
+  - Moves through the AI-default page (made, then blacked out), fifteen years of checking that images hold, and the scramble suit from *A Scanner Darkly* as the risk of dissolving into the machine's average.
+  - Ends with the grid as a structure strict enough to push against: "What breaks through is me."
+  - Marked as Claude's draft for me to edit.
+- **Work:** rebuilt from the CV. Each role is a heavy black bar across its years, in stacked lanes on the red year-gap columns, with tool chips linking out. Phone and email are left out on purpose. The years of my B.Des and Jumpcut are marked "to confirm".
+- **ROI:**
+  - Projects are **red dots**; pieces of life are hollow red dots, placed in their regions.
+  - Hovering or clicking a dot eases in a thumbnail card scaled from the dot (title in Bodoni 900, year in Courier). The card opens a full-screen gallery with arrows, keys and a PDF link.
+  - AI rendered every page of each project and picked the strongest crop per project: 4:3, greyscale. The two text-only projects get typographic thumbnails in the stretch type instead of bad crops.
+  - Vaccine Futures' gallery uses the 32 panels instead of the long strip.
+  - AI re-cropped the Peres thumbnail to avoid children's faces.
+- **Event Horizon:** redesigned as space: a slow starfield with lensing, thin red year lines, a constellation of eight stars (the people I love, positioned from shuffled grid values), and five black holes with only a year beside each. The encryption UI and code are removed. Details are deliberately not documented here.
+- **Fix:** content below each page header now starts exactly where the header ends (it is measured, not estimated).

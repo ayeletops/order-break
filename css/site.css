@@ -24,6 +24,7 @@
 html,body{margin:0;background:var(--paper);color:var(--ink)}
 body{font:400 var(--s0)/var(--baseline) var(--f-type);-webkit-font-smoothing:antialiased}
 a{color:inherit}
+[hidden]{display:none!important}
 ::selection{background:var(--ink);color:var(--paper)}
 
 /* ── NAV: one menu, top, set on the page's own grid ─────────────────────── */
