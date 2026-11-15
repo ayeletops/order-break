@@ -343,3 +343,8 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Work:** the column of each event year is torn by a jagged red line, and every bar and label that crosses it is cut.
 - **Every page:** at irregular intervals the page tears for a few frames (horizontal displacement and a jolt), like a dropped frame or a broken timecode, sometimes in clusters. On ROI the tear doesn't move the field; Event Horizon tears most often.
 - **Cover:** hover now freezes everything exactly as it is, with only the hovered block going negative. Mutation is about 3× faster (every 0.26s, flicker 45ms).
+**Then:** the torn Work grid doesn't work. Drop the glitch; use only the underlying circles, as a blow-up distortion like a magnifying glass. **AI:** removed the tears, the glitch bursts and the Home slips. `js/rupture.js` now places the five event circles invisibly under the pages as **lenses**: an SVG displacement filter whose map is drawn from the circles, so whatever sits inside one appears enlarged (strongest at the centre, nothing at the rim) and the red grid lines bulge around it.
+- **Home:** five lenses placed across the cover by year.
+- **Work:** a lens on each event year's column.
+- **ROI:** the lenses are fixed over the field and the map slides beneath them.
+- **Event Horizon:** none (the circles are visible there). Not documented: what the circles stand for.

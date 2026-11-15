@@ -1,54 +1,57 @@
-/* RUPTURE — the break that the grid can't absorb.
-   The five event years (the black holes of Event Horizon) buckle the grid on every page, without saying why:
-   - Home: the blocks that fall on those years slip out of line, a bad cut left alone.
-   - Work: the columns of those years tear; bars passing through them are cut.
-   - ROI and Event Horizon: the field tears in bursts.
-   And everywhere, at irregular intervals, the page itself tears: a short horizontal glitch,
-   like a dropped frame or a broken timecode. Black, white and the system's red only.
+/* RUPTURE — five invisible lenses.
+   The five cataclysmic events (the black balls of Event Horizon) lie under the other pages as circles you never see.
+   Wherever one sits, the grid and everything on it blows up, as if under a magnifying glass.
+   The order is intact everywhere else; only there does it swell.
+   Technique: an SVG displacement filter whose map is drawn from the circles (each pixel inside a circle samples
+   from closer to the centre, so the content appears enlarged).
 */
 window.Rupture = (() => {
   const YEARS = [2010, 2014, 2016, 2019, 2023];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // an SVG tear filter: horizontal displacement driven by stretched noise
   const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.style.position = 'absolute';
-  svg.innerHTML = `<filter id="tear" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-      <feTurbulence id="tear-noise" type="fractalNoise" baseFrequency="0.0004 0.09" numOctaves="1" seed="3" result="n"/>
-      <feDisplacementMap id="tear-map" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="A"/>
-    </filter>`;
-  document.body.appendChild(svg);
-  const map = svg.querySelector('#tear-map'), noise = svg.querySelector('#tear-noise');
+  const host = document.createElementNS(NS, 'svg');
+  host.setAttribute('width', '0'); host.setAttribute('height', '0'); host.style.position = 'absolute';
+  document.body.appendChild(host);
+  let n = 0;
 
-  // one glitch burst on an element: a few frames of tearing, a jolt, then clean
-  function burst(el, strength = 1) {
-    if (reduce || !el) return;
-    const frames = 5 + Math.floor(Math.random() * 5);
-    let f = 0;
-    el.classList.add('tearing');
-    const step = () => {
-      const still = el.dataset.still !== undefined;   // elements that move themselves keep their own transform
-      if (f++ >= frames) { el.style.filter = ''; if (!still) el.style.transform = ''; el.classList.remove('tearing'); return; }
-      noise.setAttribute('seed', Math.floor(Math.random() * 999));
-      noise.setAttribute('baseFrequency', `0.0004 ${(0.03 + Math.random() * 0.12).toFixed(3)}`);
-      map.setAttribute('scale', String(Math.round((20 + Math.random() * 90) * strength)));
-      el.style.filter = 'url(#tear)';
-      if (!still) el.style.transform = Math.random() < .4 ? `translate(${Math.round((Math.random() - .5) * 18 * strength)}px, ${Math.round((Math.random() - .5) * 4)}px)` : '';
-      setTimeout(step, 40 + Math.random() * 50);
-    };
-    step();
+  // lens(el, circlesFn, power): circlesFn(w, h) → [{x, y, r}] in the element's own pixels
+  function lens(el, circlesFn, power = .5) {
+    if (!el) return;
+    const id = 'lens' + (n++);
+    const f = document.createElementNS(NS, 'filter');
+    f.setAttribute('id', id); f.setAttribute('filterUnits', 'userSpaceOnUse'); f.setAttribute('primitiveUnits', 'userSpaceOnUse');
+    f.setAttribute('color-interpolation-filters', 'sRGB');
+    f.innerHTML = `<feImage result="map" preserveAspectRatio="none"/><feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G"/>`;
+    host.appendChild(f);
+    const img = f.querySelector('feImage'), disp = f.querySelector('feDisplacementMap');
+    function build() {
+      const w = el.scrollWidth || el.offsetWidth, h = el.scrollHeight || el.offsetHeight; if (!w || !h) return;
+      const C = circlesFn(w, h), q = Math.max(1, Math.ceil(Math.max(w, h) / 2400));   // map resolution (finer = smoother lens)
+      const cw = Math.ceil(w / q), ch = Math.ceil(h / q), cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+      const x = cv.getContext('2d'), id_ = x.createImageData(cw, ch), d = id_.data;
+      const maxOff = Math.max(1, ...C.map(c => c.r * power)) / q, scale = maxOff * 2.2;
+      for (let i = 0; i < d.length; i += 4) { d[i] = 128; d[i + 1] = 128; d[i + 2] = 128; d[i + 3] = 255; }
+      C.forEach(c => {
+        const cx = c.x / q, cy = c.y / q, r = c.r / q;
+        for (let py = Math.max(0, Math.floor(cy - r)); py < Math.min(ch, Math.ceil(cy + r)); py++)
+          for (let px = Math.max(0, Math.floor(cx - r)); px < Math.min(cw, Math.ceil(cx + r)); px++) {
+            const dx = px - cx, dy = py - cy, dd = Math.hypot(dx, dy); if (dd >= r) continue;
+            const t = 1 - (dd / r) ** 2, k = power * t * t;      // strongest at the centre, zero at the rim
+            const o = (py * cw + px) * 4;
+            d[o] = Math.max(0, Math.min(255, 128 + (-dx * k) / scale * 255));
+            d[o + 1] = Math.max(0, Math.min(255, 128 + (-dy * k) / scale * 255));
+          }
+      });
+      x.putImageData(id_, 0, 0);
+      const url = cv.toDataURL();
+      img.setAttribute('href', url); img.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', url);   // Safari needs xlink
+      img.setAttribute('x', 0); img.setAttribute('y', 0); img.setAttribute('width', w); img.setAttribute('height', h);
+      f.setAttribute('x', 0); f.setAttribute('y', 0); f.setAttribute('width', w); f.setAttribute('height', h);
+      disp.setAttribute('scale', String(scale * q));
+      el.style.filter = `url(#${id})`;
+    }
+    build();
+    let t; new ResizeObserver(() => { clearTimeout(t); t = setTimeout(build, 120); }).observe(el);
+    return { build };
   }
-  // tear at irregular intervals; a dense cluster now and then
-  function schedule(el, base = 7000) {
-    if (reduce || !el) return;
-    const next = () => setTimeout(() => {
-      burst(el, .6 + Math.random() * .8);
-      if (Math.random() < .3) setTimeout(() => burst(el, 1.2), 160 + Math.random() * 200);
-      next();
-    }, base * (.35 + Math.random()));
-    setTimeout(() => burst(el, 1), 900);   // one tear soon after arriving
-    next();
-  }
-  return { YEARS, burst, schedule };
+  return { YEARS, lens };
 })();
