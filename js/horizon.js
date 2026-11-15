@@ -13,20 +13,26 @@
   const A = document.createElement('canvas'), B = document.createElement('canvas');
   const a = A.getContext('2d'), b = B.getContext('2d');
   let W = 0, H = 0, dpr = 1, hover = -1, C = [], LY = [];
-  // time → x: 1936–2007 squeezed into the first 30%, 2007–2027 opened across the rest
-  const X = y => W * (y < 2007 ? .03 + (y - 1936) / (2007 - 1936) * .27 : .30 + (y - 2007) / (2027 - 2007) * .67);
+  const LW = () => Math.max(6, Math.round(H / 90));   // line weight
+  // time → x: 1936–2007 squeezed into the first 12%, 2007–2027 opened across the rest
+  const X = y => W * (y < 2007 ? .01 + (y - 1936) / (2007 - 1936) * .11 : .12 + (y - 2007) / (2027 - 2007) * .86);
 
   function layout() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     const r = cv.getBoundingClientRect(); if (r.width === W && r.height === H) return;
     W = r.width; H = r.height; [cv, A, B].forEach(c => { c.width = W * dpr; c.height = H * dpr; });
     // events: x by year, alternating rows; grow radii as large as possible without any overlap
-    const want = [.19, .26, .16, .22, .3], rows = [.36, .66, .34, .64, .4];
-    C = EVENTS.map((y, i) => ({ ev: y, x: X(y), y: rows[i] * H, w: want[i] }));
-    let k = Math.min(W, H);
-    const ok = s => C.every((c, i) => c.w * s <= Math.min(c.y, H - c.y) - 6 &&
-      C.every((d, j) => j <= i || Math.hypot(c.x - d.x, c.y - d.y) >= (c.w + d.w) * s * 1.08 + 8));   // breathing room
-    while (k > 10 && !ok(k)) k *= .97;
+    const want = [.2, .26, .17, .23, .3], ROWS = [.22, .5, .78];
+    // try every row arrangement; keep the one that lets the circles be largest without touching
+    const fit = cs => { let k = Math.min(W, H) * 3;
+      const ok = s => cs.every((c, i) => cs.every((d, j) => j <= i || Math.hypot(c.x - d.x, c.y - d.y) >= (c.w + d.w) * s * 1.04 + 6));
+      while (k > 10 && !ok(k)) k *= .98; return k; };
+    let best = null, bk = 0;
+    for (let n = 0; n < 243; n++) {
+      const cs = EVENTS.map((y, i) => ({ ev: y, x: X(y), y: ROWS[Math.floor(n / 3 ** i) % 3] * H, w: want[i] }));
+      const k = fit(cs); if (k > bk) { bk = k; best = cs; }
+    }
+    C = best; const k = bk;
     C.forEach(c => c.r = c.w * k);
     LY = LINES.map((_, i) => H * (.1 + .8 * (i + .5) / LINES.length));
   }
@@ -34,7 +40,7 @@
 
   function shapes(k, t) {   // draw every circle and solid line segment into a mask context
     C.forEach((c, i) => { k.beginPath(); k.arc(c.x, c.y, c.r * breathe(c, t) * (hover === i ? 1.03 : 1), 0, 6.283); k.fill(); });
-    LINES.forEach((l, i) => { const x0 = X(l.b), x1 = l.end ? X(l.end) : W; k.fillRect(x0, LY[i] - 1.5, x1 - x0, 3); });
+    LINES.forEach((l, i) => { const x0 = X(l.b), x1 = l.end ? X(l.end) : W; k.fillRect(x0, LY[i] - LW() / 2, x1 - x0, LW()); });
   }
   function frame(t) {
     layout(); if (reduce) t = 0;
@@ -47,7 +53,7 @@
     x.setTransform(dpr, 0, 0, dpr, 0, 0);
     // blurred starts: each line fades in over its window
     LINES.forEach((l, i) => { const x0 = X(l.a), x1 = X(l.b), g = x.createLinearGradient(x0, 0, x1, 0);
-      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)'); x.fillStyle = g; x.fillRect(x0, LY[i] - 1.5, x1 - x0, 3); });
+      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)'); x.fillStyle = g; x.fillRect(x0, LY[i] - LW() / 2, x1 - x0, LW()); });
     // the year, only on hover, large and inside its circle
     x.globalCompositeOperation = 'difference'; x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
     if (hover >= 0) { const c = C[hover]; x.font = `900 ${Math.round(c.r * .55)}px "Bodoni Moda", Didot, serif`; x.fillText(String(c.ev), c.x, c.y); }

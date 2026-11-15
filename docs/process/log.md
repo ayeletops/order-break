@@ -289,3 +289,4 @@ The typology confrontation, the stance text and the process documentation are fo
 - The data is generated into `js/horizon-data.js` from `secrets/` (fade windows and an end year only; no dates). Which line ends is recorded only in `secrets/lines.json`.
 
 **Next:** the whole site pushed live for a full browser check.
+**Then I asked for:** much larger circles and much thicker lines. **AI:** opened up the time axis (before 2007 squeezed to 12%). The layout now tries every arrangement of the five circles across three rows and keeps the one where they can be largest without ever touching. Lines are about 1/90 of the page height (at least 6px).
