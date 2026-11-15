@@ -323,3 +323,8 @@ The typology confrontation, the stance text and the process documentation are fo
   - *The default*: the AI typology, rebuilt and redacted line by line, with Redact/Restore. This gives the brief's typology confrontation a home again.
   - *Taken from*: links to the vision board, the references, the Wix motion notes and the repository, plus the Phase 0 iteration image.
   - *Log*: this file, rendered live from `docs/process/log.md`.
+
+**Then:** ROI should be rhizomatic and organic, not griddy, and Process should be a hidden button. **AI:**
+- **ROI is organic again, but tighter:** fields fan out from each region at irregular angles (190–280px), terms sprout around them (78–130px), and a relaxation pass pushes overlapping labels apart, so the field is dense without collisions. Connections are soft curves, like roots; cross-region links stay dashed red. The type hierarchy is kept.
+- **Process** is out of the menu. It's reached through a small hollow dot at the far right of the top bar, with no label, that fills on hover.
+- **Checked before pushing:** all scripts valid, no missing files, nothing private in public files.

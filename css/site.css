@@ -71,3 +71,8 @@ main{padding-top:var(--nav-h)}
 .page-note{margin:10px 0 0;padding:0;max-width:52ch;font:400 13px/20px var(--f-type);background:transparent}
 @media (max-width:720px){.page-title{--fs:44}}
 .st-slot.neg::after{border-color:var(--ink)}
+
+/* ── the hidden way into Process: a small hollow dot at the end of the top bar, no label ── */
+.secret{position:fixed;z-index:60;top:calc(var(--nav-h) / 2);right:var(--margin-r);width:9px;height:9px;margin-top:-4.5px;border-radius:50%;
+        border:1px solid currentColor;opacity:.35;transition:opacity .3s,transform .3s}
+.secret:hover,.secret:focus-visible{opacity:1;transform:scale(1.6);background:currentColor}
