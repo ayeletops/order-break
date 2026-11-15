@@ -1,34 +1,34 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ayeletops — Ayelet Sella</title>
+<title>ayeletops / sella_vie — Ayelet Sella</title>
 <meta name="description" content="Ayelet Sella. An ID, not a portfolio.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
 <style>
-  /* COVER — grid: 8 columns weighted by days of birth; slots wrap responsively */
+  /* HOME — the cover is the first thing you see. 9 letters on 8 day-columns (cycling). */
   .nav{grid-template-columns:var(--cover-cols)}
-  .cover{min-height:calc(100svh - var(--nav-h));padding:var(--gutter) var(--margin-r) calc(var(--baseline)*3) var(--margin-l);align-content:flex-start;--fs:220}
-  .cover .st-slot{height:calc(var(--fs) * 1px + 22px)}
-
-  /* SIZE SLIDER: type size drives slot width, so the grid re-breaks */
-  .size{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:40;display:flex;align-items:center;gap:10px;
-        background:var(--paper);border:2px solid var(--ink);padding:6px 10px;font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
-  .size input{width:min(40vw,260px);accent-color:var(--ink)}
-  .size output{min-width:4ch;text-align:right;font-weight:400}
-
-  /* STANCE — the text, on the same day-columns */
-  .stance{display:grid;grid-template-columns:var(--cover-cols);gap:var(--gutter);padding:calc(var(--baseline)*3) var(--margin-r) calc(var(--baseline)*4) var(--margin-l);
-          border-top:2px solid var(--ink)}
-  .stance h2{grid-column:1 / 3;margin:0;font:400 var(--s3)/1 var(--f-display);font-style:italic}
-  .stance .body{grid-column:3 / 7;font-size:var(--s0);line-height:var(--baseline);max-width:62ch}
+  .cover{padding:var(--gutter) var(--margin-r) var(--gutter) var(--margin-l);align-content:flex-start;--fs:220;cursor:pointer}
+  .controls{position:fixed;left:var(--margin-l);right:var(--margin-r);bottom:var(--gutter);z-index:40;display:flex;flex-wrap:wrap;gap:var(--gutter);align-items:stretch;pointer-events:none}
+  .controls > *{pointer-events:auto;background:var(--paper);border:1px solid var(--ink);display:flex;align-items:center;gap:10px;padding:6px 10px;margin:0;
+                font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
+  .switch button{font:inherit;letter-spacing:inherit;text-transform:none;background:none;border:0;padding:4px 6px;cursor:pointer;color:var(--ink)}
+  .switch button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+  .switch button:hover{outline:1px solid var(--grid);outline-offset:2px}
+  .size input{width:min(32vw,220px);accent-color:var(--ink)}
+  .size output{min-width:3ch;text-align:right;font-weight:400}
+  .controls .note-home{margin-left:auto;max-width:46ch;display:block;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px;line-height:17px}
+  /* STANCE — below the cover, on the same day-columns */
+  .stance{display:grid;grid-template-columns:var(--cover-cols);gap:var(--gutter);padding:calc(var(--baseline)*3) var(--margin-r) calc(var(--baseline)*6) var(--margin-l);
+          background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--baseline) - 1px),rgba(229,51,42,.25) calc(var(--baseline) - 1px) var(--baseline))}
+  .stance h2{grid-column:1 / 3;margin:0;font:900 var(--s3)/1 var(--f-display);font-style:italic}
+  .stance .body{grid-column:3 / 7;max-width:62ch}
   .stance .body p{margin:0 0 var(--baseline)}
   .stance .body .lead{font:400 var(--s2)/calc(var(--baseline)*1.5) var(--f-display)}
-  .stance aside{grid-column:7 / 9;font-size:12px;line-height:18px}
-  @media (max-width:900px){.stance{display:block}.stance h2{margin-bottom:var(--baseline)}}
-
-  /* THE DEFAULT — the AI typology, shown once, then redacted */
+  .stance aside{grid-column:7 / 9;font-size:12px;line-height:var(--baseline)}
+  @media (max-width:900px){.stance{display:block}.controls .note-home{margin-left:0}}
+  /* THE DEFAULT — the AI typology, shown only on request, then redacted */
   #default{position:fixed;inset:0;z-index:80;display:grid;place-items:center;text-align:center;
            background:radial-gradient(1200px 600px at 30% 20%,#c7b8ff 0,transparent 60%),radial-gradient(900px 600px at 80% 80%,#9fe7ff 0,transparent 60%),#f6f4ff;
            font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1b2e;transition:opacity .5s}
@@ -39,47 +39,44 @@
   #default .ln{position:relative;display:inline-block}
   #default .ln::after{content:"";position:absolute;left:-.1em;right:-.1em;top:.05em;bottom:.05em;background:#0b0b0b;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.7,0,.3,1) var(--dl,0s)}
   #default.redacted .ln::after{transform:scaleX(1)}
-  #default .tag{position:absolute;left:var(--margin-l);bottom:var(--baseline);font:700 11px/1 var(--f-type);letter-spacing:.12em;text-transform:uppercase;color:#0b0b0b;opacity:0;transition:opacity .3s}
-  #default.redacted .tag{opacity:1}
   #default.gone{opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
 <nav class="nav" aria-label="Main">
-  <a href="index.html" aria-current="page">Cover</a>
-  <a href="field.html" style="grid-column:span 2">Latent Field</a>
+  <a href="index.html" aria-current="page">Home</a>
+  <a href="roi.html">ROI</a>
   <a href="work.html">Work</a>
   <a href="holes.html" style="grid-column:span 2">Black Holes</a>
-  <span class="handle" title="handle — platform to confirm">@ayeletops</span>
-  <span class="handle" title="handle — platform to confirm">sella_vie</span>
 </nav>
 
 <main>
-  <section class="cover st-row" id="cover" aria-label="ayeletops" role="img"></section>
-  <label class="size">Size <input id="fs" type="range" min="48" max="360" value="180" step="1"> <output id="fsv">180</output></label>
+  <section class="cover st-row" id="cover" aria-label="ayeletops" role="img" title="click to switch"></section>
 
   <section class="stance" id="stance">
     <h2>Stance</h2>
     <div class="body">
       <p class="lead">I design for things that spread invisibly between bodies and spaces, make the invisible system visible, and question who controls it.</p>
-      <p class="todo">[ 300–500 words — to be written by Ayelet. The position above is accepted; the rest is hers to write. ]</p>
+      <p class="todo">[ 300–500 words — to be written by Ayelet. ]</p>
     </div>
     <aside>
-      <p class="label">How this page is built</p>
-      <p>Every column above is as wide as a day someone I love was born on. Eight people, eight widths. The dates are not here. Only what they measure.</p>
-      <p><a href="#" id="replay">Replay the default</a>: the page the machine would have made.</p>
+      <p><a href="#" id="replay">See the default</a>: the page a machine would have made for me, refused.</p>
     </aside>
   </section>
 </main>
 
-<!-- The typology: generated on purpose, then refused -->
-<div id="default" aria-hidden="true">
+<div class="controls">
+  <div class="switch" role="group" aria-label="Name"><button data-w="ayeletops" aria-pressed="true">ayeletops</button><span>⇄</span><button data-w="sella_vie" aria-pressed="false">sella_vie</button></div>
+  <label class="size">Size <input id="fs" type="range" min="60" max="420" value="220"> <output id="fsv">220</output></label>
+  <p class="note-home">Two names, one person. Every red block is as wide as a day someone I love was born on; the letters stretch to fill it. <span class="todo">[draft line]</span></p>
+</div>
+
+<div id="default" class="gone" aria-hidden="true">
   <div class="card">
     <h1><span class="ln">Hi, I'm Ayelet 👋</span></h1>
     <p><span class="ln">Creative designer crafting meaningful</span><br><span class="ln">digital experiences that inspire.</span></p>
     <span class="btn"><span class="ln">View my work →</span></span>
   </div>
-  <span class="tag">the default — redacted</span>
 </div>
 
 <script src="js/stretch.js"></script>

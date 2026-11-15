@@ -12,17 +12,17 @@
   body{background:var(--ink);color:var(--paper)}
   .nav{background:var(--ink);color:var(--paper);border-bottom-color:var(--paper)}
   
-  .page-title{background:var(--ink)}
-  .page-title .st-slot{border-top-color:var(--paper)}
+  .page-head,.page-title,.page-note{background:var(--ink);color:var(--paper)}
+  .page-head{position:relative;z-index:6}
   .sky{position:relative;min-height:calc(100svh - calc(var(--nav-h) + var(--title-h, 124px)));display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);
        padding:var(--gutter) var(--margin-r) var(--gutter) var(--margin-l)}
-  .sky .m{grid-row:1 / 3;border-left:1px dashed rgba(255,255,255,.18);font:700 10px/1 var(--f-type);letter-spacing:.1em;padding:6px 0 0 6px;color:rgba(255,255,255,.4)}
+  .sky .m{grid-row:1 / 3;border-left:1px solid var(--grid);font:700 10px/1 var(--f-type);letter-spacing:.1em;padding:6px 0 0 6px;color:rgba(255,255,255,.4)}
   .hole{grid-row:1;grid-column:var(--col);align-self:center;justify-self:center;position:relative;border:0;padding:0;cursor:pointer;
         width:calc(var(--size) * 1.5vw + 40px);aspect-ratio:1;border-radius:50%;background:#000;
-        box-shadow:0 0 0 1px rgba(255,255,255,.22),0 0 0 calc(var(--size)*2px + 4px) rgba(255,255,255,.04);
+        box-shadow:0 0 0 1px #fff;
         transition:transform .6s cubic-bezier(.6,0,.2,1)}
   .hole:nth-of-type(even){grid-row:2}
-  .hole:hover,.hole:focus-visible{transform:scale(1.08);outline:3px solid var(--signal);outline-offset:6px}
+  .hole:hover,.hole:focus-visible{transform:scale(1.08);outline:1px solid var(--grid);outline-offset:6px}
   .hole span{position:absolute;inset:0;display:grid;place-items:center;font:700 10px/1 var(--f-type);letter-spacing:.12em;color:rgba(255,255,255,.5)}
   .lock{position:fixed;left:50%;bottom:calc(var(--baseline)*2);transform:translateX(-50%);z-index:10;width:min(92vw,520px);background:var(--paper);color:var(--ink);
         border:2px solid var(--paper);padding:16px;display:none}
@@ -38,16 +38,18 @@
 </head>
 <body>
 <nav class="nav" aria-label="Main">
-  <a href="index.html">Cover</a><span></span>
-  <a href="field.html" style="grid-column:span 2">Latent Field</a><span></span>
-  <a href="work.html">Work</a><span></span><span></span>
-  <a href="holes.html" aria-current="page" style="grid-column:span 2">Black Holes</a><span></span>
-  <span class="handle">@ayeletops</span>
+  <a href="index.html" style="grid-column:span 2">Home</a>
+  <a href="roi.html" style="grid-column:span 2">ROI</a>
+  <a href="work.html" style="grid-column:span 2">Work</a>
+  <span></span><span></span>
+  <a href="holes.html" aria-current="page" style="grid-column:span 3">Black Holes</a>
 </nav>
 <main>
-  <header class="page-title st-row" id="title" aria-label="Black Holes" style="--fs:90"></header>
+  <header class="page-head">
+    <div class="page-title st-row" id="title" aria-label="Black Holes" style="--fs:90"></div>
+    <p class="page-note">Five events that bent everything around them, placed on a year of twelve red months. Their meaning is encrypted. If I gave you a key, enter it. <span class="todo" style="outline-color:#fff">[draft line · page unresolved]</span></p>
+  </header>
   <section class="sky" id="sky" aria-label="Five encrypted events"></section>
-  <p class="intro">Five events that bent everything around them. Their meaning is encrypted. If I gave you a key, enter it.<br><span class="todo" style="color:var(--paper)">[draft — page unresolved]</span></p>
   <div class="lock" id="lock" role="dialog" aria-label="Decrypt">
     <p class="label" id="lock-n"></p>
     <form id="lock-f"><input id="lock-k" type="password" autocomplete="off" placeholder="key"><button>Open</button></form>

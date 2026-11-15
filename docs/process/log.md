@@ -164,3 +164,26 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Page titles:** LATENT FIELD (on the ages), WORK (on the year gaps), BLACK HOLES (on the months, white on black). They wrap responsively, and the content below follows the title's real height.
 - **Wix research:** almost no independent analysis exists. The useful material is Wix designers' own stated principles: strict structure buys freedom; handmade against generative; loops; design for silence. These were added to `docs/research/wix-motion.md`, along with new clichés to avoid. The vision board now has Julien as ★ favourite, plus the Enabler Grid and Designers in Motion.
 - **Photos:** pending my choice (see the next step).
+
+---
+
+## Art direction round 2 (2026-11-15)
+
+**My direction:**
+- Cover: each letter fills its entire grid block. No images on the cover: only letters from the different fonts, and symbols from the same font sets.
+- No landing page: the cover is the first thing you see.
+- A mechanism to switch between *ayeletops* and *sella_vie*.
+- Drop the colour palette: content is black and white only. The grids must be visible as thin red lines and circles on every page.
+- Menu: Home (the cover) · ROI · Work · [last page title not decided].
+- A short sentence on each page explains it.
+- ROI (the rhizomatic map, previously "Latent Field"): the same fonts at random, click-drag navigation, and an ease-out when releasing.
+- Propose images.
+
+**What AI did:**
+- **Cover:** letters drawn edge to edge in their blocks (no rules or numbers). Thin red outlines show the day-columns. The AI-default intro is removed from the start; the typology now opens only from "See the default" in the stance section (still exposed and redacted, but no longer a landing page).
+- **Name switch:** *ayeletops ⇄ sella_vie* (both have 9 letters, so they share the same blocks). Click the cover or the switch; each letter flickers through faces and symbols, staggered, and lands on the new name.
+- **Palette:** pink, butter and turquoise removed. Red (#e5332a) is used only for the grid and the hover frame: *red belongs to the system, never to content.*
+- **ROI:** renamed (`roi.html`). Thin red age circles and crosshair. Each word takes a random face from the title family. Drag uses real momentum: on release the field keeps gliding and eases out, then settles on the nearest word.
+- **Work:** red column lines, black content. **Last page:** red 12-month lines, white-outlined voids, still named "Black Holes" as a placeholder.
+- **Explanatory lines** are drafted on each page and marked *[draft line]* for me to rewrite.
+- **Images:** AI looked through my WhatsApp images folder locally. It excluded ID documents, health and payment screens, other people's video-call faces, software screenshots and political images. It made a private proposal sheet in `~/Downloads/ME/_proposals` (not in the repo), grouped as material/hand, cat and creature, me, family (minors' eyes to be barred) and receipts (barred). It flagged that a grave photo is mine to decide on.

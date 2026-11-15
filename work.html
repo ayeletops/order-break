@@ -12,18 +12,19 @@
   .track-wrap{position:fixed;inset:calc(var(--nav-h) + var(--title-h, 124px)) 0 0 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
   .track{position:relative;height:100%;width:calc(var(--years) * 14vw);min-width:300vw}
   .cols{position:absolute;inset:0;display:grid;grid-template-columns:repeat(var(--reps),var(--work-intervals))}
-  .cols div{border-left:2px solid var(--ink)}
+  .cols div{border-left:1px solid var(--grid)}
+  .page-head{position:relative;z-index:6;background:var(--paper)}
   .axis{position:absolute;left:0;right:0;top:56%;border-top:8px solid var(--ink)}
   .yr{position:absolute;top:calc(56% + 8px);font:700 11px/1 var(--f-type);letter-spacing:.1em;transform:translateX(-50%)}
   .yr::before{content:"";position:absolute;left:50%;top:-14px;height:10px;border-left:2px solid var(--ink)}
   .e{position:absolute;bottom:calc(44% + 14px);width:clamp(220px,22vw,340px);transform:translateX(-1px);border-left:4px solid var(--ink);padding:0 0 0 12px;background:var(--paper)}
-  .e:hover{outline:3px solid var(--signal);outline-offset:4px}
+  .e:hover{outline:1px solid var(--grid);outline-offset:4px}
   .e.low{bottom:auto;top:calc(56% + 44px)}
   .e .when{font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
   .e h3{margin:8px 0 6px;font:400 var(--s2)/1 var(--f-display)}
   .e p{margin:0 0 8px;font-size:13px;line-height:18px}
   .e a{text-decoration:none;border-bottom:2px solid var(--ink)}
-  .e a:hover,.tools a:hover{outline:3px solid var(--signal);outline-offset:2px}
+  .e a:hover,.tools a:hover{outline:1px solid var(--grid);outline-offset:2px}
   .tools{display:flex;flex-wrap:wrap;gap:6px}
   .tools a{font:700 10px/1 var(--f-type);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ink);padding:4px 6px}
   .hint{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:3;margin:0;font:400 12px/18px var(--f-type);background:var(--paper);padding:2px 6px}
@@ -33,16 +34,17 @@
 </head>
 <body>
 <nav class="nav" aria-label="Main">
-  <a href="index.html">Cover</a>
-  <a href="field.html">Latent Field</a>
+  <a href="index.html">Home</a>
+  <a href="roi.html">ROI</a>
   <a href="work.html" aria-current="page">Work</a>
   <span></span>
-  <a href="holes.html" style="grid-column:span 2">Black Holes</a>
-  <span class="handle">@ayeletops</span>
+  <a href="holes.html" style="grid-column:span 3">Black Holes</a>
 </nav>
 <main>
-  <header class="page-title st-row" id="title" aria-label="Work" style="--fs:90"></header>
-  <p class="hint">Scroll sideways. Columns are spaced by the years between the people I love.</p>
+  <header class="page-head">
+    <div class="page-title st-row" id="title" aria-label="Work" style="--fs:90"></div>
+    <p class="page-note">How I got here, sideways. Scroll left to right. The red columns are spaced by the years between the people I love: their years measure mine. <span class="todo">[draft line]</span></p>
+  </header>
   <div class="track-wrap" id="wrap">
     <div class="track" id="track" style="--years:20;--reps:3">
       <div class="cols"><!-- filled by script --></div>
