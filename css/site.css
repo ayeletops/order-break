@@ -77,3 +77,8 @@ main{padding-top:var(--nav-h)}
         border:1px solid currentColor;opacity:.35;transition:opacity .3s,transform .3s}
 .secret:hover,.secret:focus-visible{opacity:1;transform:scale(1.6);background:currentColor}
 
+
+/* ── Event Horizon in the menu: only a circle ── */
+.nav .eh{display:block;justify-self:start;width:14px;height:14px;border-radius:50%;background:var(--ink);overflow:visible;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.nav .eh:hover{background:var(--ink);outline:none;transform:scale(1.5)}
+.nav .eh[aria-current]{box-shadow:none;transform:scale(1.25)}
