@@ -7,10 +7,8 @@
 */
 (() => {
   const cover = document.getElementById('cover');
-  const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { lock: true, every: 260, flick: 45 });
+  const T = Stretch.make(cover, 'ayeletops', Stretch.weights('days'), { lock: true, every: 650, flick: 70 });
 
-  // rupture: five invisible lenses, placed across the cover by year, blow the letters up where they sit
-  Rupture.lens(cover, .5);
 
   const names = ['ayeletops', 'sella_vie'];
   let cur = 0;

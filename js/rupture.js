@@ -2,9 +2,7 @@
    The five cataclysmic events are five circles with mass. They start in their columns (Rupture.layout),
    chase the pointer (heavier ones lag), collide with each other and the edges like billiard balls, breathe,
    and drift home when the pointer leaves.
-   - On Event Horizon they are visible: black balls on red.
-   - On every other page they are invisible magnifying lenses: content swells wherever one passes.
-   Technique: one simulation in viewport space; each lens is an SVG displacement filter whose map is redrawn from the bodies.
+   They live on Event Horizon: black balls on red. (The invisible lenses on other pages were removed.)
 */
 window.Rupture = (() => {
   const YEARS = [2010, 2014, 2016, 2019, 2023];
@@ -70,47 +68,7 @@ window.Rupture = (() => {
   // bodies as seen from an element's box, breathing
   const view = (el, t) => { const r = el.getBoundingClientRect(); return S.bodies.map(b => ({ ev: b.ev, x: b.x - r.left, y: b.y - r.top, r: b.r * breathe(b.ev, t) })); };
 
-  // ── invisible lens over an element's visible box
-  const NS = 'http://www.w3.org/2000/svg', host = document.createElementNS(NS, 'svg');
-  host.setAttribute('width', '0'); host.setAttribute('height', '0'); host.style.position = 'absolute'; document.body.appendChild(host);
-  let n = 0;
-  function lens(el, power = .55) {
-    if (!el) return;
-    const id = 'lens' + (n++), f = document.createElementNS(NS, 'filter');
-    f.setAttribute('id', id); f.setAttribute('filterUnits', 'userSpaceOnUse'); f.setAttribute('primitiveUnits', 'userSpaceOnUse');
-    f.setAttribute('color-interpolation-filters', 'sRGB');
-    f.innerHTML = `<feImage result="map" preserveAspectRatio="none"/><feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G"/>`;
-    host.appendChild(f);
-    const img = f.querySelector('feImage'), disp = f.querySelector('feDisplacementMap'), cv = document.createElement('canvas'), x = cv.getContext('2d');
-    let q = 2, W = 0, H = 0, lastDraw = 0;
-    function size() {
-      W = el.clientWidth; H = el.clientHeight; if (!W || !H) return;
-      q = Math.max(2, Math.ceil(Math.max(W, H) / 800)); cv.width = Math.ceil(W / q); cv.height = Math.ceil(H / q);
-      [f, img].forEach(e => { e.setAttribute('x', 0); e.setAttribute('y', 0); e.setAttribute('width', W); e.setAttribute('height', H); });
-      el.style.filter = `url(#${id})`;
-    }
-    size(); new ResizeObserver(size).observe(el);
-    subs.push(t => {
-      if (!W || t - lastDraw < 33) return; lastDraw = t;         // ~30 updates a second
-      const cw = cv.width, ch = cv.height, im = x.createImageData(cw, ch), d = im.data;
-      const C = view(el, t).map(c => ({ x: c.x / q, y: c.y / q, r: c.r / q }));
-      const scale = Math.max(1, ...C.map(c => c.r * power)) * 2.2;
-      for (let i = 0; i < d.length; i += 4) { d[i] = 128; d[i + 1] = 128; d[i + 3] = 255; }
-      C.forEach(c => {
-        for (let py = Math.max(0, Math.floor(c.y - c.r)); py < Math.min(ch, Math.ceil(c.y + c.r)); py++)
-          for (let px = Math.max(0, Math.floor(c.x - c.r)); px < Math.min(cw, Math.ceil(c.x + c.r)); px++) {
-            const dx = px - c.x, dy = py - c.y, dd = Math.hypot(dx, dy); if (dd >= c.r) continue;
-            const s = 1 - (dd / c.r) ** 2, k = power * s * s, o = (py * cw + px) * 4;
-            d[o] = 128 + (-dx * k) / scale * 255; d[o + 1] = 128 + (-dy * k) / scale * 255;
-          }
-      });
-      x.putImageData(im, 0, 0);
-      const url = cv.toDataURL();
-      img.setAttribute('href', url); img.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', url);   // Safari needs xlink
-      disp.setAttribute('scale', String(scale * q));
-    });
-  }
   // a page can draw the bodies itself (Event Horizon)
   const watch = fn => subs.push(fn);
-  return { YEARS, layout, breathe, lens, view, watch, sim: S };
+  return { YEARS, layout, breathe, view, watch, sim: S };
 })();

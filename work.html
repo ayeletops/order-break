@@ -49,7 +49,7 @@
   <a href="roi.html">ROI</a>
   <a href="work.html" aria-current="page">Work</a>
   <span></span>
-  <a href="horizon.html" style="grid-column:span 2" class="eh" aria-label="Event Horizon" title=" "></a>
+  <a href="horizon.html" style="grid-column:span 2">Event Horizon</a>
 </nav>
 <a class="secret" href="process.html" aria-label="Process" title="process"></a>
 <main>
@@ -60,7 +60,6 @@
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
 <script src="js/stretch.js"></script>
-<script src="js/rupture.js"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', Stretch.weights('gaps'), { steady: true, every: 1500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -120,7 +119,6 @@ function build() {
   track.innerHTML = h;
 }
 build(); new ResizeObserver(build).observe(wrapEl);
-Rupture.lens(document.getElementById('wrap'), .55);
 const wrap = document.getElementById('wrap');
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
