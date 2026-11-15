@@ -37,9 +37,11 @@ References: `docs/research/references.md`.
 
 - Plain HTML / CSS / JS, no framework. Static, hosted on GitHub Pages. Everything runs client-side.
 - **Order = a secret personal grid.** Grid proportions derive from birthdays of people I love (a personal Modulor). **Raw dates are never committed** — only derived ratios. The date→ratio mapping is a designed decision to document.
-- **Dropped (Phase 2):** entry questionnaire, camera, owner-only/encrypted mode. The site is the same for every visitor.
+- **Dropped (Phase 2):** entry questionnaire, camera, owner-only mode. The site is the same for every visitor.
 - **Grid family (Phase 2):** web grids (responsive CSS), uneven columns derived from days, months, years and ages of the 8 people; one grid per chapter, related as a family. Person order is shuffled per grid, so day/month/year can't be re-linked from the public method.
-- **Site map drives the grids:** one grid per chapter. Map being decided in Phase 2.
+- **Site map (Phase 2):** Cover · Latent Field · Work (CV timeline) · Black Holes (5 encrypted events; topics only in `secrets/black-holes.md`, never in public files). Typology, stance text and process are folded into these pages. One grid per page.
+- **Redaction:** documents and tickets get thick black bars over all data; minors' eyes get black bars. Burned into pixels, metadata stripped, originals never committed.
+- **Encryption is back, for Black Holes only:** ciphertext committed, plaintext in `secrets/`, key = Ayelet's passphrase (not derived from dates).
 - Watch scope: the brief rewards the order/break dialogue, not machinery.
 
 ## Working method (follow this every session)

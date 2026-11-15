@@ -82,3 +82,16 @@ Each entry records what the AI proposed and how I responded.
 **AI added:** shuffle person order per grid, so the public method can't re-link a day, month and year into a date.
 
 **I dropped** the entry questionnaire and the camera: the site is the same for everyone. AI noted this also drops owner mode and encryption.
+
+**Site map, my structure (replaces AI's 9-chapter proposal):**
+1. **Cover:** my name in changing type and symbols (Bodoni, slab serif, typewriter), animated, with @ayeletops and sella_vie. Hovering each letter slot shows a random gallery: family, documents, tickets, me, cats.
+2. **Latent Field:** a cloud map of regions (biology, governance, communication, freedom). Projects (title + one image) sit at their position in the field.
+3. **Work:** my CV as a horizontal timeline with links to workplaces and software. The CV is part of my ID.
+4. **Black Holes:** five defining personal events, encrypted. Only I decide who learns what they mean.
+
+The typology confrontation, the stance text and the process documentation are folded into these pages, not given their own.
+
+**AI questioned consent; I decided:**
+- Documents and tickets appear only redacted, with thick black bars. Minors' eyes are also covered with black bars. AI: bars are burned into the pixels, metadata is stripped, unredacted originals never enter the repo. The black bar becomes part of the visual language.
+- Black Holes: only encrypted text is committed; the key is a long passphrase only I hold. The events are not named in this public log.
+- AI noted the brief says "not a CV". I decided the CV is part of my ID, framed as how I got here.
