@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ayeletops — Ayelet Sella</title>
+<meta name="description" content="Ayelet Sella. An ID, not a portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:wght@400;700&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
+<style>
+  /* COVER — grid: 8 columns weighted by days of birth; slots wrap responsively */
+  .nav{grid-template-columns:var(--cover-cols)}
+  .cover{min-height:calc(100svh - var(--nav-h));padding:var(--gutter) var(--margin-r) var(--gutter) var(--margin-l);
+         display:flex;flex-wrap:wrap;gap:0 var(--gutter);align-content:flex-start}
+  .cover{--fs:180}
+  .slot{position:relative;flex:var(--d) 1 calc(var(--d) * var(--fs) * 0.04px + var(--fs) * 0.62px);height:calc(var(--fs) * 1.02px + 18px);
+        border-top:6px solid var(--ink);display:flex;align-items:flex-end;overflow:hidden;cursor:crosshair}
+  .slot:hover{outline:3px solid var(--signal);outline-offset:-3px}
+  .slot .g{font-size:calc(var(--fs) * 1px);line-height:.78;padding-bottom:.06em;transition:color .2s;position:relative;z-index:2}
+  .slot .g.bodoni{font-family:var(--f-display);font-weight:900}
+  .slot .g.bodoni-i{font-family:var(--f-display);font-style:italic;font-weight:900}
+  .slot .g.slab{font-family:var(--f-slab);font-weight:700;letter-spacing:-.02em}
+  .slot .g.type{font-family:var(--f-type);font-weight:700}
+  .slot .g.sym{font-family:var(--f-type);font-weight:700}
+  .slot .idx{position:absolute;top:6px;left:0;font:700 10px/1 var(--f-type);letter-spacing:.1em;z-index:2}
+  .slot figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .15s;z-index:1;background:var(--ink)}
+  .slot figure img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.2);mix-blend-mode:screen}
+  .slot figure figcaption{position:absolute;left:0;bottom:0;right:0;font:700 10px/1.4 var(--f-type);letter-spacing:.08em;text-transform:uppercase;
+                          color:var(--paper);background:var(--ink);padding:4px 6px}
+  .slot figure.doc{background:var(--paper);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:14%}
+  .slot figure.doc .bar{height:14px}
+  .slot:hover figure{opacity:1}
+  .slot:hover .g{color:var(--paper);mix-blend-mode:difference}
+
+  /* SIZE SLIDER: type size drives slot width, so the grid re-breaks */
+  .size{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:40;display:flex;align-items:center;gap:10px;
+        background:var(--paper);border:2px solid var(--ink);padding:6px 10px;font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
+  .size input{width:min(40vw,260px);accent-color:var(--ink)}
+  .size output{min-width:4ch;text-align:right;font-weight:400}
+
+  /* STANCE — the text, on the same day-columns */
+  .stance{display:grid;grid-template-columns:var(--cover-cols);gap:var(--gutter);padding:calc(var(--baseline)*3) var(--margin-r) calc(var(--baseline)*4) var(--margin-l);
+          border-top:2px solid var(--ink)}
+  .stance h2{grid-column:1 / 3;margin:0;font:400 var(--s3)/1 var(--f-display);font-style:italic}
+  .stance .body{grid-column:3 / 7;font-size:var(--s0);line-height:var(--baseline);max-width:62ch}
+  .stance .body p{margin:0 0 var(--baseline)}
+  .stance .body .lead{font:400 var(--s2)/calc(var(--baseline)*1.5) var(--f-display)}
+  .stance aside{grid-column:7 / 9;font-size:12px;line-height:18px}
+  @media (max-width:900px){.stance{display:block}.stance h2{margin-bottom:var(--baseline)}}
+
+  /* THE DEFAULT — the AI typology, shown once, then redacted */
+  #default{position:fixed;inset:0;z-index:80;display:grid;place-items:center;text-align:center;
+           background:radial-gradient(1200px 600px at 30% 20%,#c7b8ff 0,transparent 60%),radial-gradient(900px 600px at 80% 80%,#9fe7ff 0,transparent 60%),#f6f4ff;
+           font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1b2e;transition:opacity .5s}
+  #default .card{padding:48px 56px;border-radius:28px;background:rgba(255,255,255,.6);backdrop-filter:blur(12px);box-shadow:0 20px 60px rgba(60,40,140,.18)}
+  #default h1{font-size:44px;font-weight:700;margin:0 0 12px;letter-spacing:-.02em}
+  #default p{font-size:18px;margin:0 0 28px;color:#5b5873}
+  #default .btn{display:inline-block;padding:14px 28px;border-radius:999px;background:linear-gradient(90deg,#7c5cff,#3fb6ff);color:#fff;font-weight:600}
+  #default .ln{position:relative;display:inline-block}
+  #default .ln::after{content:"";position:absolute;left:-.1em;right:-.1em;top:.05em;bottom:.05em;background:#0b0b0b;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.7,0,.3,1) var(--dl,0s)}
+  #default.redacted .ln::after{transform:scaleX(1)}
+  #default .tag{position:absolute;left:var(--margin-l);bottom:var(--baseline);font:700 11px/1 var(--f-type);letter-spacing:.12em;text-transform:uppercase;color:#0b0b0b;opacity:0;transition:opacity .3s}
+  #default.redacted .tag{opacity:1}
+  #default.gone{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Main">
+  <a href="index.html" aria-current="page">Cover</a>
+  <a href="field.html" style="grid-column:span 2">Latent Field</a>
+  <a href="work.html">Work</a>
+  <a href="holes.html" style="grid-column:span 2">Black Holes</a>
+  <span class="handle" title="handle — platform to confirm">@ayeletops</span>
+  <span class="handle" title="handle — platform to confirm">sella_vie</span>
+</nav>
+
+<main>
+  <section class="cover" id="cover" aria-label="ayeletops"></section>
+  <label class="size">Size <input id="fs" type="range" min="48" max="360" value="180" step="1"> <output id="fsv">180</output></label>
+
+  <section class="stance" id="stance">
+    <h2>Stance</h2>
+    <div class="body">
+      <p class="lead">I design for things that spread invisibly between bodies and spaces, make the invisible system visible, and question who controls it.</p>
+      <p class="todo">[ 300–500 words — to be written by Ayelet. The position above is accepted; the rest is hers to write. ]</p>
+    </div>
+    <aside>
+      <p class="label">How this page is built</p>
+      <p>Every column above is as wide as a day someone I love was born on. Eight people, eight widths. The dates are not here. Only what they measure.</p>
+      <p><a href="#" id="replay">Replay the default</a>: the page the machine would have made.</p>
+    </aside>
+  </section>
+</main>
+
+<!-- The typology: generated on purpose, then refused -->
+<div id="default" aria-hidden="true">
+  <div class="card">
+    <h1><span class="ln">Hi, I'm Ayelet 👋</span></h1>
+    <p><span class="ln">Creative designer crafting meaningful</span><br><span class="ln">digital experiences that inspire.</span></p>
+    <span class="btn"><span class="ln">View my work →</span></span>
+  </div>
+  <span class="tag">the default — redacted</span>
+</div>
+
+<script src="js/cover.js"></script>
+</body></html>

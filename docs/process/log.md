@@ -115,3 +115,26 @@ The typology confrontation, the stance text and the process documentation are fo
 - **No bottom menu.** One menu, at the top, on each page's own grid.
 - **Cover:** line breaks are responsive, not preset. Letter slots wrap by themselves as the screen narrows. Each slot's width is weighted by a day of birth (cycling through the 8), so the breaks fall where the days meet the screen.
 - **Latent Field:** AI had misread "rhizomatic" as a network diagram with boxes and lines. I clarified: it should look like the first version (concentric age rings, crosshair, words), but the field is larger than the screen. As you move through it (drag or click), the chosen word becomes the centre of the circular grid. Rebuilt that way: the rings stay fixed, the words move underneath, and the word nearest the centre takes focus.
+
+---
+
+## First full draft (2026-11-15)
+
+**My brief for the draft:** no Claude default web-design moves; every decision from the award-winning references (`docs/research/references.md`), never the average. Plus research into the Wix in-house motion studio's language (`docs/research/wix-motion.md`).
+
+**My direction during the build:**
+- Cover: name, changing type and symbols, @ayeletops and sella_vie. A slider sets the font size, and the grid re-breaks with it.
+- Projects: not everything goes in. One strong sample panel on hover; a click opens the full PDF.
+- Palette: mostly heavy black (cover letters, Black Holes, timeline). The circular grid is millennial pink and butter yellow. The hover highlight is a turquoise frame.
+
+**What AI built, and where each move comes from:**
+- **Cover** (`index.html`, `js/cover.js`): the 9 letters of *ayeletops* sit in slots weighted by days of birth, under heavy numbered rules.
+  - Each letter keeps mutating between Bodoni 900, Bodoni italic, Zilla Slab, Courier Prime and a symbol drawn from my subjects (∿ ☣ ◎ ⌁ ⚕), then resolves. *Ref: Jo Iijima's mutating type inside a grid; Wix Playground's scramble-then-resolve.*
+  - Hovering a slot shows a random gallery item. My own work appears as images. Tickets, bills, family, me and cats appear as **redacted cards** until each item is approved.
+  - **The typology confronted:** on load, the AI-default hero (gradient, rounded card, 👋, "crafting meaningful digital experiences") appears, is redacted line by line with black bars, and is removed. It can be replayed from the stance section.
+  - Stance section: my position, plus a placeholder for the 300–500 words I'll write.
+- **Latent Field** (`field.html`, `js/field.js`): age rings as filled discs, alternating pink and butter, largest at the back. The words move underneath. Hover or focus shows one sample panel; a click opens the PDF. The Peres Center client deck is shown without a PDF until I confirm. Arrow keys travel too.
+- **Work** (`work.html`): a horizontal timeline on the birth-year intervals, with a heavy black axis. Only what my files show is filled in (M.Des HIT; Wix with role and years marked "to fill"; software links). Everything else is a marked placeholder. AI did not invent CV content.
+- **Black Holes** (`holes.html`, `js/holes.js`): a black page with a 12-month grid and five numbered voids. Each opens a key field. In-browser decryption (PBKDF2 600k + AES-GCM) is ready; there is no ciphertext yet. Still unresolved.
+- **Assets:** web copies only (resized, metadata stripped) in `assets/img` and compressed PDFs in `assets/pdf`. AI removed a film frame with an Artlist (stock) watermark. Flagged: the *In the Zone* cover uses a still from someone else's film.
+- **Wix-house clichés avoided:** no Madefor, no lime, no 3D interiors, no UI pop-ups as heroes. **Award clichés avoided:** no cursor theatre, no preloader counter, no WebGL, no smooth-scroll hijack. (Work converts vertical scrolling to sideways on that page only.)

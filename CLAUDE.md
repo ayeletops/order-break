@@ -64,7 +64,9 @@ References: `docs/research/references.md`.
 6. Text — 300–500 words
 7. Hover iterations + final documentation
 
-**Current status:** Phase 0 and Phase 1 done (2026-11-15). Repo: github.com/ayeletops/order-break, live at ayeletops.github.io/order-break (Pages, main, root). Next: Phase 2, Order (the birthday grid).
+**Palette:** heavy black dominant · circular grids millennial pink #f7cac9 + butter #fbe7a1 · hover = turquoise frame #08a8a0 (from Vaccine Futures). **Type:** Bodoni Moda (900 on cover), Zilla Slab, Courier Prime.
+
+**Current status:** Phase 0 and Phase 1 done (2026-11-15). Repo: github.com/ayeletops/order-break, live at ayeletops.github.io/order-break (Pages, main, root). Phase 2: grid family done. First full draft built (2026-11-15), not yet pushed: it adds PDFs and images, so Ayelet approves before pushing. Open: Black Holes design, CV content, stance text, placing projects in the field, handles' platforms.
 
 ## Structure
 
