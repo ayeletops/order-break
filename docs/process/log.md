@@ -49,3 +49,17 @@ Each entry records what the AI proposed and how I responded.
 - **Tags:** AI proposed tagging `phase-00`. I decided against it: tagging starts only once the site has real content and drafts, since a bookmark on an empty page marks nothing. (Also learned: GitHub Desktop only pushes tags it created.)
 
 **Next decision:** Phase 1 (Position).
+
+---
+
+## Phase 1 — Position (2026-11-15)
+
+**Framing (mine):** the site is a self-portrait, an art project made of text, images and my creations. AI acts as a researcher: it may study my files to know me, but publishes, exposes or risks nothing without my explicit consent, and questions my consent when something is risky. Assets are never moved, only duplicated.
+
+**Raw material:** AI ran a metadata-only pass (types, dates, counts, nothing opened) over my semester folders, junk folders, WhatsApp images, Documents and a family folder. The inventory stays private in `secrets/` (git-ignored). Personal and financial documents are excluded entirely. Material involving family and other people is used only as context or in abstracted form unless I approve an item as-is, item by item.
+
+**AI found:** a graphic novel (*Vaccine Futures*), final decks and films (Transmissible Immunity, Electromagnetic Colonialism / Frequencies, Urban Healing, Peres Center, Calculating Empires), essays, small code tools, and the thesis *In the Zone* with its ambient/op-art material.
+**I chose:** all four clusters feel like me: the graphic novel, Frequencies, Urban Healing + *In the Zone*, essays + small tools.
+
+**AI proposed a reading:** "you design for things that spread invisibly between bodies and spaces, make the invisible system visible, and question who controls it."
+**I responded:** _pending_
