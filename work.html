@@ -3,13 +3,13 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:wght@400;700&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
 <style>
   /* WORK — a horizontal CV. The column rhythm = gaps between 8 birth years: their years measure mine. */
   .nav{grid-template-columns:var(--work-intervals)}
   html,body{height:100%;overflow:hidden}
-  .track-wrap{position:fixed;inset:var(--nav-h) 0 0 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+  .track-wrap{position:fixed;inset:calc(var(--nav-h) + var(--title-h, 124px)) 0 0 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
   .track{position:relative;height:100%;width:calc(var(--years) * 14vw);min-width:300vw}
   .cols{position:absolute;inset:0;display:grid;grid-template-columns:repeat(var(--reps),var(--work-intervals))}
   .cols div{border-left:2px solid var(--ink)}
@@ -26,6 +26,7 @@
   .e a:hover,.tools a:hover{outline:3px solid var(--signal);outline-offset:2px}
   .tools{display:flex;flex-wrap:wrap;gap:6px}
   .tools a{font:700 10px/1 var(--f-type);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ink);padding:4px 6px}
+  .hint{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:3;margin:0;font:400 12px/18px var(--f-type);background:var(--paper);padding:2px 6px}
   .title{position:fixed;background:var(--paper);padding-right:12px;left:var(--margin-l);top:calc(var(--nav-h) + var(--baseline));z-index:3;margin:0;font:400 var(--s4)/.9 var(--f-display);pointer-events:none}
   .title em{display:block;font:400 13px/18px var(--f-type);font-style:normal;margin-top:12px;max-width:40ch}
 </style>
@@ -40,7 +41,8 @@
   <span class="handle">@ayeletops</span>
 </nav>
 <main>
-  <h1 class="title">How I got here<em>Scroll sideways. Columns are spaced by the years between the people I love.</em></h1>
+  <header class="page-title st-row" id="title" aria-label="Work" style="--fs:90"></header>
+  <p class="hint">Scroll sideways. Columns are spaced by the years between the people I love.</p>
   <div class="track-wrap" id="wrap">
     <div class="track" id="track" style="--years:20;--reps:3">
       <div class="cols"><!-- filled by script --></div>
@@ -49,6 +51,8 @@
     </div>
   </div>
 </main>
+<script src="js/stretch.js"></script>
+<script>Stretch.make(document.getElementById('title'),'WORK',Stretch.weights('gaps'),{every:1500});</script>
 <script>
 /* CV entries. Only what the files show is filled in; everything else is marked to fill by Ayelet. */
 const FROM = 2007, TO = 2027;

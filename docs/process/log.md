@@ -140,3 +140,27 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Wix-house clichés avoided:** no Madefor, no lime, no 3D interiors, no UI pop-ups as heroes. **Award clichés avoided:** no cursor theatre, no preloader counter, no WebGL, no smooth-scroll hijack. (Work converts vertical scrolling to sideways on that page only.)
 
 **Vision board:** I asked whether the draft is designed yet. AI's answer: it's a first draft. The system is real, but it isn't art-directed. I asked for a vision board of the references to approve (the "LoRA"). Built as `docs/research/vision-board.html`: my own material, the decided palette and type, then the references grouped ENCOUNTER / ORDER / BREAK / WIX MOTION / AVOID, each with live thumbnails, what to take, and keep/drop buttons. My picks get pasted back as the approved reference set.
+
+---
+
+## Art direction round 1 (2026-11-15)
+
+**White page:** I saw a blank page after pushing. AI loaded the live site and found it working with no errors: a cached old version or deploy lag. Fix: hard refresh.
+
+**My picks and requests:**
+- Favourite reference: **Julien von Schultzendorff**.
+- My materials are missing photos.
+- More fonts and weights for the titles: the main cover title, with the same language repeated smaller as each page's title.
+- Symbols must come from the fonts used, not a separate set.
+- Research blogs analysing Wix's motion brand language, and update the reference.
+
+**What AI found and did:**
+- **Schultzendorff, studied live:** the giant heavy words *are* the grid, stretched non-uniformly to fill their columns. Hovering widens a column and the letters squeeze and stretch live.
+- **The new title language (`js/stretch.js`):** each letter is drawn stretched to fill its slot exactly; slot widths come from the page's own birthday grid. Hovering widens a slot and the neighbours squeeze. *The grid deforms the type: order acting on break.*
+  - **Fonts it mutates across:** Bodoni Moda (400–900, italics), Abril Fatface, Zilla Slab (300–700, italic), Alfa Slab One, Courier Prime (400/700, italic), Special Elite.
+  - **Symbols** are taken from the same fonts: & § ¶ † ‡ * @ # ?
+  - Mutation always resolves back to the letter: a loop, not a drift (a Wix motion principle).
+- **Cover:** *ayeletops* in stretch type on the day-columns. On hover, the image appears **inside the letterform only**, so private images are only ever seen through the letters. Documents are shown as redaction bars.
+- **Page titles:** LATENT FIELD (on the ages), WORK (on the year gaps), BLACK HOLES (on the months, white on black). They wrap responsively, and the content below follows the title's real height.
+- **Wix research:** almost no independent analysis exists. The useful material is Wix designers' own stated principles: strict structure buys freedom; handmade against generative; loops; design for silence. These were added to `docs/research/wix-motion.md`, along with new clichés to avoid. The vision board now has Julien as ★ favourite, plus the Enabler Grid and Designers in Motion.
+- **Photos:** pending my choice (see the next step).

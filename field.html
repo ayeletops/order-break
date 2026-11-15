@@ -3,13 +3,13 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Latent Field — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:wght@400;700&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
 <style>
   /* LATENT FIELD — circular grid of ages stays centred; the field of words moves under it */
   .nav{grid-template-columns:repeat(4,1fr) auto auto}
   html,body{height:100%;overflow:hidden}
-  #field{position:fixed;inset:var(--nav-h) 0 0 0;cursor:grab;touch-action:none;overflow:hidden}
+  #field{position:fixed;inset:calc(var(--nav-h) + var(--title-h, 124px)) 0 0 0;cursor:grab;touch-action:none;overflow:hidden}
   #field.drag{cursor:grabbing}
   .rings{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:1}
   .rings span{position:absolute;height:calc(var(--r) * 0.94);aspect-ratio:1;border-radius:50%;background:var(--c,var(--pink))}
@@ -48,6 +48,7 @@
   <span class="handle">sella_vie</span>
 </nav>
 <main>
+  <header class="page-title st-row" id="title" aria-label="Latent Field" style="--fs:90"></header>
   <div id="field" aria-label="Latent field: drag to travel, click a word to centre it">
     <div class="rings"><i></i><span class="ring-1"></span><span class="ring-2"></span><span class="ring-3"></span><span class="ring-4"></span>
       <span class="ring-5"></span><span class="ring-6"></span><span class="ring-7"></span><span class="ring-8"></span></div>
@@ -56,5 +57,7 @@
   </div>
   <p class="hud"><b>Centre:</b> <span id="centre"></span><br>drag to travel · click a word</p>
 </main>
+<script src="js/stretch.js"></script>
+<script>Stretch.make(document.getElementById('title'),'LATENTFIELD',Stretch.weights('ages'),{every:1500});</script>
 <script src="js/field.js"></script>
 </body></html>

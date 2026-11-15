@@ -58,3 +58,36 @@ Research done 2026-11-15 by an AI research agent. The films couldn't be played: 
 - Prompt-box typing animations.
 - "Small business owner" persona photography.
 - Self-mocking ad copy.
+
+---
+
+## Update: analysis and stated principles (research 2026-11-15)
+
+**Main finding:** almost no independent design-press analysis of Wix's motion or brand exists. Brand New has only a short 2020 news item on Madefor, and nothing turned up in It's Nice That, Creative Review, Fast Company, Eye on Design or Motionographer. The richest material is Wix designers describing their own method. Outside comment comes mainly from reviews of the 2026 Super Bowl ad.
+
+### Principles stated by Wix designers
+- **Set your own limits.** If a brief has none, draw your own first. (Dekalo, ["Body of Work"](https://www.wix.com/playground/post/body-of-work), 2017)
+- **A strict structure buys freedom inside it.** The OFFF Barcelona "Enabler Grid": very clear rules let the team be very free with what went in the cells. (Jacob, ["The Enabling Team"](https://www.wix.com/playground/post/the-enabling-team), 2023)
+- **Handmade against generative.** Personal, handmade choices held in tension with mechanical output; the team say the duality helped. (Jacob, same)
+- **Loops are structural.** Pieces return exactly to their first frame, and a few fixed brief elements hold a series together. Named references: Barragán, Peter Dallos, Katarzyna Kobro, Escher. (["Designers in Motion"](https://www.wix.com/playground/post/designers-in-motion), 2018)
+- **Design for silence.** Many short pieces instead of one narrative film when there's no sound. (Dekalo, 2017)
+- **Friendly over dark.** "Pain with a smile" instead of visceral. (Levin & Dekalo, 2017)
+
+### What outside critics say
+- The identity has been reduced to a black-and-white wordmark set in Madefor (logo-history sites; low authority, unverified).
+- The 2026 Super Bowl ad: safe, "a season late", one of many interchangeable AI ads; Squarespace did the storytelling. (Adweek, snippet; Kira Klaas, [On Brand](https://kiraklaas.substack.com/p/the-2026-super-bowl-ads-hits-misses), Feb 2026)
+- The tension critics point to: the crafted, art-referenced motion lab versus product-demo mass ads. *(AI's inference from the sources, not stated by a critic.)*
+
+### Moves added to the reference
+1. **One strict system, freedom inside it.** That's exactly my birthday grid: rules from the dates, freedom in what fills the cells.
+2. **Handmade against generative,** made visible: my hand and voice against the mutating, generated type.
+3. **Seamless loops:** the cover's mutation and any motion return to their starting state.
+4. **Readable on mute:** no meaning depends on sound.
+5. **Name art references, not tech ones:** Müller-Brockmann, Weingart, Kobro, not other sites.
+
+### Clichés added to the avoid-list
+- A cursor typing a prompt, then a site appears.
+- AI as "magic" with no truth behind it.
+- Calling the work "beautiful" or "premium" in copy.
+- Spectacle in place of an idea.
+- Meaning that only works with sound.
