@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vision board — Order / Break</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,900;1,6..96,400&family=Courier+Prime:wght@400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0b0b0b;--paper:#fff;--pink:#f7cac9;--butter:#fbe7a1;--signal:#08a8a0;--g:12px;--b:24px}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 14px/var(--b) "Courier Prime","Courier New",monospace;padding:calc(var(--b)*2) 3vw calc(var(--b)*6) 2vw}
+  h1{font:900 clamp(56px,10vw,150px)/.85 "Bodoni Moda",Didot,serif;margin:0 0 var(--b);letter-spacing:-.02em}
+  h2{font:700 22px/1 "Zilla Slab",Rockwell,serif;margin:calc(var(--b)*3) 0 var(--g);padding-top:var(--g);border-top:6px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:var(--g)}
+  h2 small{font:400 12px/1.4 "Courier Prime",monospace;max-width:60ch;text-align:right}
+  .intro{max-width:70ch}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--b) var(--g)}
+  .card{position:relative;border-top:2px solid var(--ink);padding-top:8px}
+  .card .shot{display:block;aspect-ratio:16/10;background:var(--ink);overflow:hidden;position:relative}
+  .card .shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .card .shot span{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:700 11px/1 "Courier Prime";letter-spacing:.1em;text-transform:uppercase;z-index:-1}
+  .card a:hover .shot{outline:3px solid var(--signal);outline-offset:-3px}
+  .card h3{margin:8px 0 2px;font:400 24px/1.05 "Bodoni Moda",Didot,serif}
+  .card .rec{font:700 10px/1.4 "Courier Prime";letter-spacing:.08em;text-transform:uppercase}
+  .card p{margin:6px 0;font-size:13px;line-height:19px}
+  .card .take{border-left:4px solid var(--ink);padding-left:8px}
+  .vote{display:flex;gap:6px;margin-top:8px}
+  .vote button{font:700 11px/1 "Courier Prime";letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--ink);background:var(--paper);padding:6px 10px;cursor:pointer}
+  .vote button:hover{outline:3px solid var(--signal);outline-offset:1px}
+  .card[data-v=keep] .vote .k{background:var(--ink);color:var(--paper)}
+  .card[data-v=drop]{opacity:.35}
+  .card[data-v=drop] .vote .d{background:var(--ink);color:var(--paper)}
+  .avoid .card .shot{filter:grayscale(1)}
+  .avoid .card .shot::after{content:"";position:absolute;left:0;right:0;top:44%;height:12%;background:var(--ink)}
+  /* swatches */
+  .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--g)}
+  .sw div{aspect-ratio:1;display:flex;align-items:flex-end;padding:8px;font:700 11px/1.3 "Courier Prime";letter-spacing:.06em;border:2px solid var(--ink)}
+  .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--g)}
+  .types div{border-top:2px solid var(--ink);padding-top:8px}
+  .types .s{font-size:72px;line-height:1}
+  .own{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--g)}
+  .own img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:grayscale(1) contrast(1.15)}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--paper);display:flex;gap:var(--g);align-items:center;justify-content:space-between;padding:10px 2vw;z-index:9}
+  .bar button{font:700 11px/1 "Courier Prime";letter-spacing:.1em;text-transform:uppercase;background:var(--paper);color:var(--ink);border:0;padding:8px 12px;cursor:pointer}
+  .bar textarea{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<h1>Vision<br>board</h1>
+<p class="intro">The "LoRA" for Order / Break: what the design is allowed to learn from. For each reference, mark <b>keep</b> or <b>drop</b>. Then press <b>copy my picks</b> at the bottom and paste the result back to Claude. Thumbnails are live screenshots, so they need an internet connection and may take a few seconds. Click a thumbnail to open the site.</p>
+
+<h2>My own material <small>The base layer. Everything else is measured against this.</small></h2>
+<div class="own">
+  <img src="../../assets/img/gn-13-petri-dish.jpg" alt=""><img src="../../assets/img/gn-06-rna.jpg" alt=""><img src="../../assets/img/gn-15-bio-glove.jpg" alt="">
+  <img src="../../assets/img/gn-09-opt-out-kit.jpg" alt=""><img src="../../assets/img/gn-07-material-design.jpg" alt=""><img src="../../assets/img/gn-03-outbreak-map.jpg" alt="">
+  <img src="../../assets/img/proj-frequencies.jpg" alt=""><img src="../../assets/img/proj-this-and-that.jpg" alt="">
+</div>
+
+<h2>Palette <small>Decided. Heavy black dominant. Pink + butter only in the circular grid. Turquoise only as the hover frame.</small></h2>
+<div class="sw">
+  <div style="background:#0b0b0b;color:#fff">INK #0B0B0B<br>letters · voids · timeline</div>
+  <div style="background:#fff">PAPER #FFFFFF</div>
+  <div style="background:#f7cac9">MILLENNIAL PINK #F7CAC9<br>circular grid</div>
+  <div style="background:#fbe7a1">BUTTER #FBE7A1<br>circular grid</div>
+  <div style="background:#fff;outline:6px solid #08a8a0;outline-offset:-10px">TURQUOISE #08A8A0<br>hover frame · from Vaccine Futures</div>
+</div>
+
+<h2>Type <small>Decided. Bodoni = voice of order · Slab = structure · Typewriter = inner monologue · Symbols = my subjects.</small></h2>
+<div class="types">
+  <div><div class="s" style="font-family:'Bodoni Moda',serif;font-weight:900">Aa</div>Bodoni Moda 900 / italic</div>
+  <div><div class="s" style="font-family:'Zilla Slab',serif;font-weight:700">Aa</div>Zilla Slab 700</div>
+  <div><div class="s" style="font-family:'Courier Prime',monospace;font-weight:700">Aa</div>Courier Prime</div>
+  <div><div class="s">∿ ☣ ⚕ ◎</div>Symbols: wave, hazard, health, signal</div>
+</div>
+
+<h2>Encounter <small>Order and break acting on each other. Closest to the brief.</small></h2>
+<div class="grid" id="encounter"></div>
+<h2>Order <small>A visible system: grid, index, chosen measures.</small></h2>
+<div class="grid" id="order"></div>
+<h2>Break <small>Disruption, handwork, play, anti-navigation.</small></h2>
+<div class="grid" id="break"></div>
+<h2>Material: Wix in-house motion <small>Moves to borrow from the studio's language, not its look.</small></h2>
+<div class="grid" id="wix"></div>
+<h2>Avoid: typology traps <small>Award winners that became templates. Shown so we know what to subtract.</small></h2>
+<div class="grid avoid" id="avoid"></div>
+
+<div class="bar"><span id="count">0 kept · 0 dropped</span><button id="copy">Copy my picks</button><textarea id="out"></textarea></div>
+
+<script>
+const R = {
+ encounter: [
+  ['Jo Iijima','https://joiijima.com','Readymag Websites of the Year 2025 · Readymag Choice','A laboratory interface in grids, with mutating custom type and neon inside it. Praised for both its "lack of respect for the grid" and its "balance of playfulness and order".','Mutating letters inside a strict grid: the cover.'],
+  ['Hypha — Pentagram & Counterpoint','https://hyphahypha.com','Hoverstat.es feature, 2020','Letterforms grown by simulated mycelium. Biology breaks type, governed by an algorithm.','Biology as the force that breaks the system.'],
+  ['Julien von Schultzendorff','https://julienvonschultzendorff.com','Hoverstat.es feature, 2025','A multi-column grid that stretches and squeezes, with raw type.','Columns that survive being pushed and pulled.'],
+  ['Shira Wiesenberg','https://www.shirawiesenberg.com','Wix Playground Academy, 2024','Independently scrolling columns read as weaving, with sewing details in the type.','A craft becomes the grid\'s own logic.'],
+  ['Shai Blau','https://www.shaiblau.com','Wix Playground Academy, 2024','The homepage toggles between a random mode and an indexed mode: "two aspects of my identity".','Warning: a toggle keeps them side by side. Mine should make them meet.'],
+  ['Laurel Schwulst','https://laurelschwulst.com','Essay: "My website is a shifting house"','The personal site as a home and a world, not a shop window.','Stance over showcase.'],
+  ['Anton Repponen — People Look at Art','https://space.repponen.com/peoplelookatart/','Readymag Websites of the Year 2025 · Jury Choice','A minimal pixel-type scroll where the site seems to watch you back.','A quiet system with an unsettling turn.'],
+  ['Giorgia Lupi','https://giorgialupi.com','Pentagram partner · Data Humanism','The method, not the site: hand-drawn data portraits (Dear Data).','A handmade break applied to data.'],
+ ],
+ order: [
+  ['Feltron — Nicholas Felton','https://feltron.com','Annual Reports 2005–2014','A self-portrait as data, in a rigid typographic system.','A self-portrait can be pure metadata.'],
+  ['Mindy Seu','https://www.mindyseu.com','Anti-portfolio','A plain, deliberately unpolished single page, "in progress", with the CV as a public spreadsheet.','Refusing polish as a statement.'],
+  ['Laura Coombs','https://www.lauracoombs.com','Swiss information-first','One sentence, then a single column of projects separated by rules.','Hierarchy by rules alone.'],
+  ['Elisa Breyer Archive','https://www.elisabreyerarchive.com','Hoverstat.es feature, 2025','An archive in nested layers; metadata shown as data.','Layers for invisible systems.'],
+  ['grid.constraint.systems','https://grid.constraint.systems','Hoverstat.es feature, 2022','Type stretched to fill grid cells.','The grid deforms the letter.'],
+ ],
+ break: [
+  ['Hannah Bohnen','https://hannahbohnen.de','Hoverstat.es feature, 2024','Throw rocks at a printmaker\'s portfolio.','Handwork as behaviour.'],
+  ['Julijonas Urbonas','https://julijonasurbonas.lt','Hoverstat.es feature, 2023','An artist-researcher: off-kilter type, rotating navigation.','The closest peer in speculative design.'],
+  ['Rafaël Rozendaal','https://www.newrafael.com','MoMA 2024','Each site is an artwork; the portfolio is the network of sites.','The website IS the work.'],
+  ['Lynn Fisher','https://lynnandtonic.com','Yearly redesign, every version archived','Identity as a series of versions.','My hover-to-see-iterations idea.'],
+  ['Rootling','https://rootling.place','Hoverstat.es feature, 2025','Browse by rooting like a pig: nudges and zooms, no menus.','Navigation from an animal behaviour, as in the Latent Field.'],
+  ['Hassan Kettany','https://www.the-ihk.com','Wix Playground Academy, 2024','The old web, a Dev Mode toggle, scanned sketchbooks.','Hand-made material as an archive.'],
+  ['Christophe Guberan','http://christopheguberan.ch','Hoverstat.es feature, 2018','The layout stretches and balances with the mouse.','Elastic content.'],
+ ],
+ wix: [
+  ['Wix Studio launch film','https://vimeo.com/850900277','Wix Motion Studio + Yambo, 2023','Bookend structure: rich 3D at the start and end, flat 2D graphics in the middle.','Bookends: material scenes, a flat middle.'],
+  ['Wix Harmony product film','https://www.stashmedia.tv/new-wix-harmony-product-film-prompts-character-vibes','Wix in-house, 2026','A persona register inside a consistent frame; prompts as voice; UI embedded in the scene.','Two registers; typewriter as voice.'],
+  ['Wix Playground','https://www.wix.com/playground/home','Awwwards Honorable Mention, 2023','A scrambled headline that reassembles; one acid accent on neutral.','Scramble, then resolve; one accent (mine is turquoise).'],
+  ['Symphony launch','https://www.stashmedia.tv/balancing-act-wix-motion-studio-launches-symphony','Wix Motion Studio, 2026','Agents placed into real spaces, one continuous flow.','Continuous transitions, no hard cuts.'],
+ ],
+ avoid: [
+  ['Bruno Simon','https://bruno-simon.com','Awwwards Site of the Month, Nov 2019','Drive a 3D car through a portfolio. Original then, a genre now.','No 3D portfolio world.'],
+  ['Lusion v3','https://lusion.co','Awwwards Site of the Year 2023','WebGL fluid and particle spectacle.','No immersive blobs.'],
+  ['Dennis Snellenberg','https://dennissnellenberg.com','Awwwards Site of the Day','A giant name, a magnetic cursor, smooth scroll.','No cursor theatre, no giant-name marquee.'],
+  ['Robin Noguier','https://robin-noguier.com','Awwwards Site of the Day','WebGL distortion sliders.','No ripple-on-hover.'],
+ ]};
+const shot = u => `https://image.thum.io/get/width/900/crop/700/${u}`;
+for (const [k, list] of Object.entries(R)) {
+  const box = document.getElementById(k);
+  list.forEach(([t, u, rec, d, take], i) => {
+    const id = k + i;
+    box.insertAdjacentHTML('beforeend', `<article class="card" data-id="${id}" data-t="${t}">
+      <a href="${u}" target="_blank" rel="noopener"><span class="shot"><img src="${shot(u)}" alt="" loading="lazy" onerror="this.remove()"><span>${t}</span></span></a>
+      <h3>${t}</h3><div class="rec">${rec}</div><p>${d}</p><p class="take"><b>Take:</b> ${take}</p>
+      <div class="vote"><button class="k">Keep</button><button class="d">Drop</button></div></article>`);
+  });
+}
+let store = {}; try { store = JSON.parse(localStorage.getItem('vb') || '{}'); } catch {}
+const update = () => {
+  document.querySelectorAll('.card').forEach(c => c.dataset.v = store[c.dataset.id] || '');
+  const v = Object.values(store); document.getElementById('count').textContent = `${v.filter(x => x === 'keep').length} kept · ${v.filter(x => x === 'drop').length} dropped`;
+  try { localStorage.setItem('vb', JSON.stringify(store)); } catch {}
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest('.vote button'); if (!b) return;
+  const c = b.closest('.card'), v = b.classList.contains('k') ? 'keep' : 'drop';
+  store[c.dataset.id] = store[c.dataset.id] === v ? '' : v; update();
+});
+document.getElementById('copy').onclick = () => {
+  const kept = [], dropped = [];
+  document.querySelectorAll('.card').forEach(c => { if (c.dataset.v === 'keep') kept.push(c.dataset.t); if (c.dataset.v === 'drop') dropped.push(c.dataset.t); });
+  const txt = `VISION BOARD PICKS\nKeep: ${kept.join(', ') || '—'}\nDrop: ${dropped.join(', ') || '—'}`;
+  const ta = document.getElementById('out'); ta.value = txt;
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).catch(() => { ta.select(); document.execCommand('copy'); });
+  document.getElementById('copy').textContent = 'Copied';
+};
+update();
+</script>
+</body></html>
