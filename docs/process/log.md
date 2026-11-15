@@ -21,3 +21,22 @@ Each entry records what the AI proposed and how I responded.
 **I responded:** accepted the comments. Decided: personal ID, not portfolio or CV; English; build step by step with git, parallel documentation, Wacom annotations per phase, and iterations visible on hover at the end.
 
 **Open:** entry ritual (questions) and camera — keep, change or drop. Deadline year to confirm.
+
+---
+
+## Phase 0 — Setup (2026-11-15, Cowork session)
+
+**AI proposed:** using the GitHub noreply address as the commit email, so a personal address stays out of a public repo.
+**I decided:** to use ayeletops@gmail.com. Git name "Ayelet Sella", set for this folder only, not globally.
+
+**AI proposed:** keeping the three course PDFs (the brief and two lesson decks) out of the public repo, because they're the lecturer's material and CLAUDE.md already summarises the brief.
+**I decided:** to keep them out. `.gitignore` now ignores `*.pdf`. (Note: this also catches any PDF I add later, so un-ignore specific paths if process material is ever PDF.)
+
+**Done:**
+- `git init` on branch `main`. Remote: `github.com/ayeletops/order-break` (public).
+- Renamed `gitignore` → `.gitignore` (without the dot, git was ignoring it). It ignores `secrets/`, `.env`, `.DS_Store` and `*.pdf`.
+- First commit: CLAUDE.md, this log, .gitignore.
+- Folder structure from CLAUDE.md: `index.html` (empty), `css/`, `js/`, `assets/`, `docs/process/annotations/`, `docs/iterations/`, `secrets/` (git-ignored). Empty folders hold a `.gitkeep`.
+- Moved this log from the root to `docs/process/log.md` with history kept.
+
+**Next decision:** start Phase 1 (Position), or first set up GitHub Pages and record the Phase 0 tag and screenshot.
