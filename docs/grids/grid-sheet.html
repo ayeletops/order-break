@@ -39,57 +39,135 @@
   h1{font:400 calc(1rem*var(--scale)*var(--scale)*var(--scale))/1 "Bodoni 72","Bodoni MT",Didot,serif;margin:0 0 var(--baseline)}
   h2{font:700 calc(1rem*var(--scale))/var(--baseline) "Rockwell","Roboto Slab",serif;margin:calc(var(--baseline)*2) 0 calc(var(--baseline)/2);
      border-top:2px solid var(--ink);padding-top:calc(var(--baseline)/2)}
-  p{margin:0 0 var(--baseline);max-width:60ch}
-  .frame{position:relative;border:1px solid var(--ink);background:#fff;height:calc(var(--baseline)*14);overflow:hidden;
+  h2 em{font:400 13px/1 "Courier New",monospace;color:var(--line);margin-left:8px}
+  p{margin:0 0 var(--baseline);max-width:62ch}
+  .note{font-size:12px;color:#555}
+  button{font:inherit;font-size:12px;border:1px solid var(--ink);background:#fff;padding:2px 8px;cursor:pointer;margin:0 6px var(--baseline) 0}
+  button[aria-pressed=true]{background:var(--ink);color:#fff}
+
+  /* FRAME = page: nav top / body / nav bottom */
+  .frame{position:relative;border:1px solid var(--ink);background:#fff;display:grid;
+         grid-template-rows:calc(var(--baseline)*1.5) 1fr calc(var(--baseline)*1.5);height:calc(var(--baseline)*18);overflow:hidden;
          background-image:linear-gradient(to bottom,rgba(0,0,0,.06) 1px,transparent 1px);background-size:100% var(--baseline)}
-  /* COVER */
-  .cover{display:grid;grid-template-columns:var(--cover-cols);gap:var(--gutter);padding:var(--gutter);height:100%}
-  .cover div{background:rgba(229,51,42,.14);border:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;
-             font:400 clamp(28px,7vw,110px)/1 "Bodoni 72","Bodoni MT",Didot,serif}
-  /* FIELD */
-  .field{position:absolute;inset:0;display:grid;place-items:center}
-  .field span{position:absolute;height:calc(var(--r)*0.95);aspect-ratio:1;border:1px solid var(--line);border-radius:50%}
-  .field i{position:absolute;inset:0;background:linear-gradient(var(--ink),var(--ink)) center/1px 100% no-repeat,linear-gradient(var(--ink),var(--ink)) center/100% 1px no-repeat;opacity:.25}
-  .field b{position:absolute;font:700 12px/1 "Courier New",monospace;text-transform:uppercase;letter-spacing:.1em}
-  /* WORK */
+  .nav{display:grid;align-items:center;gap:var(--gutter);padding:0 var(--gutter);font:700 11px/1 "Courier New",monospace;
+       text-transform:uppercase;letter-spacing:.08em;z-index:3;background:rgba(255,255,255,.85)}
+  .nav.top{border-bottom:1px solid var(--ink)} .nav.bot{border-top:1px solid var(--ink)}
+  .nav a{color:inherit;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav a.on{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+  .body{position:relative;overflow:hidden}
+
+  /* 01 COVER: same columns for nav and letters; rows wrap at chosen breaks */
+  .cover-cols{grid-template-columns:var(--cover-cols)}
+  .cover{display:grid;grid-template-columns:var(--cover-cols);grid-auto-rows:1fr;gap:var(--gutter);padding:var(--gutter);height:100%}
+  .cover span{background:rgba(229,51,42,.12);border:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;
+              font:400 clamp(26px,6vw,96px)/.9 "Bodoni 72","Bodoni MT",Didot,serif;overflow:hidden}
+  .cover span.empty{background:transparent;border-style:dashed;border-color:rgba(229,51,42,.35)}
+
+  /* 02 LATENT FIELD: rhizome; focused node sits in the centre; rings are ages around it */
+  .field-nav{grid-template-columns:repeat(4,1fr)}
+  .rings{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:1}
+  .rings span{position:absolute;height:calc(var(--r)*0.95);aspect-ratio:1;border:1px solid var(--line);border-radius:50%;opacity:.7}
+  .layer{position:absolute;left:50%;top:50%;width:0;height:0;transition:transform .9s cubic-bezier(.6,0,.2,1);z-index:2}
+  .layer svg{position:absolute;left:-600px;top:-400px;width:1200px;height:800px;overflow:visible;pointer-events:none}
+  .node{position:absolute;transform:translate(-50%,-50%);cursor:pointer;font:700 11px/1.1 "Courier New",monospace;text-transform:uppercase;
+        letter-spacing:.08em;background:#fff;border:1px solid var(--ink);padding:4px 6px;white-space:nowrap}
+  .node.region{font:400 18px/1 "Bodoni 72","Bodoni MT",Didot,serif;text-transform:none;letter-spacing:0;padding:6px 10px}
+  .node.proj{border-style:dashed;color:#444}
+  .node.focus{background:var(--ink);color:#fff}
+
+  /* 03 WORK */
+  .work-cols{grid-template-columns:var(--work-intervals)}
   .work{display:grid;grid-template-columns:var(--work-intervals);height:100%}
   .work div{border-left:1px solid var(--line);background:repeating-linear-gradient(90deg,transparent 0 calc(var(--gutter) - 1px),rgba(0,0,0,.05) 0 var(--gutter))}
   .work div:last-child{border-right:1px solid var(--line)}
   .work-axis{position:absolute;left:0;right:0;top:50%;border-top:2px solid var(--ink)}
-  /* HOLES */
-  .holes{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);padding:var(--gutter);height:100%;position:relative}
-  .holes .m{border-left:1px dashed rgba(0,0,0,.2)}
-  .holes .h{grid-row:1;grid-column:var(--col);align-self:center;justify-self:center;
-            width:calc(var(--size)*1.4vw + 12px);aspect-ratio:1;border-radius:50%;
-            background:radial-gradient(circle,#000 55%,rgba(0,0,0,.35) 70%,transparent 72%)}
-  .note{font-size:12px;color:#555}
-  @media (max-width:640px){.frame{height:calc(var(--baseline)*10)}.cover div{font-size:28px}}
+
+  /* 04 BLACK HOLES (unresolved) */
+  .holes-cols{grid-template-columns:repeat(12,1fr)}
+  .holes{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);padding:var(--gutter);height:100%}
+  .holes .m{border-left:1px dashed rgba(0,0,0,.2);grid-row:1}
+  .holes .h{grid-row:1;grid-column:var(--col);align-self:center;justify-self:center;width:calc(var(--size)*1.4vw + 12px);aspect-ratio:1;
+            border-radius:50%;background:radial-gradient(circle,#000 55%,rgba(0,0,0,.35) 70%,transparent 72%)}
+  @media (max-width:640px){.frame{height:calc(var(--baseline)*14)}.nav{font-size:9px}}
 </style></head>
 <body>
 <h1>Grid family</h1>
-<p>Four web grids, one per page, derived from the birthdays of 8 people I love. Dates are never published. Each grid uses one component of the dates, with the person order shuffled. Shared: baseline <code>24px</code>, gutter <code>12px</code>, margins <code>2vw / 3vw</code>, type-scale ratio <code>1.482</code> (√ of mean day : mean month).</p>
+<p>Four web grids, one per page, derived from the birthdays of 8 people I love. Dates are never published. Each grid uses one component of the dates, with the person order shuffled. Every page has navigation top and bottom, set on that page's own grid.</p>
 
-<h2>01 · Cover — days</h2>
-<div class="frame"><div class="cover"><div>A</div><div>y</div><div>e</div><div>l</div><div>e</div><div>t</div><div>.</div><div>S</div></div></div>
-<p class="note">8 columns in fr units = each person's day of birth (1–31). Uneven, but every width is an integer someone was born on. Letter slots sit in the columns.</p>
+<h2>01 · Cover <em>days</em></h2>
+<button data-name="ayelet|ops" aria-pressed="true">ayelet / ops</button><button data-name="ayeletops">ayeletops (no break)</button><button data-name="sella|_vie">sella / _vie</button><button data-name="ayelet|sella">ayelet / sella</button>
+<div class="frame">
+  <nav class="nav top cover-cols"><a class="on">Cover</a><a style="grid-column:span 2">Latent Field</a><a>Work</a><a style="grid-column:span 2">Black Holes</a><a></a><a>↗</a></nav>
+  <div class="body"><div class="cover" id="cover"></div></div>
+  <nav class="nav bot cover-cols"><a>@ayeletops</a><a></a><a style="grid-column:span 2">sella_vie</a><a></a><a>process</a><a></a><a>2026</a></nav>
+</div>
+<p class="note">Nav and letters share the 8 day-columns. A break (|) starts a new row, so "ayelet / ops" puts "ops" on the line below, aligned to the same columns.</p>
 
-<h2>02 · Latent Field — ages</h2>
-<div class="frame"><div class="field"><i></i>
-<span class="ring-1"></span><span class="ring-2"></span><span class="ring-3"></span><span class="ring-4"></span>
-<span class="ring-5"></span><span class="ring-6"></span><span class="ring-7"></span><span class="ring-8"></span>
-<b style="top:12px;left:12px">Biology</b><b style="top:12px;right:12px">Governance</b>
-<b style="bottom:12px;left:12px">Communication</b><b style="bottom:12px;right:12px">Freedom</b></div></div>
-<p class="note">8 rings, radius = age as % of the oldest. Four regions as quadrants. Projects will sit between rings, by distance from the centre.</p>
+<h2>02 · Latent Field <em>ages · rhizome</em></h2>
+<div class="frame" id="fieldframe">
+  <nav class="nav top field-nav"><a>Cover</a><a class="on">Latent Field</a><a>Work</a><a>Black Holes</a></nav>
+  <div class="body" id="field">
+    <div class="rings"><span class="ring-1"></span><span class="ring-2"></span><span class="ring-3"></span><span class="ring-4"></span>
+      <span class="ring-5"></span><span class="ring-6"></span><span class="ring-7"></span><span class="ring-8"></span></div>
+    <div class="layer" id="layer"><svg id="links"></svg></div>
+  </div>
+  <nav class="nav bot field-nav"><a>@ayeletops</a><a>sella_vie</a><a>focus: <b id="focusname">Biology</b></a><a>process</a></nav>
+</div>
+<p class="note">No fixed centre. Regions and projects are linked as a network. Click any node and it moves to the centre; the age rings re-form around it. Project positions here are placeholders, to be placed by you.</p>
 
-<h2>03 · Work — birth years</h2>
-<div class="frame"><div class="work"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div class="work-axis"></div></div>
-<p class="note">7 horizontal intervals = the gaps between the 8 birth years (sorted). The CV timeline scrolls through this rhythm. Their years measure mine.</p>
+<h2>03 · Work <em>birth years</em></h2>
+<div class="frame">
+  <nav class="nav top work-cols"><a>Cover</a><a>Latent Field</a><a class="on">Work</a><a></a><a></a><a></a><a>Black Holes</a></nav>
+  <div class="body"><div class="work"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div class="work-axis"></div></div>
+  <nav class="nav bot work-cols"><a>@ayeletops</a><a>sella_vie</a><a></a><a></a><a></a><a></a><a>process</a></nav>
+</div>
+<p class="note">Kept as is. 7 intervals = the gaps between the 8 birth years. The CV timeline scrolls left to right through this rhythm.</p>
 
-<h2>04 · Black Holes — months</h2>
-<div class="frame"><div class="holes">
-<div class="m"></div><div class="m"></div><div class="m"></div><div class="m"></div><div class="m"></div><div class="m"></div>
-<div class="m"></div><div class="m"></div><div class="m"></div><div class="m"></div><div class="m"></div><div class="m"></div>
-<div class="h hole-1"></div><div class="h hole-2"></div><div class="h hole-3"></div><div class="h hole-4"></div>
-<div class="h hole-5"></div><div class="h hole-6"></div><div class="h hole-7"></div><div class="h hole-8"></div></div></div>
-<p class="note">A 12-column grid, the generic default, but each column is a month. 8 birth months mark positions; month value sets void size. 5 voids will occupy 5 of them.</p>
+<h2>04 · Black Holes <em>months · unresolved</em></h2>
+<div class="frame">
+  <nav class="nav top holes-cols"><a>Cover</a><a></a><a>Latent</a><a>Field</a><a></a><a>Work</a><a></a><a></a><a class="on">Black</a><a class="on">Holes</a><a></a><a></a></nav>
+  <div class="body"><div class="holes">
+    <div class="m" style="grid-column:1"></div><div class="m" style="grid-column:2"></div><div class="m" style="grid-column:3"></div><div class="m" style="grid-column:4"></div>
+    <div class="m" style="grid-column:5"></div><div class="m" style="grid-column:6"></div><div class="m" style="grid-column:7"></div><div class="m" style="grid-column:8"></div>
+    <div class="m" style="grid-column:9"></div><div class="m" style="grid-column:10"></div><div class="m" style="grid-column:11"></div><div class="m" style="grid-column:12"></div>
+    <div class="h hole-1"></div><div class="h hole-2"></div><div class="h hole-3"></div><div class="h hole-4"></div>
+    <div class="h hole-5"></div><div class="h hole-6"></div><div class="h hole-7"></div><div class="h hole-8"></div></div></div>
+  <nav class="nav bot holes-cols"><a>@ayeletops</a><a></a><a>sella_vie</a><a></a><a></a><a></a><a></a><a></a><a></a><a></a><a></a><a>process</a></nav>
+</div>
+<p class="note">Open. Placeholder only, to be decided.</p>
+
+<script>
+/* COVER: fill slots row by row; '|' forces a new row */
+const cover=document.getElementById('cover');
+function setName(n){
+  cover.innerHTML='';const COLS=8;
+  n.split('|').forEach(part=>{
+    const letters=[...part];
+    for(let i=0;i<Math.ceil(letters.length/COLS)*COLS;i++){
+      const s=document.createElement('span');s.textContent=letters[i]||'';if(!letters[i])s.className='empty';cover.appendChild(s);}
+  });
+}
+document.querySelectorAll('button[data-name]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('button[data-name]').forEach(x=>x.setAttribute('aria-pressed',x===b));setName(b.dataset.name);});
+setName('ayelet|ops');
+
+/* LATENT FIELD: rhizome. Coordinates are placeholders in a 1200x800 space centred on 0,0 */
+const nodes=[
+ {id:'Biology',x:-300,y:-170,t:'region'},{id:'Governance',x:320,y:-200,t:'region'},
+ {id:'Communication',x:-280,y:210,t:'region'},{id:'Freedom',x:330,y:180,t:'region'},
+ {id:'Vaccine Futures',x:-90,y:-230,t:'proj'},{id:'Frequencies',x:60,y:40,t:'proj'},
+ {id:'Urban Healing',x:-420,y:20,t:'proj'},{id:'In the Zone',x:170,y:300,t:'proj'},
+ {id:'Peres Center',x:440,y:-20,t:'proj'},{id:'Calculating Empires',x:120,y:-320,t:'proj'}];
+const links=[['Biology','Vaccine Futures'],['Governance','Vaccine Futures'],['Biology','Urban Healing'],['Communication','Frequencies'],
+ ['Governance','Frequencies'],['Freedom','Frequencies'],['Freedom','In the Zone'],['Communication','In the Zone'],['Governance','Peres Center'],
+ ['Freedom','Peres Center'],['Governance','Calculating Empires'],['Communication','Urban Healing'],['Biology','Communication'],['Governance','Freedom']];
+const layer=document.getElementById('layer'),svg=document.getElementById('links'),byId={};
+links.forEach(([a,b])=>{const A=nodes.find(n=>n.id===a),B=nodes.find(n=>n.id===b);
+  svg.innerHTML+=`<line x1="${A.x+600}" y1="${A.y+400}" x2="${B.x+600}" y2="${B.y+400}" stroke="#111" stroke-opacity=".35" stroke-width="1"/>`;});
+nodes.forEach(n=>{const d=document.createElement('div');d.className='node '+n.t;d.textContent=n.id;d.style.left=n.x+'px';d.style.top=n.y+'px';
+  d.onclick=()=>focus(n);layer.appendChild(d);byId[n.id]=d;});
+function focus(n){Object.values(byId).forEach(d=>d.classList.remove('focus'));byId[n.id].classList.add('focus');
+  layer.style.transform=`translate(${-n.x}px,${-n.y}px)`;document.getElementById('focusname').textContent=n.id;}
+focus(nodes[0]);
+</script>
 </body></html>

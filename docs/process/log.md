@@ -103,3 +103,10 @@ The typology confrontation, the stance text and the process documentation are fo
 - **Black Holes, from months:** a 12-column grid (the generic default) where each column is a month; birth months mark void positions and sizes.
 - **Shared by the family:** baseline 24px (mean age ÷ 2), gutter 12px, margins 2vw/3vw (youngest : oldest), type-scale ratio 1.482 (√ of mean day : mean month).
 - **Privacy:** the public values are unlinked sets of days, ages, year-gaps and months. Without the secret seed they can't be recombined into dates.
+
+**My feedback on the grids, and the changes:**
+- All four pages get navigation top and bottom. Each nav is set on its own page's grid (cover nav on the day-columns, work nav on the year-intervals, and so on).
+- Cover: line breaks as an option. "ayelet / ops" puts "ops" on the next row, on the same columns. Toggles in the sheet for ayelet/ops, ayeletops, sella/_vie, ayelet/sella.
+- Latent Field: made rhizomatic. Regions and projects form a network with no fixed centre. Clicking a node moves it to the centre and the age rings re-form around it. Project positions are placeholders for me to place.
+- Work: kept as is.
+- Black Holes: unresolved, left open.
