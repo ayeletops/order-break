@@ -1,7 +1,7 @@
 /* WORK · CHAOS — the board of a mind that connects everything.
    Paper: Ayelet's own images (assets/board, listed by tools/board-manifest.py) + real scans of tickets, receipts, telegrams,
    envelopes and handwriting from Wikimedia Commons (js/board-scraps.js) + a few public-domain photographs of early cinema.
-   Sizes from tiny to huge, some blended into the cork (multiply / darken / overlay), rotated, layered. Click brings one to the front.
+   Sizes from small to medium, a rare large one; rotated, layered, no blending. Click brings one forward; click again puts it back.
    No pins: it is a map. Things lie on the cork, and arrows run between their edges.
    Thin lines, as on the ROI field, join things that share a topic (js/board-topics.js for her images; keywords for the scans).
    Every position comes from the secret offsets.
@@ -12,9 +12,6 @@ window.Board = (() => {
   const PD = ['d/d2/The_Horse_in_Motion_high_res.jpg', '0/04/Le_Voyage_dans_la_lune.jpg', '0/0b/Kinetoscope.jpg'];
   const CORK = 'https://cdn.pakutaso.com/shared/img/thumb/YUKI1211A1139_TP_V.jpg';             // PAKUTASO, free for any use
   const M = () => Object.assign({ cork: CORK }, (window.BOARD && BOARD.materials) || {});
-  // paper sinks into the cork (multiply / darken); photos sometimes ghost into it (overlay)
-  const BLEND_SCAN = ['multiply', 'multiply', 'darken', 'multiply', 'normal', 'darken', 'multiply', 'overlay'];
-  const BLEND_PHOTO = ['normal', 'overlay', 'multiply', 'normal', 'darken', 'overlay', 'normal', 'multiply', 'darken', 'normal'];
 
   const KW = [[/ticket|stub|boarding|admission|raffle/i, 'ticket'], [/receipt|quittung|invoice/i, 'receipt'], [/letter|postcard|diary|note|journal|telegram|list|recipe|poem|clipping|handwrit/i, 'text'],
     [/concert|grateful|korn|midnight|letov|sven|jackson|buffett|presley/i, 'music'], [/movie|theat|programme|cinema/i, 'film'], [/matchbook|bier|beer/i, 'night'],
@@ -45,12 +42,12 @@ window.Board = (() => {
       const y = top - 20 + ((k * .7548776 + Math.abs(o[1]) * .5) % 1) * Math.max(40, height - h * .55);
       const kind = it.scan ? 'scan' : it.corner ? 'print' : (k % 4 === 0 ? 'pol' : 'print');
       const rt = (k * 7 + 3) % 6 === 0;                                                        // red thread: grainy red duotone, like a risograph
-      const BL = it.scan ? BLEND_SCAN : BLEND_PHOTO, blend = rt ? 'normal' : BL[Math.abs(Math.round(o3[1] * 1000)) % BL.length];
+      const blend = 'normal';   // no blending: every piece is itself
       const r = (o2[1] * (it.scan ? 28 : 18)).toFixed(1), curl = (o3[0] * 7).toFixed(1);
       // the pin: top-centre, or top-right for tiles cut from a saved board; the print rotates around it
       const ax = it.corner ? w * .86 : w * (.5 + o3[0] * .18), ay = it.corner ? w * .12 : Math.min(18, h * .08);
       const src = it.src || thumb(it.p, w > 300 ? 500 : 330);
-      html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" data-id="p${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
+      html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" data-id="p${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;z-index:${5 + (k % 25)}">`
         + `<img src="${src}" alt="" decoding="async" referrerpolicy="no-referrer"><i class="sheen"></i></figure>`);
       const hh = h + (kind === 'pol' ? 51 : kind === 'scan' || blend !== 'normal' ? 0 : 14), ww = w + (kind === 'scan' || blend !== 'normal' ? 0 : 14);
       anchors.push([x + ww / 2, y + hh / 2, w, it.topics, 'ph', 'p' + k, ww, hh]);   // a place on the map: centre and size
@@ -89,7 +86,7 @@ window.Board = (() => {
       if (hsh % 23 === 11) out.push(arrow([x0, Math.max(20, Math.min(H - 20, a[1] - o[0] * 60))], a, 'pa', 'before', a[5]));     // from before
     });
     const head = (id, c) => `<marker id="${id}" viewBox="0 0 8 8" refX="7.2" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M.6,.8 L7.2,4 L.6,7.2" fill="none" stroke="${c}" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></marker>`;
-    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>${head('ah-k', '#0b0b0b')}${head('ah-r', '#e5332a')}</defs>${out.join('')}</svg>`
+    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>${head('ah-w', '#fff')}</defs>${out.join('')}</svg>`
       + `<svg class="topics hl" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"></svg>`;
   }
   // hover: a thing's own arrows, in and out, come up over the paper
@@ -135,15 +132,15 @@ window.Board = (() => {
     const [ox, oy] = getComputedStyle(el).transformOrigin.split(' ').map(parseFloat);
     const cx = wrapEl.scrollLeft + vw / 2 - el.offsetLeft, cy = vh / 2 - el.offsetTop;
     const tx = cx - ox - s * (w / 2 - ox), ty = cy - oy - s * (h / 2 - oy);
-    el.dataset.z = el.style.zIndex; el.dataset.bl = el.style.mixBlendMode;
-    el.classList.add('lifted'); el.style.zIndex = 5000; el.style.mixBlendMode = 'normal';
+    el.dataset.z = el.style.zIndex;
+    el.classList.add('lifted'); el.style.zIndex = 5000;
     el.style.transform = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) scale(${s.toFixed(3)})`;
     const g = G[+el.dataset.k], img = el.querySelector('img'); if (g && !g.own && img.src !== g.big) { const hi = new Image(); hi.onload = () => { img.src = g.big; }; hi.src = g.big; }
     cur = el; ui.hidden = false; ui.querySelector('.cap').textContent = (g && g.cap) || '';
   }
   function drop() {
     if (!cur) return; const el = cur; cur = null; if (ui) ui.hidden = true;
-    el.classList.remove('lifted'); el.classList.add('landing'); el.style.transform = ''; el.style.mixBlendMode = el.dataset.bl || '';
+    el.classList.remove('lifted'); el.classList.add('landing'); el.style.transform = '';
     setTimeout(() => { el.classList.remove('landing'); el.style.zIndex = el.dataset.z; }, 700);
   }
   function front(track) {

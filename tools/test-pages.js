@@ -32,13 +32,13 @@ const click = (w, sel) => { const el = w.document.querySelector(sel); if (!el) t
   R.push(await run('index.html', async (w, o) => {
     const d = w.document; o.slots = d.querySelectorAll('#cover .st-slot').length;
     click(w, '.switch button[data-w=sella_vie]'); await new Promise(r => setTimeout(r, 900));
-    o.switched = d.getElementById('cover').getAttribute('aria-label'); o.stance = !!d.querySelector('#stance .col');
+    o.switched = d.getElementById('cover').getAttribute('aria-label'); o.negative = d.documentElement.classList.contains('negative'); o.stance = !!d.querySelector('#stance .col');
     o.nav = [...d.querySelectorAll('.nav a')].map(a => a.textContent + (a.hasAttribute('aria-current') ? '*' : '')).join(' | ');
   }));
   R.push(await run('work.html', async (w, o) => {
     const d = w.document, tr = d.getElementById('track');
     o.cats = d.querySelectorAll('.cat').length; o.roles = d.querySelectorAll('.role').length; o.scraps = d.querySelectorAll('.sc, .ph').length;
-    o.arrows = d.querySelectorAll('svg.topics:not(.hl) path').length; o.back = d.querySelectorAll('svg.topics path.bk').length; o.tools = d.querySelectorAll('.chaos .tool').length; o.tags = d.querySelectorAll('.chaos .dymo:not(.tool)').length; o.pins = d.querySelectorAll('.pin').length; o.blends = [...new Set([...d.querySelectorAll('.ph')].map(f => f.style.mixBlendMode))].join(','); o.rings = d.querySelectorAll('.chaos .ring').length;
+    o.arrows = d.querySelectorAll('svg.topics:not(.hl) path').length; o.back = d.querySelectorAll('svg.topics path.bk').length; o.kits = d.querySelectorAll('.role .kit a').length; o.toolbox = !!d.querySelector('.toolbox'); o.tags = d.querySelectorAll('.chaos .dymo:not(.tool)').length; o.pins = d.querySelectorAll('.pin').length; o.blends = [...new Set([...d.querySelectorAll('.ph')].map(f => f.style.mixBlendMode))].join(','); o.rings = d.querySelectorAll('.chaos .ring').length;
     o.ownImages = [...d.querySelectorAll('.ph img')].filter(i => /assets\//.test(i.getAttribute('src'))).length;
     o.startChaos = !tr.classList.contains('grid');
     click(w, '.views [data-v=grid]'); o.afterNotToBe = tr.classList.contains('grid') ? 'grid' : 'chaos';

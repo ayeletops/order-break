@@ -515,3 +515,14 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 
 **Then:** no gallery next/previous, only choosing a photo to see and bringing it back.
 **AI:** the ◀ / ▶ buttons, the arrow keys, the counter and the BACK ON THE BOARD button are gone. Clicking a photo brings it forward. Clicking it again, clicking anywhere on the board, Esc or scrolling puts it back in its place. Clicking another photo puts the first one back and brings the new one. Only the credit label stays, so the scans keep their attribution.
+
+**Then (home):** move the text up closer to the title. Switching to sella_vie turns the page negative.
+**AI:** the stance now starts right under the name. sella_vie inverts the whole page: black paper, white letters. The red grid stays red, by inverting and rotating the hue back. ayeletops brings the positive back.
+
+**Then (work):** no blending modes at all. The tools aren't aesthetic, so put them under the jobs they relate to. The cork should move with the scroll, not be a fixed background. The connecting lines can be white, like the years on the timeline. In the grid, some texts overlap.
+**AI:**
+- **Blending:** none left. Every piece is itself.
+- **Tools:** the toolbox and the scattered tool tapes are gone. Each card now carries its own kit under the company, in small type, and each tool is still a link: Jumpcut and the freelance years with Avid / Premiere / After Effects, Shenkar with After Effects / Cinema 4D, the two restorations with Resolve, Opus with Resolve / Avid, Wix with the generative and collaboration stack, the hackathon with Deepgram / Whisper / Claude, HIT with Figma / Unity / Claude / GitHub. This mapping is my reading, for Ayelet to correct.
+- **Cork:** `background-attachment: local`, so the cork travels with the board.
+- **Lines:** arrows and heads are white; going back in time stays dashed. The years on the board are white too.
+- **Grid:** rows are as tall as their lanes. Each lane is at least one card high, so cards in the same category never stack onto each other. If that's taller than the window, the grid scrolls vertically.

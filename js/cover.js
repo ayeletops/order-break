@@ -15,6 +15,7 @@
   const btns = document.querySelectorAll('.switch button');
   function show(i) {
     cur = i; T.setWord(names[i]); cover.setAttribute('aria-label', names[i]);
+    document.documentElement.classList.toggle('negative', i === 1);   // sella_vie is the negative
     btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.w === names[i]));
   }
   btns.forEach(b => b.addEventListener('click', () => show(names.indexOf(b.dataset.w))));
