@@ -7,4 +7,4 @@ Optional real materials in `materials/`:
 - `pin.png`    — a cut-out pushpin on transparent background
 
 Then run `python3 tools/board-manifest.py` (Claude does this) to refresh `js/board-manifest.js`.
-Chosen and placed by Ayelet. The site is temporary (deleted after submission).
+Chosen and placed by Ayelet. `s-NN.jpg` are tiles cut from her saved boards (pin top-right); `p-*.jpg` are single images. Cork: PAKUTASO (free for any use), hotlinked until a cork.jpg is here. The site is temporary (deleted after submission).
