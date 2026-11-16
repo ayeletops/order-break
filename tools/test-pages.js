@@ -1,4 +1,3 @@
-// Run: (cd /tmp/jt && npm i jsdom@24) then node tools/test-pages.js "<repo path>" — needs jsdom
 // Functional test: load each page with its scripts, exercise the controls, report errors.
 const { JSDOM, VirtualConsole } = require('jsdom');
 const path = require('path'), fs = require('fs');
@@ -38,7 +37,7 @@ const click = (w, sel) => { const el = w.document.querySelector(sel); if (!el) t
   }));
   R.push(await run('work.html', async (w, o) => {
     const d = w.document, tr = d.getElementById('track');
-    o.cats = d.querySelectorAll('.cat').length; o.roles = d.querySelectorAll('.role').length; o.scraps = d.querySelectorAll('.sc').length;
+    o.cats = d.querySelectorAll('.cat').length; o.roles = d.querySelectorAll('.role').length; o.scraps = d.querySelectorAll('.sc, .ph').length;
     o.strings = d.querySelectorAll('.strings path').length; o.rings = d.querySelectorAll('.chaos .ring').length;
     o.ownImages = [...d.querySelectorAll('.sc img')].filter(i => /assets\//.test(i.getAttribute('src'))).length;
     o.startChaos = !tr.classList.contains('grid');

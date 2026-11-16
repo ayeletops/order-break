@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161303"><link rel="stylesheet" href="css/site.css?v=202611161303">
+<link rel="stylesheet" href="css/grids.css?v=202611161309"><link rel="stylesheet" href="css/site.css?v=202611161309">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -23,6 +23,7 @@
   .role{transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1));transition:transform calc(var(--beat) * 2) var(--ease)}
   .track.grid .role{transform:none!important}
   /* CHAOS — another realm: a cork board. Index cards and polaroids pinned in layers, red string, a thin red circle at each event year. */
+  .wrap:has(.track:not(.grid))[style*='--cork']{background:var(--cork) 0 0/520px auto repeat!important}
   .wrap:has(.track:not(.grid)){background-color:#b4875a;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='9'/><feColorMatrix values='0 0 0 0 .32  0 0 0 0 .2  0 0 0 0 .1  0 0 0 -2.2 1.35'/></filter><rect width='100%' height='100%' filter='url(%23c)'/></svg>"),
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .3  0 0 0 0 .16  0 0 0 -1.8 .9'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
@@ -41,13 +42,26 @@
     background:radial-gradient(circle at 35% 30%,#ff8a7a 0 18%,#e5332a 40%,#8c1410 100%);box-shadow:2px 3px 3px rgba(0,0,0,.45)}
   .chaos{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:1;transition:opacity calc(var(--beat) * 2) var(--ease)}
   .track.grid .chaos{opacity:0}
-  .chaos .ring{position:absolute;border-radius:50%;border:1px solid var(--grid);opacity:.85}
+  .chaos .ring{position:absolute;border-radius:50%;opacity:.9;background:repeating-radial-gradient(circle,transparent 0 14%,#0b0b0b 14% 15.2%);box-shadow:0 0 0 2px #0b0b0b inset;mix-blend-mode:multiply}
   .chaos .pol-old{position:absolute;background:#fbfaf6;padding:8px 8px 34px;box-shadow:0 1px 1px rgba(0,0,0,.25),4px 8px 16px rgba(30,15,0,.4);
     transform:rotate(var(--r)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));pointer-events:auto}
   .chaos .pol img{display:block;width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(1) contrast(1.08)}
   .chaos .pol span{position:absolute;left:10px;right:10px;bottom:9px;font:400 13px/1.2 "Special Elite",var(--f-type);color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .chaos .pol::after{content:"";position:absolute;left:calc(50% - 7px);top:-7px;width:14px;height:14px;border-radius:50%;
     background:radial-gradient(circle at 35% 30%,#ff8a7a 0 18%,#e5332a 40%,#8c1410 100%);box-shadow:2px 3px 3px rgba(0,0,0,.45)}
+  /* photographs on the board: printed, curled, glossy, shadowed */
+  .ph{position:absolute;margin:0;pointer-events:auto;background:#fbfaf7;padding:7px;
+      transform:perspective(900px) rotate(var(--r)) rotateX(var(--curl)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));
+      box-shadow:0 1px 1px rgba(0,0,0,.28),0 4px 8px rgba(30,15,0,.22),6px 16px 26px rgba(30,15,0,.38);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+  .ph.pol{padding:9px 9px 42px}
+  .ph > img:first-child{display:block;width:100%;height:auto}
+  .ph.pol > img:first-child{aspect-ratio:1;object-fit:cover}
+  .ph .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.28),rgba(255,255,255,0) 32%,rgba(0,0,0,0) 62%,rgba(0,0,0,.12))}
+  .ph:hover{z-index:80!important;transform:perspective(900px) rotate(0) rotateX(0) scale(1.12);box-shadow:0 2px 2px rgba(0,0,0,.3),12px 30px 40px rgba(30,15,0,.45)}
+  .ph .pin{position:absolute;left:calc(50% - 9px);top:-6px;width:18px;height:18px;border-radius:50%;z-index:3;
+    background:radial-gradient(circle at 34% 28%,#fff 0 7%,#ff7b6b 12%,#d8261a 38%,#7d0e08 74%,#3a0503 100%);box-shadow:3px 6px 5px rgba(0,0,0,.45)}
+  .ph img.pin.img{width:34px;height:auto;left:calc(50% - 12px);top:-18px;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(3px 6px 4px rgba(0,0,0,.45))}
+  .chaos .strings .tw-hi2{fill:none;stroke:#5e0a06;stroke-width:.7;stroke-dasharray:.8 3.2;stroke-dashoffset:2;opacity:.8}
   /* the board's scraps */
   .sc{position:absolute;pointer-events:auto;transform:rotate(var(--r)) scale(var(--s,1)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));transition:transform .4s var(--ease)}
   .sc.print,.sc.duo,.sc.cam{clip-path:var(--cut,none)}
@@ -181,10 +195,11 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161303"></script>
-<script src="js/stretch.js?v=202611161303"></script>
-<script src="js/rupture.js?v=202611161303"></script>
-<script src="js/board.js?v=202611161303"></script>
+<script src="js/placement.js?v=202611161309"></script>
+<script src="js/stretch.js?v=202611161309"></script>
+<script src="js/rupture.js?v=202611161309"></script>
+<script src="js/board-manifest.js?v=202611161309"></script>
+<script src="js/board.js?v=202611161309"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -254,13 +269,13 @@ function build() {
   const B = Board.build({ OFF, left: LEFT + 40, width: total - 80, top: YEARS_H + 10, height: avail - 20 });
   B.pins.forEach(p => pins.push(p));
   const pols = B.html;
-  const str = pins.flatMap((a, i) => [[a, pins[(i * 5 + 3) % pins.length]], [a, pins[(i * 11 + 7) % pins.length]]]).filter(([a, b]) => a !== b)
+  const str = pins.map((a, i) => [a, pins[(i * 5 + 3) % pins.length]]).filter(([a, b]) => a !== b)
     .map(([a, b], i) => Board.twine(a, b, i)).join('');
   h += `<div class="chaos">${rings}${pols}<svg class="strings" viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${str}</svg></div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
-  Board.live(track);
+  const mat = Board.material(); if (mat.cork) wrapEl.style.setProperty('--cork', `url(${mat.cork})`);
 }
 build(); new ResizeObserver(build).observe(wrapEl);
 const wrap = document.getElementById('wrap');
@@ -275,5 +290,5 @@ wrapEl.addEventListener('pointermove', e => { const r = wrapEl.getBoundingClient
   track.style.setProperty('--px', px.toFixed(1) + 'px'); track.style.setProperty('--py', py.toFixed(1) + 'px'); });
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161303"></script>
+<script src="js/nav.js?v=202611161309"></script>
 </body></html>
