@@ -6,8 +6,10 @@
 (() => {
   const cv = document.getElementById('sky'), x = cv.getContext('2d');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const COMP = [[2023, 1.16, .52, .36], [2014, .50, .38, .26], [2019, .64, .82, .15], [2010, .16, .74, .13], [2016, .84, .11, .09]];
-  let W = 0, H = 0, dpr = 1, hover = -1, C = [];
+  // five slots in a fixed poster composition, largest first; the events move between them
+  const SLOTS = [[1.16, .52, .36], [.50, .38, .26], [.64, .82, .15], [.16, .74, .13], [.84, .11, .09]];
+  const EVENTS = [2023, 2014, 2019, 2010, 2016];                  // default: who sits in which slot
+  let W = 0, H = 0, dpr = 1, hover = -1, C = [], S = [], order = EVENTS.slice(), t0 = 0, from = null;
   function size() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     const r = cv.getBoundingClientRect(); if (r.width === W && r.height === H) return;
@@ -15,13 +17,27 @@
     const land = W >= H, bw = land ? 1.6 : 1, bh = land ? 1 : 1.6;
     const pad = Math.min(W, H) * .06, s = Math.min((W - 2 * pad) / bw, (H - 2 * pad) / bh);
     const ox = (W - bw * s) / 2, oy = (H - bh * s) / 2;
-    C = COMP.map(([ev, cx, cy, r]) => ({ ev, x: ox + (land ? cx : cy) * s, y: oy + (land ? cy : cx) * s, r: r * s }));
+    S = SLOTS.map(([cx, cy, r]) => ({ x: ox + (land ? cx : cy) * s, y: oy + (land ? cy : cx) * s, r: r * s }));
+    if (!C.length) C = EVENTS.map((ev, i) => ({ ev, ...S[i] }));
+    else C.forEach(c => Object.assign(c, S[order.indexOf(c.ev)]));
   }
   // a soft, eased heartbeat: lub, then a smaller dub, then rest (120 BPM)
   const ease = v => v <= 0 || v >= 1 ? 0 : Math.sin(Math.PI * v) ** 2;
   const beat = t => { const p = (t % 500) / 500; return ease(p / .34) + .45 * ease((p - .36) / .3); };
+  // hover: the chosen event takes the largest slot; the rest keep their order in the remaining slots. One beat, eased.
+  function choose(ev) {
+    const next = ev == null ? EVENTS.slice() : [ev].concat(EVENTS.filter(e => e !== ev));
+    if (next.join() === order.join()) return;
+    order = next; from = C.map(c => ({ x: c.x, y: c.y, r: c.r })); t0 = performance.now();
+  }
+  function settle(t) {
+    if (!from) return;
+    const p = Math.min(1, (t - t0) / 500), e = p < .5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2;
+    C.forEach((c, i) => { const g = S[order.indexOf(c.ev)], f = from[i]; c.x = f.x + (g.x - f.x) * e; c.y = f.y + (g.y - f.y) * e; c.r = f.r + (g.r - f.r) * e; });
+    if (p >= 1) from = null;
+  }
   function frame(t) {
-    size(); if (reduce) t = 0;
+    size(); settle(performance.now()); if (reduce) t = 0;
     const b = 1 + .016 * beat(t);
     x.setTransform(dpr, 0, 0, dpr, 0, 0);
     x.fillStyle = '#e5332a'; x.fillRect(0, 0, W, H);
@@ -33,8 +49,13 @@
     });
     requestAnimationFrame(frame);
   }
-  cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); hover = C.findIndex(c => Math.hypot(e.clientX - r.left - c.x, e.clientY - r.top - c.y) < c.r); cv.style.cursor = hover >= 0 ? 'default' : ''; });
-  cv.addEventListener('pointerleave', () => hover = -1);
+  cv.addEventListener('pointermove', e => {
+    const r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+    const i = C.findIndex(c => Math.hypot(mx - c.x, my - c.y) < c.r);
+    if (i !== hover) { hover = i; if (i >= 0) choose(C[i].ev); }   // leaving all holes keeps the last arrangement until the pointer leaves the sky
+    cv.style.cursor = hover >= 0 ? 'default' : '';
+  });
+  cv.addEventListener('pointerleave', () => { hover = -1; choose(null); });
   addEventListener('resize', () => { W = 0; });
   requestAnimationFrame(frame);
 })();

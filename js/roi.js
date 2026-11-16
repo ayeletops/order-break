@@ -234,9 +234,14 @@
   function render() {
     layer.style.transform = `translate(${off.x}px,${off.y}px) scale(${z})`;
     // rhizome: points fade with distance from the centre (depth). grid: everything at full strength.
-    const fade = 520 / Math.max(.4, z), gv = view === 'grid';
-    ALL.forEach(n => n.el.style.opacity = gv ? 1 : Math.max(.12, 1 - Math.hypot(n.x + off.x / z, n.y + off.y / z) / fade));
-    const b = hovered || nearest();
+    // rhizome: what is not in focus fades; the focus, its parent, its children and anything linked to it are full black.
+    const b = hovered || nearest(), gv = view === 'grid';
+    if (b !== render.lastB || gv !== render.lastGv) {
+      render.lastB = b; render.lastGv = gv;
+      const near = new Set([b, b.parent]); ALL.forEach(n => { if (n.parent === b) near.add(n); });
+      EDGES.forEach(e => { if (e.a === b) near.add(e.b); if (e.b === b) near.add(e.a); });
+      ALL.forEach(n => n.el.style.opacity = gv || near.has(n) ? 1 : .22);
+    }
     if (b !== focused) { if (focused) focused.el.classList.remove('focus'); focused = b; b.el.classList.add('focus');
       centre.textContent = b.y_ ? `${b.t} · ${b.y_}` : (b.parent ? (b.parent.parent ? b.parent.parent.t + ' › ' + b.parent.t + ' › ' : b.parent.t + ' › ') : '') + b.t; }
   }
