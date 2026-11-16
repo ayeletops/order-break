@@ -9,7 +9,7 @@
   // five slots in a fixed poster composition, largest first; the events move between them
   const SLOTS = [[1.16, .52, .36], [.50, .38, .26], [.64, .82, .15], [.16, .74, .13], [.84, .11, .09]];
   const EVENTS = [2023, 2014, 2019, 2010, 2016];                  // default: who sits in which slot
-  let W = 0, H = 0, dpr = 1, hover = -1, C = [], S = [], order = EVENTS.slice(), t0 = 0, from = null;
+  let W = 0, H = 0, dpr = 1, hover = -1, C = [], S = [], order = EVENTS.slice(), t0 = 0, from = null, lastXY = null;
   function size() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     const r = cv.getBoundingClientRect(); if (r.width === W && r.height === H) return;
@@ -52,10 +52,12 @@
   cv.addEventListener('pointermove', e => {
     const r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
     const i = C.findIndex(c => Math.hypot(mx - c.x, my - c.y) < c.r);
-    if (i !== hover) { hover = i; if (i >= 0) choose(C[i].ev); }   // leaving all holes keeps the last arrangement until the pointer leaves the sky
+    hover = i;
+    // choose only when settled, and only after the pointer has really moved since the last choice (no chain reactions)
+    if (i >= 0 && !from && C[i].ev !== order[0] && (!lastXY || Math.hypot(mx - lastXY[0], my - lastXY[1]) > 40)) { choose(C[i].ev); lastXY = [mx, my]; }
     cv.style.cursor = hover >= 0 ? 'default' : '';
   });
-  cv.addEventListener('pointerleave', () => { hover = -1; choose(null); });
+  cv.addEventListener('pointerleave', () => { hover = -1; lastXY = null; choose(null); });
   addEventListener('resize', () => { W = 0; });
   requestAnimationFrame(frame);
 })();
