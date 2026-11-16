@@ -19,21 +19,40 @@
     const ox = (W - bw * s) / 2, oy = (H - bh * s) / 2;
     S = SLOTS.map(([cx, cy, r]) => ({ x: ox + (land ? cx : cy) * s, y: oy + (land ? cy : cx) * s, r: r * s }));
     if (!C.length) C = EVENTS.map((ev, i) => ({ ev, ...S[i] }));
-    else C.forEach(c => Object.assign(c, S[order.indexOf(c.ev)]));
+    else { order = EVENTS.slice(); targets = null; from = null; C.forEach(c => Object.assign(c, S[EVENTS.indexOf(c.ev)])); }
   }
   // a soft, eased heartbeat: lub, then a smaller dub, then rest (120 BPM)
   const ease = v => v <= 0 || v >= 1 ? 0 : Math.sin(Math.PI * v) ** 2;
   const beat = t => { const p = (t % 500) / 500; return ease(p / .34) + .45 * ease((p - .36) / .3); };
-  // hover: the chosen event takes the largest slot; the rest keep their order in the remaining slots. One beat, eased.
+  // hover: the chosen hole grows where it is (under the pointer); the others take the smaller sizes and are pushed
+  // out of its way, relaxing into a balanced arrangement inside the frame. One beat, eased.
+  let targets = null;
   function choose(ev) {
     const next = ev == null ? EVENTS.slice() : [ev].concat(EVENTS.filter(e => e !== ev));
     if (next.join() === order.join()) return;
-    order = next; from = C.map(c => ({ x: c.x, y: c.y, r: c.r })); t0 = performance.now();
+    order = next;
+    if (ev == null) targets = C.map(c => ({ ...S[EVENTS.indexOf(c.ev)] }));
+    else {
+      const pad = Math.min(W, H) * .03, k = C.findIndex(c => c.ev === ev);
+      targets = C.map(c => { const r = S[order.indexOf(c.ev)].r; return { x: c.x, y: c.y, r }; });
+      const T = targets, fix = T[k];
+      fix.x = Math.max(fix.r + pad, Math.min(W - fix.r - pad, fix.x)); fix.y = Math.max(fix.r + pad, Math.min(H - fix.r - pad, fix.y));
+      for (let it = 0; it < 300; it++) {
+        T.forEach((a2, i) => T.forEach((b2, j) => {
+          if (j <= i) return; const dx = b2.x - a2.x, dy = b2.y - a2.y, d = Math.hypot(dx, dy) || .01, min = a2.r + b2.r + pad;
+          if (d >= min) return; const p = (min - d), nx = dx / d, ny = dy / d;
+          if (i === k) { b2.x += nx * p; b2.y += ny * p; } else if (j === k) { a2.x -= nx * p; a2.y -= ny * p; }
+          else { a2.x -= nx * p / 2; a2.y -= ny * p / 2; b2.x += nx * p / 2; b2.y += ny * p / 2; }
+        }));
+        T.forEach((t, i) => { if (i === k) return; t.x = Math.max(t.r + pad, Math.min(W - t.r - pad, t.x)); t.y = Math.max(t.r + pad, Math.min(H - t.r - pad, t.y)); });
+      }
+    }
+    from = C.map(c => ({ x: c.x, y: c.y, r: c.r })); t0 = performance.now();
   }
   function settle(t) {
     if (!from) return;
     const p = Math.min(1, (t - t0) / 500), e = p < .5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2;
-    C.forEach((c, i) => { const g = S[order.indexOf(c.ev)], f = from[i]; c.x = f.x + (g.x - f.x) * e; c.y = f.y + (g.y - f.y) * e; c.r = f.r + (g.r - f.r) * e; });
+    C.forEach((c, i) => { const g = targets[i], f = from[i]; c.x = f.x + (g.x - f.x) * e; c.y = f.y + (g.y - f.y) * e; c.r = f.r + (g.r - f.r) * e; });
     if (p >= 1) from = null;
   }
   function frame(t) {
@@ -54,7 +73,7 @@
     const i = C.findIndex(c => Math.hypot(mx - c.x, my - c.y) < c.r);
     hover = i;
     // choose only when settled, and only after the pointer has really moved since the last choice (no chain reactions)
-    if (i >= 0 && !from && C[i].ev !== order[0] && (!lastXY || Math.hypot(mx - lastXY[0], my - lastXY[1]) > 40)) { choose(C[i].ev); lastXY = [mx, my]; }
+    if (i >= 0 && !from && C[i].ev !== order[0]) choose(C[i].ev);
     cv.style.cursor = hover >= 0 ? 'default' : '';
   });
   cv.addEventListener('pointerleave', () => { hover = -1; lastXY = null; choose(null); });
