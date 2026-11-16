@@ -2,15 +2,14 @@
    Paper: Ayelet's own images (assets/board, listed by tools/board-manifest.py) + real scans of tickets, receipts, telegrams,
    envelopes and handwriting from Wikimedia Commons (js/board-scraps.js) + a few public-domain photographs of early cinema.
    Sizes from tiny to huge, some blended into the cork (multiply / darken / overlay), rotated, layered. Click brings one to the front.
-   Real materials: a cork photograph, a red cord photographed and laid along every string (canvas), a photographed pushpin
-   (keyed out of its white ground at runtime). Every position comes from the secret offsets.
+   Real materials: a cork photograph, a red cord photographed and laid along every string (canvas), photographed brass tacks
+   and black nails (assets/board/materials). Every position comes from the secret offsets.
 */
 window.Board = (() => {
   const WM = 'https://upload.wikimedia.org/wikipedia/commons/thumb/';
   const thumb = (p, w) => WM + p + '/' + w + 'px-' + p.split('/').pop();
   const PD = ['d/d2/The_Horse_in_Motion_high_res.jpg', '0/04/Le_Voyage_dans_la_lune.jpg', '0/0b/Kinetoscope.jpg'];
   const CORK = 'https://cdn.pakutaso.com/shared/img/thumb/YUKI1211A1139_TP_V.jpg';             // PAKUTASO, free for any use
-  const PIN = WM + '0/05/RedPushPin_%28cropped%29.jpg/500px-RedPushPin_%28cropped%29.jpg';        // CC BY-SA 4.0, keyed at runtime
   const M = () => Object.assign({ cork: CORK }, (window.BOARD && BOARD.materials) || {});
   const BLEND = ['normal', 'normal', 'multiply', 'normal', 'darken', 'overlay', 'normal', 'multiply', 'normal', 'darken', 'overlay', 'multiply'];
 
@@ -79,32 +78,17 @@ window.Board = (() => {
     const t = new Image(); t.onload = () => draw(t); t.onerror = () => draw(null); t.src = src;
   }
 
-  // the pushpin: a real photograph, keyed off white once, then reused; tilted and sized per pin
-  let pinURL = null; const waiting = [];
-  function pinPhoto(cb) {
-    if (M().pin) return cb(M().pin);
-    if (pinURL) return cb(pinURL); waiting.push(cb); if (waiting.length > 1) return;
-    const im = new Image(); im.crossOrigin = 'anonymous';
-    im.onload = () => { try {
-      const W = im.naturalWidth, H = im.naturalHeight, c = document.createElement('canvas'); c.width = W; c.height = H;
-      const x = c.getContext('2d'); x.drawImage(im, 0, 0); const d = x.getImageData(0, 0, W, H), p = d.data;
-      let x0 = W, x1 = 0, y0 = H, y1 = 0;
-      for (let i = 0; i < p.length; i += 4) { const r = p[i], g = p[i + 1], b = p[i + 2], mn = Math.min(r, g, b), red = r - Math.max(g, b);
-        let a = Math.min(1, Math.max(0, (245 - mn) / 60)); if (red < 30) a = Math.min(a, Math.max(0, (200 - mn) / 120)); p[i + 3] = a * 255;
-        const k = i / 4, X = k % W, Y = (k / W) | 0; if (Y < H * .62 && X > W * .3 && p[i + 3] > 200 && red > 40) { x0 = Math.min(x0, X); x1 = Math.max(x1, X); y0 = Math.min(y0, Y); y1 = Math.max(y1, Y); } }
-      x.putImageData(d, 0, 0);
-      const cw = x1 - x0 + 8, ch = y1 - y0 + 8, s = 72 / cw, o = document.createElement('canvas'); o.width = 72; o.height = Math.round(ch * s);
-      o.getContext('2d').drawImage(c, x0 - 4, y0 - 4, cw, ch, 0, 0, o.width, o.height); pinURL = o.toDataURL('image/png');
-    } catch (e) { pinURL = ''; } waiting.splice(0).forEach(f => f(pinURL)); };
-    im.onerror = () => { pinURL = ''; waiting.splice(0).forEach(f => f(pinURL)); };
-    im.src = PIN;
-  }
-  // pins: one per anchor, above the cord. size and tilt from the offsets
+  // pins: photographed brass tacks and black cobbler's nails (cut out of Ayelet's photos), one per anchor, above the cord
   function pins(points, OFF) {
-    return points.map(([x, y, w], i) => { const o = OFF[(i * 5 + 2) % OFF.length], s = Math.round(Math.max(18, Math.min(34, 16 + (w || 200) / 18)) + o[0] * 3);
-      return `<img class="pin" alt="" style="left:${(x - s * .5).toFixed(0)}px;top:${(y - s * 1.15).toFixed(0)}px;width:${s}px;transform:rotate(${(o[1] * 38).toFixed(0)}deg)">`; }).join('');
+    const m = M(), nails = Object.keys(m).filter(k => /^nail-/.test(k)).sort().map(k => m[k]);
+    return points.map(([x, y, w], i) => { const o = OFF[(i * 5 + 2) % OFF.length], hsh = Math.abs(Math.round(o[0] * 991 + o[1] * 313));
+      const nail = nails.length && hsh % 5 < 2, src = nail ? nails[hsh % nails.length] : m.tack;
+      if (!src) return `<i class="pin drawn" style="left:${x - 7}px;top:${y - 7}px"></i>`;
+      const s = Math.round(nail ? 26 + Math.abs(o[1]) * 12 : Math.max(13, Math.min(24, 11 + (w || 200) / 24)) + o[0] * 2);
+      const rot = nail ? (hsh * 37) % 360 : Math.round(o[1] * 90);
+      return `<img class="pin${nail ? ' nail' : ' tack'}" src="${src}" alt="" style="left:${(x - s / 2).toFixed(0)}px;top:${(y - s / 2).toFixed(0)}px;width:${s}px;transform:rotate(${rot}deg)">`; }).join('');
   }
-  function dress(root) { pinPhoto(u => root.querySelectorAll('img.pin').forEach(p => { if (u) p.src = u; else p.classList.add('drawn'); })); }
+  function dress() {}
 
   // click brings a print (or a card) to the front
   let Z = 40;

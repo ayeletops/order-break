@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161336"><link rel="stylesheet" href="css/site.css?v=202611161336">
+<link rel="stylesheet" href="css/grids.css?v=202611161340"><link rel="stylesheet" href="css/site.css?v=202611161340">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -142,9 +142,10 @@
   .sc.corridor{background:#f2efe6;box-shadow:2px 4px 10px rgba(0,0,0,.45)}.sc.corridor svg{width:100%;height:100%}.sc.corridor rect,.sc.corridor path{fill:none;stroke:#111;stroke-width:1.5}
   .chaos canvas.strings{position:absolute;left:0;top:0;z-index:900;pointer-events:none}
   .chaos .pins{position:absolute;inset:0;z-index:901;pointer-events:none}
-  .chaos .pins .pin{position:absolute;height:auto;filter:drop-shadow(3px 7px 3px rgba(20,8,0,.5));transform-origin:50% 90%}
-  .chaos .pins .pin:not([src]){visibility:hidden}
-  .chaos .pins .pin.drawn{visibility:visible;width:14px!important;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff 0 7%,#ff7b6b 12%,#d8261a 38%,#7d0e08 74%,#3a0503 100%)}
+  .chaos .pins .pin{position:absolute;height:auto;transform-origin:50% 50%}
+  .chaos .pins .tack{filter:drop-shadow(1px 2px 1.2px rgba(20,8,0,.6)) drop-shadow(0 0 .5px rgba(0,0,0,.5))}
+  .chaos .pins .nail{filter:drop-shadow(3px 5px 2px rgba(20,8,0,.45))}
+  .chaos .pins .pin.drawn{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c79a,#8a7440 60%,#4a3a18)}
   /* twine: a dark core, a spiralling highlight (the twist), a soft cast shadow, knots at the pins */
   .chaos .strings .tw{fill:none;stroke:#a8160f;stroke-width:2.4;stroke-linecap:round}
   .chaos .strings .tw-hi{fill:none;stroke:#ff6a55;stroke-width:1.1;stroke-dasharray:1.6 2.4;stroke-linecap:round;opacity:.9}
@@ -195,12 +196,12 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161336"></script>
-<script src="js/stretch.js?v=202611161336"></script>
-<script src="js/rupture.js?v=202611161336"></script>
-<script src="js/board-manifest.js?v=202611161336"></script>
-<script src="js/board-scraps.js?v=202611161336"></script>
-<script src="js/board.js?v=202611161336"></script>
+<script src="js/placement.js?v=202611161340"></script>
+<script src="js/stretch.js?v=202611161340"></script>
+<script src="js/rupture.js?v=202611161340"></script>
+<script src="js/board-manifest.js?v=202611161340"></script>
+<script src="js/board-scraps.js?v=202611161340"></script>
+<script src="js/board.js?v=202611161340"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -296,5 +297,5 @@ document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('cl
 }));
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161336"></script>
+<script src="js/nav.js?v=202611161340"></script>
 </body></html>

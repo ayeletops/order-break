@@ -475,3 +475,6 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 - **Sizes and blends:** sizes now run from 64px to 660px, mostly small with a few huge. Each print blends into the cork as normal, multiply, darken or overlay. Rotations are wider, and scans sit bare as paper with no print border. Clicking brings a print or a card to the front.
 - **Pins:** a real photographed pushpin (Commons), keyed off its white ground in the browser, sized and tilted per pin. The board rotates each print around its pin.
 - **Cord:** the strings moved to a canvas, so there can be hundreds: each print to its neighbours, leaps across the years, every CV card to three prints, and the five event years as hubs pulling threads from everywhere. Parallax is gone, because the threads have to stay on their pins.
+
+**Then:** lose the ugly red pushpins and use tacks or nails (two photos: an antique brass tack, black cobbler's nails on wood).
+**AI:** cut the brass tack's round head out of its white ground and eight single nails out of the wood. Overlapping nails were left out. Most pins are now brass tacks, sized to their print with a tight shadow, as if pressed in. About two in five are black nails, at any angle with a longer shadow. The Commons pushpin is gone.
