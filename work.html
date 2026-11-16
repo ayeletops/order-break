@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=Quicksand:wght@700&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161519"><link rel="stylesheet" href="css/site.css?v=202611161519">
+<link rel="stylesheet" href="css/grids.css?v=202611161521"><link rel="stylesheet" href="css/site.css?v=202611161521">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -173,17 +173,13 @@
   /* gallery: a print, brought to the front, full size; walk the board with the arrows */
   /* the print itself comes forward (it stays in the board's DOM); these are only the controls, in label tape */
   .ph.lifted,.ph.landing{transition:transform .7s var(--ease),box-shadow .7s var(--ease)}
-  .ph.lifted{cursor:default;box-shadow:0 2px 3px rgba(0,0,0,.35),24px 50px 80px rgba(20,8,0,.55)}
+  .ph.lifted{cursor:zoom-out;box-shadow:0 2px 3px rgba(0,0,0,.35),24px 50px 80px rgba(20,8,0,.55)}
   .gal{position:fixed;inset:0;z-index:2000;pointer-events:none}
   .gal[hidden]{display:none}
-  .gal button,.gal .cap,.gal .ct{position:absolute;pointer-events:auto;margin:0;font:700 12px/1 "Quicksand",var(--f-type);letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.93);
+  .gal .cap{position:absolute;pointer-events:auto;margin:0;font:700 12px/1 "Quicksand",var(--f-type);letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.93);
     background:linear-gradient(180deg,#2b2b2b 0,#090909 22%,#111 50%,#050505 78%,#1c1c1c 100%);padding:8px 12px 7px 16px;border:0;box-shadow:2px 4px 6px rgba(20,8,0,.4);text-shadow:0 1px 0 #000,0 0 1px rgba(255,255,255,.5)}
-  .gal button{cursor:pointer;font-size:16px}.gal button:hover{outline:1px solid var(--grid);outline-offset:2px}
-  .gal .x{right:18px;bottom:18px;font-size:11px;transform:rotate(-1.5deg)}
-  .gal .pv{left:18px;top:55%;transform:rotate(-3deg)}.gal .nx{right:18px;top:55%;transform:rotate(2deg)}
   .gal .cap{left:50%;top:calc(var(--content-top,240px) + 44px);transform:translateX(-50%) rotate(.6deg);width:max-content;max-width:min(64ch,calc(100vw - 200px));font-size:10px;line-height:1.5;letter-spacing:.24em;text-align:center;pointer-events:none}
   .gal .cap:empty{display:none}
-  .gal .ct{right:22px;bottom:62px;font-size:10px;pointer-events:none;transform:rotate(1deg)}
   /* twine: a dark core, a spiralling highlight (the twist), a soft cast shadow, knots at the pins */
   .chaos .strings .tw{fill:none;stroke:#a8160f;stroke-width:2.4;stroke-linecap:round}
   .chaos .strings .tw-hi{fill:none;stroke:#ff6a55;stroke-width:1.1;stroke-dasharray:1.6 2.4;stroke-linecap:round;opacity:.9}
@@ -243,13 +239,13 @@
     <feComponentTransfer in="d"><feFuncR type="discrete" tableValues=".31 .64 .95"/><feFuncG type="discrete" tableValues=".02 .06 .80"/><feFuncB type="discrete" tableValues=".03 .10 .74"/><feFuncA type="identity"/></feComponentTransfer>
   </filter></svg>
 </main>
-<script src="js/placement.js?v=202611161519"></script>
-<script src="js/stretch.js?v=202611161519"></script>
-<script src="js/rupture.js?v=202611161519"></script>
-<script src="js/board-manifest.js?v=202611161519"></script>
-<script src="js/board-scraps.js?v=202611161519"></script>
-<script src="js/board-topics.js?v=202611161519"></script>
-<script src="js/board.js?v=202611161519"></script>
+<script src="js/placement.js?v=202611161521"></script>
+<script src="js/stretch.js?v=202611161521"></script>
+<script src="js/rupture.js?v=202611161521"></script>
+<script src="js/board-manifest.js?v=202611161521"></script>
+<script src="js/board-scraps.js?v=202611161521"></script>
+<script src="js/board-topics.js?v=202611161521"></script>
+<script src="js/board.js?v=202611161521"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -350,5 +346,5 @@ document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('cl
 }));
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161519"></script>
+<script src="js/nav.js?v=202611161521"></script>
 </body></html>

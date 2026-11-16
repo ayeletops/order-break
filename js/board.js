@@ -115,20 +115,18 @@ window.Board = (() => {
   }
   function dress() {}
 
-  // click: a card or a tag comes to the front. a print leaves its pin and comes forward, large, in front of the board;
-  // BACK / NEXT puts it back in its place and brings the neighbour; a click on the board (or Esc, or scrolling) puts it back
+  // click: a card or a tag comes to the front. a print leaves its place and comes forward, large, in front of the board;
+  // clicking it again, clicking the board, Esc or scrolling puts it back exactly where it was
   const G = []; let Z = 40, cur = null, ui = null, wrapEl = null;
   function controls() {
     if (ui) return ui;
     ui = document.createElement('div'); ui.className = 'gal'; ui.hidden = true;
-    ui.innerHTML = '<button class="x" aria-label="Put it back">BACK ON THE BOARD</button><button class="pv" aria-label="Previous">◀</button><button class="nx" aria-label="Next">▶</button><p class="cap"></p><b class="ct"></b>';
+    ui.innerHTML = '<p class="cap"></p>';
     document.body.appendChild(ui);
-    ui.addEventListener('click', e => { e.stopPropagation(); if (e.target.closest('.pv')) step(-1); else if (e.target.closest('.nx')) step(1); else if (e.target.closest('.x')) drop(); });
-    document.addEventListener('keydown', e => { if (!cur) return; if (e.key === 'Escape') drop(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
-    document.addEventListener('click', e => { if (cur && !e.target.closest('.wrap') && !e.target.closest('.gal')) drop(); });
+    document.addEventListener('keydown', e => { if (cur && e.key === 'Escape') drop(); });
+    document.addEventListener('click', e => { if (cur && !e.target.closest('.wrap')) drop(); });
     return ui;
   }
-  const fig = k => wrapEl && wrapEl.querySelector(`.ph[data-k="${(k + G.length) % G.length}"]`);
   function lift(el) {
     if (cur === el) return; drop(); controls();
     const w = el.offsetWidth, h = el.offsetHeight, vw = wrapEl.clientWidth, vh = wrapEl.clientHeight;
@@ -141,19 +139,18 @@ window.Board = (() => {
     el.classList.add('lifted'); el.style.zIndex = 5000; el.style.mixBlendMode = 'normal';
     el.style.transform = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) scale(${s.toFixed(3)})`;
     const g = G[+el.dataset.k], img = el.querySelector('img'); if (g && !g.own && img.src !== g.big) { const hi = new Image(); hi.onload = () => { img.src = g.big; }; hi.src = g.big; }
-    cur = el; ui.hidden = false; ui.querySelector('.cap').textContent = (g && g.cap) || ''; ui.querySelector('.ct').textContent = `${+el.dataset.k + 1} / ${G.length}`;
+    cur = el; ui.hidden = false; ui.querySelector('.cap').textContent = (g && g.cap) || '';
   }
   function drop() {
     if (!cur) return; const el = cur; cur = null; if (ui) ui.hidden = true;
     el.classList.remove('lifted'); el.classList.add('landing'); el.style.transform = ''; el.style.mixBlendMode = el.dataset.bl || '';
     setTimeout(() => { el.classList.remove('landing'); el.style.zIndex = el.dataset.z; }, 700);
   }
-  function step(d) { if (!cur) return; const k = +cur.dataset.k + d, next = fig(k); if (next) lift(next); }
   function front(track) {
     wrapEl = track.closest('.wrap');
     track.addEventListener('click', e => { if (e.target.closest('a')) return; const el = e.target.closest('.ph, .role, .dymo');
       if (!el) { drop(); return; }
-      if (el.classList.contains('ph')) { if (el !== cur) lift(el); return; }
+      if (el.classList.contains('ph')) { if (el === cur) drop(); else lift(el); return; }
       drop(); el.style.zIndex = ++Z; });
     wrapEl.addEventListener('scroll', () => { if (cur) drop(); }, { passive: true });
     trace(track);

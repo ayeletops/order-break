@@ -512,3 +512,6 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 
 **Then:** no pushpins and tacks. It's a map.
 **AI:** the pins are gone. Prints, cards, tags and tools just lie on the board. The arrows now leave one thing at its edge and arrive at the other's edge, so they run between the pictures, like routes on a map, not into hidden pin points. Hover still lifts a thing's routes.
+
+**Then:** no gallery next/previous, only choosing a photo to see and bringing it back.
+**AI:** the ◀ / ▶ buttons, the arrow keys, the counter and the BACK ON THE BOARD button are gone. Clicking a photo brings it forward. Clicking it again, clicking anywhere on the board, Esc or scrolling puts it back in its place. Clicking another photo puts the first one back and brings the new one. Only the credit label stays, so the scans keep their attribution.
