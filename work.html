@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css"><link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/grids.css?v=202611161214"><link rel="stylesheet" href="css/site.css?v=202611161214">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -23,15 +23,16 @@
   .role{position:absolute;min-width:8px}
   .role{transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1));transition:transform calc(var(--beat) * 2) var(--ease)}
   /* CHAOS: thrown, rotated, overlapping; text inverts over the black holes; rough edges; a red rhizome tangles it all */
-  .track:not(.grid) .role .txt{background:transparent;mix-blend-mode:difference;color:#fff}
-  .track:not(.grid) .role .bar{filter:url(#rough);mix-blend-mode:difference;background:#fff}
+  .track:not(.grid) .role{mix-blend-mode:difference}
+  .track:not(.grid) .role .txt{background:transparent;color:#fff}
+  .track:not(.grid) .role .bar{filter:url(#rough);background:#fff;height:14px}
   .track:not(.grid) .role h3{font-size:22px}
   .chaos{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:1;transition:opacity calc(var(--beat) * 2) var(--ease)}
   .track.grid .chaos{opacity:0}
   .chaos .bh{position:absolute;border-radius:50%;background:radial-gradient(circle,#000 0 66%,rgba(0,0,0,.85) 72%,rgba(0,0,0,0) 76%),radial-gradient(circle,rgba(229,51,42,.18) 0 60%,rgba(229,51,42,0) 80%)}
   .chaos svg{position:absolute;left:0;top:0;overflow:visible}
   .chaos path{fill:none;stroke:var(--grid);stroke-width:1.2;stroke-dasharray:3 2 9 3;opacity:.85}
-  .wrap:has(.track:not(.grid))::after{content:"";position:fixed;inset:var(--content-top,0) 0 0 0;pointer-events:none;z-index:9;opacity:.22;mix-blend-mode:multiply;
+  .wrap:has(.track:not(.grid))::after{content:"";position:fixed;inset:var(--content-top,0) 0 0 0;pointer-events:none;z-index:9;opacity:.07;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -.45'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
   .track.grid .role{transform:none}
   .role .bar{height:10px;background:var(--ink);position:relative}
@@ -85,9 +86,9 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js"></script>
-<script src="js/stretch.js"></script>
-<script src="js/rupture.js"></script>
+<script src="js/placement.js?v=202611161214"></script>
+<script src="js/stretch.js?v=202611161214"></script>
+<script src="js/rupture.js?v=202611161214"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
