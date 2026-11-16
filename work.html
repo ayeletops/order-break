@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161320"><link rel="stylesheet" href="css/site.css?v=202611161320">
+<link rel="stylesheet" href="css/grids.css?v=202611161336"><link rel="stylesheet" href="css/site.css?v=202611161336">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -31,7 +31,8 @@
   .track:not(.grid) .col,.track:not(.grid) .cat,.track:not(.grid) .years,.track:not(.grid) .years span{border-color:transparent;background:transparent}
   .track:not(.grid) .years span,.track:not(.grid) .cat h2{color:#2a1a0c}
   .track:not(.grid) .cat h2{background:#f3ead8;box-shadow:1px 2px 3px rgba(0,0,0,.35);transform:rotate(-1.5deg)}
-  .track:not(.grid) .role{z-index:12;transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)))}
+  .track:not(.grid) .role{transform-origin:110px 16px;transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1));cursor:pointer}
+  .track:not(.grid) .role::after{display:none}
   .track:not(.grid) .role .bar{height:6px;background:var(--grid);width:min(100%,260px);opacity:.9}
   .track:not(.grid) .role .txt{background:#fbf8f1 repeating-linear-gradient(to bottom,transparent 0 21px,rgba(60,90,140,.18) 21px 22px) 0 34px/100% 100% no-repeat;
     border-top:2px solid rgba(229,51,42,.7);padding:10px 14px 14px;max-width:26ch;box-shadow:0 1px 1px rgba(0,0,0,.25),3px 6px 12px rgba(30,15,0,.35)}
@@ -40,24 +41,22 @@
   .track:not(.grid) .role .when{font:400 12px/1 "Special Elite",var(--f-type);color:var(--grid)}
   .track:not(.grid) .role::after{content:"";position:absolute;left:calc(50% - 7px);top:-8px;width:14px;height:14px;border-radius:50%;z-index:3;
     background:radial-gradient(circle at 35% 30%,#ff8a7a 0 18%,#e5332a 40%,#8c1410 100%);box-shadow:2px 3px 3px rgba(0,0,0,.45)}
-  .chaos{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:1;transition:opacity calc(var(--beat) * 2) var(--ease)}
+  .chaos{position:absolute;inset:0;pointer-events:none;opacity:1;transition:opacity calc(var(--beat) * 2) var(--ease)}
   .track.grid .chaos{opacity:0}
   .chaos .ring{position:absolute;border-radius:50%;opacity:.9;background:repeating-radial-gradient(circle,transparent 0 14%,#0b0b0b 14% 15.2%);box-shadow:0 0 0 2px #0b0b0b inset;mix-blend-mode:multiply}
   .chaos .pol-old{position:absolute;background:#fbfaf6;padding:8px 8px 34px;box-shadow:0 1px 1px rgba(0,0,0,.25),4px 8px 16px rgba(30,15,0,.4);
     transform:rotate(var(--r)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));pointer-events:auto}
   /* photographs on the board: printed, curled, glossy, shadowed */
   .ph{position:absolute;margin:0;pointer-events:auto;background:#fbfaf7;padding:7px;
-      transform:perspective(900px) rotate(var(--r)) rotateX(var(--curl)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));
+      transform:perspective(900px) rotate(var(--r)) rotateX(var(--curl));cursor:pointer;
       box-shadow:0 1px 1px rgba(0,0,0,.28),0 4px 8px rgba(30,15,0,.22),6px 16px 26px rgba(30,15,0,.38);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
   .ph.pol{padding:9px 9px 42px}
   .ph > img:first-child{display:block;width:100%;height:auto}
   .ph.pol > img:first-child{aspect-ratio:1;object-fit:cover}
   .ph .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.28),rgba(255,255,255,0) 32%,rgba(0,0,0,0) 62%,rgba(0,0,0,.12))}
-  .ph:hover{z-index:80!important;transform:perspective(900px) rotate(0) rotateX(0) scale(1.12);box-shadow:0 2px 2px rgba(0,0,0,.3),12px 30px 40px rgba(30,15,0,.45)}
-  .ph .pin{position:absolute;left:calc(50% - 9px);top:-6px;width:18px;height:18px;border-radius:50%;z-index:3;
-    background:radial-gradient(circle at 34% 28%,#fff 0 7%,#ff7b6b 12%,#d8261a 38%,#7d0e08 74%,#3a0503 100%);box-shadow:3px 6px 5px rgba(0,0,0,.45)}
-  .ph.tr .pin{left:auto;right:calc(12% - 12px);top:calc(12% - 12px);width:24px;height:24px}
-  .ph img.pin.img{width:34px;height:auto;left:calc(50% - 12px);top:-18px;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(3px 6px 4px rgba(0,0,0,.45))}
+  .ph:hover{transform:perspective(900px) rotate(calc(var(--r) * .6)) rotateX(0) scale(1.04);box-shadow:0 2px 2px rgba(0,0,0,.3),12px 30px 40px rgba(30,15,0,.45)}
+  .ph.scan{background:none;padding:0;box-shadow:0 1px 1px rgba(0,0,0,.25),3px 8px 14px rgba(30,15,0,.4)}
+  .ph.scan .sheen{opacity:.6}
   .chaos .strings .tw-hi2{fill:none;stroke:#5e0a06;stroke-width:.7;stroke-dasharray:.8 3.2;stroke-dashoffset:2;opacity:.8}
   /* the board's scraps */
   .sc{position:absolute;pointer-events:auto;transform:rotate(var(--r)) scale(var(--s,1)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));transition:transform .4s var(--ease)}
@@ -141,7 +140,11 @@
   .sc.curtain{box-shadow:3px 5px 10px rgba(0,0,0,.5);background:repeating-linear-gradient(90deg,#5c0a06 0 6px,#a3150c 12px,#d2281a 16px,#a3150c 20px,#5c0a06 26px)}
   .sc.zig{box-shadow:3px 5px 10px rgba(0,0,0,.5);background:linear-gradient(135deg,#111 25%,transparent 25%) -14px 0/28px 28px,linear-gradient(225deg,#111 25%,transparent 25%) -14px 0/28px 28px,linear-gradient(315deg,#111 25%,transparent 25%) 0 0/28px 28px,linear-gradient(45deg,#111 25%,#f2efe6 25%) 0 0/28px 28px}
   .sc.corridor{background:#f2efe6;box-shadow:2px 4px 10px rgba(0,0,0,.45)}.sc.corridor svg{width:100%;height:100%}.sc.corridor rect,.sc.corridor path{fill:none;stroke:#111;stroke-width:1.5}
-  .chaos svg.strings{position:absolute;left:0;top:0;overflow:visible;z-index:20}
+  .chaos canvas.strings{position:absolute;left:0;top:0;z-index:900;pointer-events:none}
+  .chaos .pins{position:absolute;inset:0;z-index:901;pointer-events:none}
+  .chaos .pins .pin{position:absolute;height:auto;filter:drop-shadow(3px 7px 3px rgba(20,8,0,.5));transform-origin:50% 90%}
+  .chaos .pins .pin:not([src]){visibility:hidden}
+  .chaos .pins .pin.drawn{visibility:visible;width:14px!important;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff 0 7%,#ff7b6b 12%,#d8261a 38%,#7d0e08 74%,#3a0503 100%)}
   /* twine: a dark core, a spiralling highlight (the twist), a soft cast shadow, knots at the pins */
   .chaos .strings .tw{fill:none;stroke:#a8160f;stroke-width:2.4;stroke-linecap:round}
   .chaos .strings .tw-hi{fill:none;stroke:#ff6a55;stroke-width:1.1;stroke-dasharray:1.6 2.4;stroke-linecap:round;opacity:.9}
@@ -192,11 +195,12 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161320"></script>
-<script src="js/stretch.js?v=202611161320"></script>
-<script src="js/rupture.js?v=202611161320"></script>
-<script src="js/board-manifest.js?v=202611161320"></script>
-<script src="js/board.js?v=202611161320"></script>
+<script src="js/placement.js?v=202611161336"></script>
+<script src="js/stretch.js?v=202611161336"></script>
+<script src="js/rupture.js?v=202611161336"></script>
+<script src="js/board-manifest.js?v=202611161336"></script>
+<script src="js/board-scraps.js?v=202611161336"></script>
+<script src="js/board.js?v=202611161336"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -251,7 +255,7 @@ function build() {
       const o = OFF[(OI++) % OFF.length], o2 = OFF[(OI * 5 + 11) % OFF.length];
       const ox = Math.round(o[0] * 340), oy = Math.round(o[1] * rowH * 1.5), rot = (o2[0] * 13).toFixed(1), sc = (1 + o2[1] * .3).toFixed(2);   // the people throw it
       CENT.push([LEFT + x0 + 110 + ox, YEARS_H + ci * rowH + 12 + r._lane * laneH + 16 + oy]);   // the pin (card top)
-      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px;--rot:${rot}deg;--sc:${sc};--depth:${(.5 + Math.abs(o2[0]) * 1.2).toFixed(2)};z-index:${10 + (OI % 7)}">
+      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px;--rot:${rot}deg;--sc:${sc};--depth:${(.5 + Math.abs(o2[0]) * 1.2).toFixed(2)};z-index:${31 + (OI % 7)}">
         <div class="bar ${r.open ? 'open' : ''}"></div>
         <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div>
           <div class="more"><p>${r.d}</p>${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></div></article>`;
@@ -260,24 +264,29 @@ function build() {
   });
   // chaos layer: a thin red circle at each event year, polaroids of the work pinned in layers, red string pin to pin
   const W2 = LEFT + total + TOOLBOX_W, Hh = wrapEl.clientHeight;
+  const HUBS = [];
   const rings = Rupture.YEARS.map((y, i) => { const R = Hh * [.2, .27, .17, .23, .3][i], o = OFF[(i * 9 + 4) % OFF.length], cx = LEFT + X(y + .5), cy = YEARS_H + avail * (.5 + o[1] * .22);
+    HUBS.push([cx, cy, 260]);
     return `<i class="ring" style="left:${cx - R}px;top:${cy - R}px;width:${R * 2}px;height:${R * 2}px"></i>`; }).join('');
-  const pins = CENT.slice();
-  const B = Board.build({ OFF, left: LEFT + 40, width: total - 80, top: YEARS_H + 10, height: avail - 20 });
-  B.pins.forEach(p => pins.push(p));
-  const pols = B.html;
-  // string: fewer and local, as a person would pin it. each card to a nearby photo; every fourth photo to a neighbour a few prints along
-  const byX = B.pins.slice().sort((p, q) => p[0] - q[0]), near = (a, skip) => byX.reduce((m, p) => Math.abs(p[0] - a[0] - skip) < Math.abs(m[0] - a[0] - skip) ? p : m, byX[0]);
-  const links = CENT.map((c, i) => [c, near(c, (i % 2 ? 1 : -1) * 160)]);
-  byX.forEach((p, i) => { if (i % 4 === 1 && byX[i + 3]) links.push([p, byX[i + 3]]); });
-  const str = links.filter(([a, b]) => a !== b).map(([a, b], i) => Board.twine(a, b, i)).join('');
-  h += `<div class="chaos">${rings}${pols}<svg class="strings" viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${str}</svg></div>`;
+  const B = Board.build({ OFF, left: LEFT + 20, width: total - 40, top: YEARS_H + 10, height: avail - 20 });
+  // string: everything connects to everything. neighbours, leaps, every card, and the five events as hubs that pull threads from everywhere
+  const A = B.anchors, byX = A.slice().sort((p, q) => p[0] - q[0]), links = [];
+  const near = (a, dx) => byX.reduce((m, p) => Math.abs(p[0] - a[0] - dx) < Math.abs(m[0] - a[0] - dx) ? p : m, byX[0]);
+  byX.forEach((p, i) => { const o = OFF[(i * 3 + 1) % OFF.length], hsh = Math.abs(Math.round(o[0] * 997));
+    if (byX[i + 1 + (hsh % 3)]) links.push([p, byX[i + 1 + (hsh % 3)]]);
+    if (hsh % 5 < 2 && byX[i + 4 + (hsh % 4)]) links.push([p, byX[i + 4 + (hsh % 4)]]);
+    if (hsh % 7 === 0) links.push([p, byX[(i + 17 + hsh) % byX.length]]); });
+  CENT.forEach((c, i) => [-220, 140, 420].forEach((dx, j) => links.push([c, near(c, dx * (i % 2 ? 1 : -1) + j * 30)])));
+  HUBS.forEach((hb, i) => { for (let j = 0; j < 9; j++) links.push([hb, near(hb, (j - 4) * 230 + (i * 37) % 90)]); if (HUBS[i + 1]) links.push([hb, HUBS[i + 1]]); });
+  const L = links.filter(([a, b]) => a !== b && Math.hypot(a[0] - b[0], a[1] - b[1]) > 30);
+  h += `<div class="chaos">${rings}${B.html}<canvas class="strings" width="${W2}" height="${Hh}"></canvas><div class="pins">${Board.pins(A.concat(CENT.map(c => [c[0], c[1], 220]), HUBS), OFF)}</div></div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
+  Board.strings(track.querySelector('canvas.strings'), L); Board.dress(track);
   const mat = Board.material(); if (mat.cork) wrapEl.style.setProperty('--cork', `url(${mat.cork})`);
 }
-build(); new ResizeObserver(build).observe(wrapEl);
+build(); new ResizeObserver(build).observe(wrapEl); Board.front(track);
 const wrap = document.getElementById('wrap');
 // to be (chaos) / not to be (the grid)
 document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('click', () => {
@@ -285,10 +294,7 @@ document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('cl
   document.querySelectorAll('.views [data-v]').forEach(x => x.setAttribute('aria-pressed', x === b));
   tr.classList.remove('to-grid', 'to-chaos'); void tr.offsetWidth; tr.classList.add(chaos ? 'to-chaos' : 'to-grid'); tr.classList.toggle('grid', !chaos);
 }));
-// layers: a little parallax on the board, by depth
-wrapEl.addEventListener('pointermove', e => { const r = wrapEl.getBoundingClientRect(); const px = ((e.clientX - r.left) / r.width - .5) * -18, py = ((e.clientY - r.top) / r.height - .5) * -12;
-  track.style.setProperty('--px', px.toFixed(1) + 'px'); track.style.setProperty('--py', py.toFixed(1) + 'px'); });
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161320"></script>
+<script src="js/nav.js?v=202611161336"></script>
 </body></html>

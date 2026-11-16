@@ -38,8 +38,8 @@ const click = (w, sel) => { const el = w.document.querySelector(sel); if (!el) t
   R.push(await run('work.html', async (w, o) => {
     const d = w.document, tr = d.getElementById('track');
     o.cats = d.querySelectorAll('.cat').length; o.roles = d.querySelectorAll('.role').length; o.scraps = d.querySelectorAll('.sc, .ph').length;
-    o.strings = d.querySelectorAll('.strings path').length; o.rings = d.querySelectorAll('.chaos .ring').length;
-    o.ownImages = [...d.querySelectorAll('.sc img')].filter(i => /assets\//.test(i.getAttribute('src'))).length;
+    o.strings = !!d.querySelector('canvas.strings'); o.pins = d.querySelectorAll('.pins .pin').length; o.blends = [...new Set([...d.querySelectorAll('.ph')].map(f => f.style.mixBlendMode))].join(','); o.rings = d.querySelectorAll('.chaos .ring').length;
+    o.ownImages = [...d.querySelectorAll('.ph img')].filter(i => /assets\//.test(i.getAttribute('src'))).length;
     o.startChaos = !tr.classList.contains('grid');
     click(w, '.views [data-v=grid]'); o.afterNotToBe = tr.classList.contains('grid') ? 'grid' : 'chaos';
     click(w, '.views [data-v=chaos]'); o.afterToBe = tr.classList.contains('grid') ? 'grid' : 'chaos';
