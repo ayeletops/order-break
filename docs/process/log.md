@@ -498,3 +498,14 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 - **Tools:** in "to be" the tools box is gone. Each tool is a strip of red or blue label tape scattered across the board, and each is still a link. In "not to be" the box comes back.
 - **Lines:** the cord is gone. There are thin straight lines, as on ROI: half-pixel ink lines between things of the same kind, and red dashed rhizome lines where a link crosses kinds (photo ↔ card ↔ tag ↔ tool). Each thing reaches its two nearest kin by topic, plus the occasional long leap, about 245 lines in all.
 - **Topics:** I read her images and gave each one topics (film, tv, music, text, type, art, icon, meme, self, home, animals, night), in `js/board-topics.js`. The scans are tagged from their titles (ticket, receipt, text, mail, music, film, night, home, mind). CV categories and tool groups carry their own topics (editing ↔ film/tv, restoration ↔ film/tickets/text, AI ↔ memes/mind…).
+
+**Then:** make the lines arrows. Things lead to and from things, go back in time, directly to the future, but subtly: you should mostly see the images. The gallery shouldn't duplicate. It should pull the photo itself from the board to the front, and put it back in its place on next/back or a click on the board. Some images are too big. Take the time to make it right.
+**AI:**
+- **Arrows:** time runs left to right on the board.
+  - An ink arrow leads on into later years and bows downward.
+  - A red dashed arrow reaches back into earlier years and bows upward.
+  - A few dotted arrows run off the right edge into the future, and a few arrive from before the board begins.
+  - Each thing reaches one or two nearest kin by topic, plus the occasional leap. That makes about 195 arrows with small open heads.
+  - They sit under the paper, faint (ink 42%, red 60%, 0.6px), so the images lead. Hovering any print, card, tag or tool lifts that thing's own arrows, in and out, above everything.
+- **Gallery:** there's no copy any more. The print itself leaves its pin (the pin stays on the cork) and travels to the centre, scaled up, in front of the board. Scans swap to a sharper file while lifted. ◀ / ▶ put it back and bring the neighbour; BACK ON THE BOARD, a click on the cork, Esc or scrolling put it back. It lands on its pin at its old height in the pile. The controls and the credit are label tape. Small files are never blown past about 2×.
+- **Sizes:** most pieces now run 70–300px, with a rare 320–410px. Nothing is taller than about half the board, against 660px before.

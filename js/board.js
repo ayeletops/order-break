@@ -34,11 +34,13 @@ window.Board = (() => {
     const list = items(), html = [], anchors = []; G.length = 0;
     list.forEach((it, k) => {
       const o = OFF[(k * 13 + 5) % OFF.length], o2 = OFF[(k * 7 + 19) % OFF.length], o3 = OFF[(k * 11 + 3) % OFF.length];
-      // size: mostly small, some big, a few huge
-      let w = Math.round(64 + Math.pow(Math.abs(o2[0]), 1.7) * 380);
-      if (k % 17 === 4) w = Math.round(460 + Math.abs(o3[0]) * 200);
-      if (it.scan && it.ar > 1.6) w = Math.round(w * .7);
-      const h = it.ar ? w * it.ar : w;
+      // size: mostly small, some medium, a rare large one; nothing taller than about half the board
+      let w = Math.round(70 + Math.pow(Math.abs(o2[0]), 1.8) * 230);
+      if (k % 23 === 4) w = Math.round(320 + Math.abs(o3[0]) * 90);
+      const ar = it.ar || 1, hMax = height * (it.scan ? .5 : .46);
+      if (w * ar > hMax) w = Math.round(hMax / ar);
+      w = Math.max(56, w);
+      const h = w * ar;
       const x = left + ((k * .6180339) % 1) * (width - w * .6) + o[0] * 90 - w * .2;
       const y = top - 20 + ((k * .7548776 + Math.abs(o[1]) * .5) % 1) * Math.max(40, height - h * .55);
       const kind = it.scan ? 'scan' : it.corner ? 'print' : (k % 4 === 0 ? 'pol' : 'print');
@@ -48,27 +50,49 @@ window.Board = (() => {
       // the pin: top-centre, or top-right for tiles cut from a saved board; the print rotates around it
       const ax = it.corner ? w * .86 : w * (.5 + o3[0] * .18), ay = it.corner ? w * .12 : Math.min(18, h * .08);
       const src = it.src || thumb(it.p, w > 300 ? 500 : 330);
-      html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
+      html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" data-id="p${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
         + `<img src="${src}" alt="" decoding="async" referrerpolicy="no-referrer"><i class="sheen"></i></figure>`);
-      anchors.push([x + ax, y + ay, w, it.topics, 'ph']);
-      G.push({ big: it.src || thumb(it.p, 960), cap: it.scan ? decodeURIComponent(it.p.split('/').pop()).replace(/_/g, ' ').replace(/\.\w+$/, '') + ' · ' + it.by + ' · ' + it.lic + ' · Wikimedia Commons' : '' });
+      anchors.push([x + ax, y + ay, w, it.topics, 'ph', 'p' + k]);
+      G.push({ own: !!it.src, big: it.src || thumb(it.p, 960), cap: it.scan ? decodeURIComponent(it.p.split('/').pop()).replace(/_/g, ' ').replace(/\.\w+$/, '') + ' · ' + it.by + ' · ' + it.lic + ' · Wikimedia Commons' : '' });
     });
     return { html: html.join(''), anchors };
   }
 
-  // topic lines: thin, straight, like the ROI field. each thing reaches its nearest kin by topic; a few long leaps
-  // nodes: [x, y, w, topics[], kind]. ink lines inside a kind, red dashed (rhizome) between kinds
-  function lines(nodes, W, H) {
+  // arrows between kin. time runs left to right, so an arrow can lead on into later years (ink, bowing down),
+  // reach back into earlier ones (red, dashed, bowing up), run straight off the right edge into the future,
+  // or arrive from before the board begins. They sit under the paper; hovering a thing lifts its own arrows on top.
+  // nodes: [x, y, w, topics[], kind, id]
+  function lines(nodes, W, H, OFF, x0) {
     const seen = new Set(), out = [];
     const share = (a, b) => a[3].some(t => b[3].includes(t));
+    const f = v => v.toFixed(1);
+    const arrow = (a, b, cls, ida, idb) => {
+      const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      const sx = a[0] + ux * 7, sy = a[1] + uy * 7, ex = b[0] - ux * 13, ey = b[1] - uy * 13;
+      const bow = Math.min(70, L * .14) * (cls === 'bk' ? -1 : 1);
+      return `<path class="${cls}" data-a="${ida}" data-b="${idb}" d="M${f(sx)},${f(sy)} Q${f((sx + ex) / 2)},${f((sy + ey) / 2 + bow)} ${f(ex)},${f(ey)}"/>`;
+    };
     nodes.forEach((a, i) => {
-      const kin = nodes.map((b, j) => [j, Math.hypot(a[0] - b[0], a[1] - b[1])]).filter(([j]) => j !== i && share(a, nodes[j])).sort((p, q) => p[1] - q[1]);
-      const pick = kin.slice(0, 2); if (i % 4 === 0 && kin.length > 6) pick.push(kin[6 + (i % (kin.length - 6))]);
+      const o = OFF[(i * 19 + 7) % OFF.length], hsh = Math.abs(Math.round(o[0] * 613 + o[1] * 389));
+      const kin = nodes.map((b, j) => [j, Math.hypot(a[0] - b[0], (a[1] - b[1]) * 1.4)]).filter(([j]) => j !== i && share(a, nodes[j])).sort((p, q) => p[1] - q[1]);
+      const pick = kin.slice(0, hsh % 3 ? 1 : 2);
+      if (hsh % 5 === 0 && kin.length > 8) pick.push(kin[8 + (hsh % (kin.length - 8))]);              // a leap across the years
       pick.forEach(([j]) => { const key = i < j ? i + ':' + j : j + ':' + i; if (seen.has(key)) return; seen.add(key);
-        const b = nodes[j], cross = a[4] !== b[4];
-        out.push(`<line class="${cross ? 'rh' : 'tl'}" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`); });
+        const b = nodes[j], [early, late] = a[0] <= b[0] ? [a, b] : [b, a], back = (hsh + j) % 4 === 0;
+        out.push(back ? arrow(late, early, 'bk', late[5], early[5]) : arrow(early, late, 'fw', early[5], late[5])); });
+      if (hsh % 17 === 5) out.push(arrow(a, [W - 6, Math.max(20, Math.min(H - 20, a[1] + o[1] * 60))], 'fu', a[5], 'future'));   // straight to the future
+      if (hsh % 23 === 11) out.push(arrow([x0, Math.max(20, Math.min(H - 20, a[1] - o[0] * 60))], a, 'pa', 'before', a[5]));     // from before
     });
-    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out.join('')}</svg>`;
+    const head = (id, c) => `<marker id="${id}" viewBox="0 0 8 8" refX="7.2" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M.6,.8 L7.2,4 L.6,7.2" fill="none" stroke="${c}" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></marker>`;
+    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>${head('ah-k', '#0b0b0b')}${head('ah-r', '#e5332a')}</defs>${out.join('')}</svg>`
+      + `<svg class="topics hl" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"></svg>`;
+  }
+  // hover: a thing's own arrows, in and out, come up over the paper
+  function trace(track) {
+    track.addEventListener('pointerover', e => { const el = e.target.closest('[data-id]'), hl = track.querySelector('svg.topics.hl'), base = track.querySelector('svg.topics:not(.hl)');
+      if (!hl || !base) return; if (!el || el.classList.contains('lifted')) { hl.innerHTML = ''; return; }
+      const id = el.dataset.id; hl.innerHTML = [...base.querySelectorAll(`path[data-a="${id}"],path[data-b="${id}"]`)].map(p => p.outerHTML).join(''); });
+    track.addEventListener('pointerleave', () => { const hl = track.querySelector('svg.topics.hl'); if (hl) hl.innerHTML = ''; });
   }
 
   // pins: photographed brass tacks and black cobbler's nails (cut out of Ayelet's photos), one per anchor, above the cord
@@ -86,25 +110,50 @@ window.Board = (() => {
   }
   function dress() {}
 
-  // click: the print (or card) comes to the front; a print also opens in the gallery, where you can walk the whole board
-  const G = []; let Z = 40, at = 0, box = null;
-  function gallery() {
-    if (box) return box;
-    box = document.createElement('div'); box.className = 'gal'; box.hidden = true;
-    box.innerHTML = '<button class="x" aria-label="Close">CLOSE</button><button class="pv" aria-label="Previous">◀ BACK</button><figure><img alt=""><figcaption></figcaption></figure><button class="nx" aria-label="Next">NEXT ▶</button><b class="ct"></b>';
-    document.body.appendChild(box);
-    const show = k => { at = (k + G.length) % G.length; const g = G[at]; box.querySelector('img').src = g.big; box.querySelector('figcaption').textContent = g.cap; box.querySelector('.ct').textContent = `${at + 1} / ${G.length}`; };
-    box.show = show;
-    box.addEventListener('click', e => { if (e.target.closest('.pv')) show(at - 1); else if (e.target.closest('.nx')) show(at + 1); });
-    document.addEventListener('click', e => { if (!box.hidden && !box.contains(e.target) && !e.target.closest('.ph')) box.hidden = true; });
-    document.addEventListener('keydown', e => { if (box.hidden) return; if (e.key === 'Escape') box.hidden = true; if (e.key === 'ArrowLeft') show(at - 1); if (e.key === 'ArrowRight') show(at + 1); });
-    return box;
+  // click: a card or a tag comes to the front. a print leaves its pin and comes forward, large, in front of the board;
+  // BACK / NEXT puts it back in its place and brings the neighbour; a click on the board (or Esc, or scrolling) puts it back
+  const G = []; let Z = 40, cur = null, ui = null, wrapEl = null;
+  function controls() {
+    if (ui) return ui;
+    ui = document.createElement('div'); ui.className = 'gal'; ui.hidden = true;
+    ui.innerHTML = '<button class="x" aria-label="Put it back">BACK ON THE BOARD</button><button class="pv" aria-label="Previous">◀</button><button class="nx" aria-label="Next">▶</button><p class="cap"></p><b class="ct"></b>';
+    document.body.appendChild(ui);
+    ui.addEventListener('click', e => { e.stopPropagation(); if (e.target.closest('.pv')) step(-1); else if (e.target.closest('.nx')) step(1); else if (e.target.closest('.x')) drop(); });
+    document.addEventListener('keydown', e => { if (!cur) return; if (e.key === 'Escape') drop(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+    document.addEventListener('click', e => { if (cur && !e.target.closest('.wrap') && !e.target.closest('.gal')) drop(); });
+    return ui;
   }
+  const fig = k => wrapEl && wrapEl.querySelector(`.ph[data-k="${(k + G.length) % G.length}"]`);
+  function lift(el) {
+    if (cur === el) return; drop(); controls();
+    const w = el.offsetWidth, h = el.offsetHeight, vw = wrapEl.clientWidth, vh = wrapEl.clientHeight;
+    const g0 = G[+el.dataset.k], nat = (el.querySelector('img') || {}).naturalWidth || 0;
+    const s = Math.min(Math.min(vw * .6, 760) / w, vh * .8 / h, 4, g0 && g0.own && nat ? Math.max(1.2, nat * 2.2 / w) : 4);   // never blow a small file up past ~2x
+    const [ox, oy] = getComputedStyle(el).transformOrigin.split(' ').map(parseFloat);
+    const cx = wrapEl.scrollLeft + vw / 2 - el.offsetLeft, cy = vh / 2 - el.offsetTop;
+    const tx = cx - ox - s * (w / 2 - ox), ty = cy - oy - s * (h / 2 - oy);
+    el.dataset.z = el.style.zIndex; el.dataset.bl = el.style.mixBlendMode;
+    el.classList.add('lifted'); el.style.zIndex = 5000; el.style.mixBlendMode = 'normal';
+    el.style.transform = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) scale(${s.toFixed(3)})`;
+    const g = G[+el.dataset.k], img = el.querySelector('img'); if (g && !g.own && img.src !== g.big) { const hi = new Image(); hi.onload = () => { img.src = g.big; }; hi.src = g.big; }
+    cur = el; ui.hidden = false; ui.querySelector('.cap').textContent = (g && g.cap) || ''; ui.querySelector('.ct').textContent = `${+el.dataset.k + 1} / ${G.length}`;
+  }
+  function drop() {
+    if (!cur) return; const el = cur; cur = null; if (ui) ui.hidden = true;
+    el.classList.remove('lifted'); el.classList.add('landing'); el.style.transform = ''; el.style.mixBlendMode = el.dataset.bl || '';
+    setTimeout(() => { el.classList.remove('landing'); el.style.zIndex = el.dataset.z; }, 700);
+  }
+  function step(d) { if (!cur) return; const k = +cur.dataset.k + d, next = fig(k); if (next) lift(next); }
   function front(track) {
-    track.addEventListener('click', e => { const el = e.target.closest('.ph, .role, .dymo'); if (!el || e.target.closest('a')) return;
-      el.style.zIndex = ++Z;
-      if (el.classList.contains('ph') && G.length) { const b = gallery(); b.show(+el.dataset.k); b.hidden = false; } });
+    wrapEl = track.closest('.wrap');
+    track.addEventListener('click', e => { if (e.target.closest('a')) return; const el = e.target.closest('.ph, .role, .dymo');
+      if (!el) { drop(); return; }
+      if (el.classList.contains('ph')) { if (el !== cur) lift(el); return; }
+      drop(); el.style.zIndex = ++Z; });
+    wrapEl.addEventListener('scroll', () => { if (cur) drop(); }, { passive: true });
+    trace(track);
   }
+  function reset() { cur = null; if (ui) ui.hidden = true; }
   const material = () => M();
-  return { build, lines, pins, dress, front, material };
+  return { build, lines, pins, dress, front, reset, material };
 })();
