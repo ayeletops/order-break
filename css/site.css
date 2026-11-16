@@ -80,6 +80,16 @@ main{padding-top:var(--nav-h)}
 
 
 /* ── the heartbeat: 120 BPM. Every animation outside the cover moves on this beat (lub-dub every 0.5s). ── */
-@keyframes heartbeat{0%{transform:translate(-50%,-50%) scale(1)}10%{transform:translate(-50%,-50%) scale(1.07)}22%{transform:translate(-50%,-50%) scale(1)}
-  32%{transform:translate(-50%,-50%) scale(1.04)}48%,100%{transform:translate(-50%,-50%) scale(1)}}
+@keyframes heartbeat{0%{transform:translate(-50%,-50%) scale(1)}17%{transform:translate(-50%,-50%) scale(1.03)}34%{transform:translate(-50%,-50%) scale(1)}
+  51%{transform:translate(-50%,-50%) scale(1.014)}66%,100%{transform:translate(-50%,-50%) scale(1)}}
 
+
+/* ── NAV, fixed: the same four positions on every page. The page you're on is censored. ── */
+.nav{display:flex!important;gap:0;justify-content:flex-start}
+.nav a{position:relative;flex:0 0 auto;width:clamp(96px,14vw,190px);padding:6px 0;overflow:visible}
+.nav a::after{content:"";position:absolute;left:-4px;right:calc(100% - var(--w,100%) - 4px);top:50%;height:1.25em;margin-top:-.62em;background:var(--ink);
+              transform:scaleX(0);transform-origin:left;transition:transform calc(var(--beat) / 2) cubic-bezier(.7,0,.3,1)}
+.nav a[aria-current]::after,.nav a.censor::after{transform:scaleX(1)}
+.nav a[aria-current]{box-shadow:none}
+.nav a:hover{outline:none}
+.nav a:not([aria-current]):hover::after{transform:scaleX(.12)}

@@ -398,3 +398,22 @@ Two risks: (1) to a visitor, deterministic chaos looks like random chaos, so the
   - In grid view, the projects form their own index column on the right, in year order, linked to their terms by red right-angle threads.
 - **Work, chaos view:** roles are thrown far (up to 340px sideways and 1.5 rows vertically), rotated (±13°), scaled (±30%) and overlapping. The text and bars invert (difference blend) over five black holes at the event years. Bars have rough, displaced edges, a red dashed rhizome tangles the roles, and a grain overlay sits on top. Grid view is unchanged.
 **Then:** I didn't see the fixes on the site. **AI:** they were live; my browser was caching the old files (GitHub Pages lets browsers keep them for about 10 minutes). Added `tools/stamp.py`, which stamps every css/js link with a version, so each push loads fresh. Seen live: Work's chaos grain was far too heavy, now reduced, and the inversion was made legible.
+
+---
+
+## Round: reading size, censor menu, scrapbook chaos, print-ready holes (2026-11-16)
+
+**My direction:**
+- **Cover:** text at reading size.
+- **Menu:** the positions stay fixed; choosing a page redacts it with a black censor strip.
+- **ROI:** hover focuses and highlights a node, click shows info. I didn't understand why text is sometimes black and sometimes faded.
+- **Work chaos:** gritty, grungy, rock'n'roll, beating, rhizomatic, but *not* like ROI. More like a detective board or inspiration board, 90s scrapbook with textures. The circles as explosions or disruptions.
+- **Event Horizon:** a subtle beat, the year moving with it, strict edges (the fade is bad), a more eased beat, and a better, print-ready composition.
+
+**AI:**
+- **Cover:** the stance is set at reading size (Bodoni 21/30, old-style figures), one column.
+- **Menu:** identical on every page (Home · ROI · Work · Event Horizon) at fixed positions. The current page is covered by a black strip sized to its word. Clicking another page slides the strip over it (a quarter-beat) before leaving (`js/nav.js`). Process stays behind the hidden dot.
+- **ROI:** hovering a node makes it the focus (its target opens), its label inverts to a black tag (red for projects), and its point grows. Click still opens the dictionary or the project. *Why the grey:* in the rhizome, points fade with distance from the centre, as depth. AI removed that in grid view: there, everything is full black.
+- **Work chaos as a detective board:** photocopied paper scraps (hard black shadow, torn bottom edge, xerox displacement, tape), a red pin on each, ransom-note titles (each card in a different face from the type family), the year stamped in red typewriter type. Red string runs pin to pin with a slight sag. Black ink explosions (spiky splats with droplets, shaped from the secret offsets) sit at the event years and beat. The ground is halftone dots with xerox grain. Grid view is unchanged.
+- **Event Horizon:** a fixed poster composition in a 1.6 × 1 frame (transposed on portrait screens): one dominant hole, the others stepping down, none touching. Strict edges, no fade or corona. A gentle, eased lub-dub (sin² curves, 1.6% scale). The year scales with its hole on hover.
+- **The heartbeat** everywhere uses the same eased curve (CSS and JS).

@@ -7,6 +7,7 @@
    Projects: larger red dots with a year. Click → centre + thumbnail; click again / thumbnail → gallery (a window).
 */
 (() => {
+  let view = 'chaos';
   // ── the field: region → fields → terms. Angles in degrees around the region, radii in px.
   const TREE = {
     Biology: { at: [-1150, -700], fields: {
@@ -140,19 +141,23 @@
     const d = node(n, 'lv' + String(n.lv).replace('.', ''), n.t);
     d.addEventListener('click', e => { e.stopPropagation(); hideCard(); if (pinned === n) { unpin(); return; } pinned = n; showDef(n, d.querySelector('.lb')); });
   });
+  setTimeout(() => N.concat(P).forEach(n => {
+    n.el.addEventListener('mouseenter', () => { hovered = n; n.el.classList.add('hl'); render(); });
+    n.el.addEventListener('mouseleave', () => { hovered = null; n.el.classList.remove('hl'); render(); });
+  }), 0);
   P.forEach(p => { const t = byName[p.near]; if (t) curve(p, t, 'plink'); });   // red threads from each project to its term
   P.forEach(p => {
     const d = node(p, 'proj', `<b>${p.t}</b>${p.y_}`);
     d.addEventListener('click', e => { e.stopPropagation(); unpin(); if (open === p) openGallery(p); else showCard(p); });
   });
 
-  // ── VIEW: grid ⇄ chaos. The same points, two places each: where the grid wants them, where the people put them.
+  // ── VIEW: grid ⇄ chaos.  (view declared up top) The same points, two places each: where the grid wants them, where the people put them.
   // Switching moves everything across in two beats; red after-images are left along the way, like light through a prism.
   const ALLN = N.concat(P);
   ALLN.forEach(n => {
     const gh = document.createElement('div'); gh.className = 'ghost'; gh.innerHTML = '<i class="e1"></i><i class="e2"></i><i class="e3"></i>'; layer.appendChild(gh); n.gh = gh;
   });
-  let view = 'chaos', anim = 0;
+  let anim = 0;
   function setView(v) {
     if (v === view) return; view = v;
     document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === v));
@@ -223,14 +228,15 @@
   addEventListener('keydown', e => { if (!gp) return; if (e.key === 'Escape') closeG(); if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
 
   // ── motion: pan + zoom
-  let off = { x: 0, y: 0 }, z = .8, focused = null, raf = 0;
+  let off = { x: 0, y: 0 }, z = .8, focused = null, raf = 0, hovered = null;
   const ALL = N.concat(P);
   const nearest = () => { let b = null, bd = Infinity; ALL.forEach(n => { const d = (n.x * z + off.x) ** 2 + (n.y * z + off.y) ** 2; if (d < bd) { bd = d; b = n; } }); return b; };
   function render() {
     layer.style.transform = `translate(${off.x}px,${off.y}px) scale(${z})`;
-    const fade = 520 / Math.max(.4, z);
-    ALL.forEach(n => n.el.style.opacity = Math.max(.12, 1 - Math.hypot(n.x + off.x / z, n.y + off.y / z) / fade));
-    const b = nearest();
+    // rhizome: points fade with distance from the centre (depth). grid: everything at full strength.
+    const fade = 520 / Math.max(.4, z), gv = view === 'grid';
+    ALL.forEach(n => n.el.style.opacity = gv ? 1 : Math.max(.12, 1 - Math.hypot(n.x + off.x / z, n.y + off.y / z) / fade));
+    const b = hovered || nearest();
     if (b !== focused) { if (focused) focused.el.classList.remove('focus'); focused = b; b.el.classList.add('focus');
       centre.textContent = b.y_ ? `${b.t} · ${b.y_}` : (b.parent ? (b.parent.parent ? b.parent.parent.t + ' › ' + b.parent.t + ' › ' : b.parent.t + ' › ') : '') + b.t; }
   }

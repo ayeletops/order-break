@@ -4,11 +4,10 @@
 <title>ROI — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161214"><link rel="stylesheet" href="css/site.css?v=202611161214">
+<link rel="stylesheet" href="css/grids.css?v=202611161223"><link rel="stylesheet" href="css/site.css?v=202611161223">
 <style>
   /* ROI — a vast latent field. Every dot carries its own target grid (8 rings = the ages of the people I love).
      The rings breathe. The dot nearest the centre is chosen: its target grows into the big grid. */
-  .nav{grid-template-columns:repeat(4,1fr)}
   html,body{height:100%;overflow:hidden}
   #field{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;cursor:grab;touch-action:none;overflow:hidden;user-select:none}
   #field.drag{cursor:grabbing}
@@ -38,7 +37,13 @@
   .n.proj .lb b{display:block;font:700 22px/1 var(--f-slab);letter-spacing:0}
   .n.focus{--ts:min(78vh,78vw);z-index:3}
   .n.focus .lb{background:var(--paper);padding:3px 6px}
-  .n .dt:hover,.n .lb:hover{outline:var(--gw) solid var(--grid);outline-offset:4px}
+  .n.hl{z-index:4}
+  .n.hl .lb{background:var(--ink);color:var(--paper);padding:3px 6px;opacity:1}
+  .n.proj.hl .lb{background:var(--grid);color:var(--paper)}
+  .n.hl .dt{transform:translate(-50%,-50%) scale(1.6)}
+  .n .dt{transition:transform calc(var(--beat) / 2) var(--ease)}
+  #field.gridview .n .lb,#field.gridview .n.lv2 .lb{color:var(--ink)}
+  #field.gridview .n.lv2:not(.focus) .tg{opacity:.45}
   /* VIEW switch: grid ⇄ chaos, with red after-images (the prism) */
   .ghost{position:absolute;width:0;height:0;pointer-events:none;z-index:1}
   .ghost i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;background:var(--grid);opacity:0}
@@ -126,9 +131,10 @@
     <footer><button id="g-prev">← prev</button><span id="g-n"></span><button id="g-next">next →</button></footer>
   </div>
 </div>
-<script src="js/stretch.js?v=202611161214"></script>
+<script src="js/stretch.js?v=202611161223"></script>
 <script>Stretch.make(document.getElementById('title'), 'ROI', [1], { steady: true, every: 500 });</script>
-<script src="js/placement.js?v=202611161214"></script>
-<script src="js/roi-dict.js?v=202611161214"></script>
-<script src="js/roi.js?v=202611161214"></script>
+<script src="js/placement.js?v=202611161223"></script>
+<script src="js/roi-dict.js?v=202611161223"></script>
+<script src="js/roi.js?v=202611161223"></script>
+<script src="js/nav.js?v=202611161223"></script>
 </body></html>

@@ -4,11 +4,10 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161214"><link rel="stylesheet" href="css/site.css?v=202611161214">
+<link rel="stylesheet" href="css/grids.css?v=202611161223"><link rel="stylesheet" href="css/site.css?v=202611161223">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
-  .nav{grid-template-columns:repeat(7,1fr)}
   .page-head{border-bottom-color:var(--grid)}
   html,body{height:100%;overflow:hidden}
   .wrap{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
@@ -22,19 +21,26 @@
   .cat h2 sup{font-weight:400;letter-spacing:0;margin-left:4px}
   .role{position:absolute;min-width:8px}
   .role{transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1));transition:transform calc(var(--beat) * 2) var(--ease)}
-  /* CHAOS: thrown, rotated, overlapping; text inverts over the black holes; rough edges; a red rhizome tangles it all */
-  .track:not(.grid) .role{mix-blend-mode:difference}
-  .track:not(.grid) .role .txt{background:transparent;color:#fff}
-  .track:not(.grid) .role .bar{filter:url(#rough);background:#fff;height:14px}
-  .track:not(.grid) .role h3{font-size:22px}
+  /* CHAOS — a 90s detective board: photocopied scraps, tape, pins, red string, ink explosions, halftone and grain */
+  .wrap:has(.track:not(.grid)){background:#efede8 radial-gradient(rgba(0,0,0,.13) .8px,transparent 1.1px) 0 0/7px 7px}
+  .wrap:has(.track:not(.grid))::after{content:"";position:fixed;inset:var(--content-top,0) 0 0 0;pointer-events:none;z-index:30;opacity:.16;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 -.35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .track:not(.grid) .col,.track:not(.grid) .cat{border-color:transparent}
+  .track:not(.grid) .role .txt{background:#fff;padding:12px 14px 16px;border:1px solid #111;box-shadow:5px 5px 0 #111;max-width:26ch;
+    clip-path:polygon(0 0,100% 0,100% 88%,94% 92%,88% 89%,80% 94%,71% 90%,62% 95%,52% 90%,43% 94%,33% 89%,24% 93%,14% 90%,6% 94%,0 90%);filter:url(#xerox)}
+  .track:not(.grid) .role .txt::before{content:"";position:absolute;left:30%;top:-9px;width:64px;height:18px;background:rgba(40,40,40,.18);transform:rotate(-4deg);
+    border-left:1px dashed rgba(0,0,0,.25);border-right:1px dashed rgba(0,0,0,.25)}
+  .track:not(.grid) .role h3{font-family:var(--face,var(--f-slab));font-weight:var(--fw,700);font-style:var(--fst,normal);font-size:21px;line-height:1.05}
+  .track:not(.grid) .role .when{display:inline-block;font:400 12px/1 "Special Elite",var(--f-type);color:var(--grid);border:1.5px solid var(--grid);padding:3px 5px 2px;transform:rotate(-3deg)}
+  .track:not(.grid) .role .bar{filter:url(#rough);height:16px;background:#111;width:min(100%,320px)}
+  .track:not(.grid) .role::after{content:"";position:absolute;left:12px;top:-6px;width:13px;height:13px;border-radius:50%;background:var(--grid);box-shadow:1px 2px 0 rgba(0,0,0,.5);z-index:3}
   .chaos{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:1;transition:opacity calc(var(--beat) * 2) var(--ease)}
   .track.grid .chaos{opacity:0}
-  .chaos .bh{position:absolute;border-radius:50%;background:radial-gradient(circle,#000 0 66%,rgba(0,0,0,.85) 72%,rgba(0,0,0,0) 76%),radial-gradient(circle,rgba(229,51,42,.18) 0 60%,rgba(229,51,42,0) 80%)}
-  .chaos svg{position:absolute;left:0;top:0;overflow:visible}
-  .chaos path{fill:none;stroke:var(--grid);stroke-width:1.2;stroke-dasharray:3 2 9 3;opacity:.85}
-  .wrap:has(.track:not(.grid))::after{content:"";position:fixed;inset:var(--content-top,0) 0 0 0;pointer-events:none;z-index:9;opacity:.07;mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -.45'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-  .track.grid .role{transform:none}
+  .chaos .boom{position:absolute;transform-origin:center;animation:boom var(--beat) var(--ease) infinite}
+  @keyframes boom{0%,66%,100%{transform:scale(1)}17%{transform:scale(1.03)}51%{transform:scale(1.012)}}
+  .chaos svg.strings{position:absolute;left:0;top:0;overflow:visible;z-index:20}
+  .chaos .strings path{fill:none;stroke:var(--grid);stroke-width:1.6;stroke-linecap:round}
+  .track:not(.grid) .role{z-index:12}
   .role .bar{height:10px;background:var(--ink);position:relative}
   /* the prism: a red after-image stays where the bar was and fades as it moves */
   .role .bar::before{content:"";position:absolute;inset:-1px;border:var(--gw) dashed var(--grid);opacity:0;pointer-events:none}
@@ -73,8 +79,7 @@
   <a href="index.html">Home</a>
   <a href="roi.html">ROI</a>
   <a href="work.html" aria-current="page">Work</a>
-  <span></span>
-  <a href="horizon.html" style="grid-column:span 2">Event Horizon</a>
+  <a href="horizon.html">Event Horizon</a>
 </nav>
 <a class="secret" href="process.html" aria-label="Process" title="process"></a>
 <main>
@@ -83,12 +88,12 @@
     <p class="page-note">How I got here. Scroll sideways; hover a bar for more.</p>
   </header>
   <div class="views" role="group" aria-label="View"><button data-view="grid" aria-pressed="false">Grid</button><span>⇄</span><button data-view="chaos" aria-pressed="true">Chaos</button></div>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161214"></script>
-<script src="js/stretch.js?v=202611161214"></script>
-<script src="js/rupture.js?v=202611161214"></script>
+<script src="js/placement.js?v=202611161223"></script>
+<script src="js/stretch.js?v=202611161223"></script>
+<script src="js/rupture.js?v=202611161223"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -124,6 +129,14 @@ const X = y => { const i = Math.min(years.length - 1, Math.max(0, Math.floor(y) 
 const total = starts[starts.length - 1] + widths[widths.length - 1], LEFT = 240, TOOLBOX_W = 520, YEARS_H = 34;
 const track = document.getElementById('track'), wrapEl = document.getElementById('wrap');
 const OFF = (window.PLACEMENT && PLACEMENT.offsets) || [[0, 0]];
+const face = i => { const f = Stretch.FACES[(i * 7 + 3) % Stretch.FACES.length]; return `--face:'${f.f}';--fw:${f.w};--fst:${f.s}`; };   // ransom-note titles
+// an ink explosion: a spiky blob, drawn from the secret offsets so every burst is its own
+const splat = (cx, cy, R, k) => { const n = 46; let d = '';
+  for (let i = 0; i <= n; i++) { const a = i / n * 6.283, o = OFF[(k * 31 + i * 5) % OFF.length], sp = i % 2 ? 1 + Math.abs(o[0]) * .55 : .78 + o[1] * .08;
+    const x = cx + Math.cos(a) * R * sp, y = cy + Math.sin(a) * R * sp; d += (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1); }
+  const drops = Array.from({ length: 7 }, (_, j) => { const o = OFF[(k * 13 + j * 17) % OFF.length], a = o[0] * 3.14, dd = R * (1.35 + Math.abs(o[1]) * .7), rr = R * (.04 + Math.abs(o[0]) * .06);
+    return `<circle cx="${(cx + Math.cos(a) * dd).toFixed(1)}" cy="${(cy + Math.sin(a) * dd).toFixed(1)}" r="${rr.toFixed(1)}"/>`; }).join('');
+  return `<path d="${d}Z"/>${drops}`; };
 function build() {
   let OI = 0;
   const avail = wrapEl.clientHeight - YEARS_H, rowH = Math.max(70, Math.floor(avail / CATS.length));
@@ -141,21 +154,22 @@ function build() {
       const when = r.point ? `${r.a}` : `${Math.floor(r.a)}${Math.floor(r.b) > Math.floor(r.a) || r.open ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}`;
       const o = OFF[(OI++) % OFF.length], o2 = OFF[(OI * 5 + 11) % OFF.length];
       const ox = Math.round(o[0] * 340), oy = Math.round(o[1] * rowH * 1.5), rot = (o2[0] * 13).toFixed(1), sc = (1 + o2[1] * .3).toFixed(2);   // the people throw it
-      CENT.push([LEFT + x0 + Math.min(140, (x1 - x0) / 2) + ox, YEARS_H + ci * rowH + 12 + r._lane * laneH + 30 + oy]);
-      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px;--rot:${rot}deg;--sc:${sc};z-index:${10 + (OI % 7)}">
+      CENT.push([LEFT + x0 + 18 + ox, YEARS_H + ci * rowH + 12 + r._lane * laneH + oy]);   // the pin
+      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px;--rot:${rot}deg;--sc:${sc};z-index:${10 + (OI % 7)};${face(OI)}">
         <div class="bar ${r.open ? 'open' : ''}"></div>
         <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div>
           <div class="more"><p>${r.d}</p>${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></div></article>`;
     });
     h += `<section class="cat" data-cat="${k}" style="height:${rowH}px"><h2>${name}<sup>${items.length}</sup></h2>${inner}</section>`;
   });
-  // chaos layer: the five black holes at the event years, and a rhizome of red threads tangling the roles
-  const holes = Rupture.YEARS.map((y, i) => { const rr = (wrapEl.clientHeight) * [.3, .38, .26, .34, .44][i]; const o = OFF[(i * 9 + 4) % OFF.length];
-    return `<i class="bh" style="left:${LEFT + X(y + .5) - rr}px;top:${YEARS_H + (avail * (.5 + o[1] * .25)) - rr}px;width:${rr * 2}px;height:${rr * 2}px"></i>`; }).join('');
+  // chaos layer: ink explosions at the event years, and red string from pin to pin
   const W2 = LEFT + total + TOOLBOX_W, Hh = wrapEl.clientHeight;
-  const paths = CENT.map((a, i) => [a, CENT[(i + 1) % CENT.length], CENT[(i + 3) % CENT.length]]).flatMap(([a, b, c]) => [[a, b], [a, c]])
-    .map(([a, b], i) => { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, k = (i % 2 ? .35 : -.28); return `<path d="M${a[0]},${a[1]} Q${mx - (b[1] - a[1]) * k},${my + (b[0] - a[0]) * k} ${b[0]},${b[1]}"/>`; }).join('');
-  h += `<div class="chaos">${holes}<svg viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${paths}</svg></div>`;
+  const booms = Rupture.YEARS.map((y, i) => { const R = Hh * [.2, .27, .17, .23, .3][i], o = OFF[(i * 9 + 4) % OFF.length], cx = LEFT + X(y + .5), cy = YEARS_H + avail * (.5 + o[1] * .22);
+    return `<svg class="boom" style="left:${cx - R * 2}px;top:${cy - R * 2}px;width:${R * 4}px;height:${R * 4}px" viewBox="${cx - R * 2} ${cy - R * 2} ${R * 4} ${R * 4}" fill="#111">${splat(cx, cy, R, i)}</svg>`; }).join('');
+  const pins = CENT;
+  const str = pins.flatMap((a, i) => [[a, pins[(i + 1) % pins.length]], [a, pins[(i + 4) % pins.length]]])
+    .map(([a, b]) => { const mx = (a[0] + b[0]) / 2, my = Math.max(a[1], b[1]) + Math.hypot(b[0] - a[0], b[1] - a[1]) * .08; return `<path d="M${a[0]},${a[1]} Q${mx},${my} ${b[0]},${b[1]}"/>`; }).join('');
+  h += `<div class="chaos">${booms}<svg class="strings" viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${str}</svg></div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
@@ -170,4 +184,5 @@ document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click'
 }));
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
+<script src="js/nav.js?v=202611161223"></script>
 </body></html>

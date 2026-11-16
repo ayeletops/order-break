@@ -11,7 +11,7 @@ window.Rupture = (() => {
     let cx = m;
     return YEARS.map((y, i) => { const c = { ev: y, x: cx + pad / 2 + d[i] / 2, y: ys[i] * H, r: d[i] / 2 }; cx += d[i] + gap + pad; return c; });
   }
-  const g = (p, c, w) => Math.exp(-(((p - c) / w) ** 2));
-  const beat = t => { const p = (t % 500) / 500; return g(p, .08, .045) + .55 * g(p, .3, .05); };
+  const ease = v => v <= 0 || v >= 1 ? 0 : Math.sin(Math.PI * v) ** 2;
+  const beat = t => { const p = (t % 500) / 500; return ease(p / .34) + .45 * ease((p - .36) / .3); };
   return { YEARS, layout, beat };
 })();
