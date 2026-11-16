@@ -2,8 +2,9 @@
    Paper: Ayelet's own images (assets/board, listed by tools/board-manifest.py) + real scans of tickets, receipts, telegrams,
    envelopes and handwriting from Wikimedia Commons (js/board-scraps.js) + a few public-domain photographs of early cinema.
    Sizes from tiny to huge, some blended into the cork (multiply / darken / overlay), rotated, layered. Click brings one to the front.
-   Real materials: a cork photograph, a red cord photographed and laid along every string (canvas), photographed brass tacks
-   and black nails (assets/board/materials). Every position comes from the secret offsets.
+   Real materials: a cork photograph, photographed tacks, nails and pushpins (assets/board/materials).
+   Thin lines, as on the ROI field, join things that share a topic (js/board-topics.js for her images; keywords for the scans).
+   Every position comes from the secret offsets.
 */
 window.Board = (() => {
   const WM = 'https://upload.wikimedia.org/wikipedia/commons/thumb/';
@@ -15,11 +16,15 @@ window.Board = (() => {
   const BLEND_SCAN = ['multiply', 'multiply', 'darken', 'multiply', 'normal', 'darken', 'multiply', 'overlay'];
   const BLEND_PHOTO = ['normal', 'overlay', 'multiply', 'normal', 'darken', 'overlay', 'normal', 'multiply', 'darken', 'normal'];
 
+  const KW = [[/ticket|stub|boarding|admission|raffle/i, 'ticket'], [/receipt|quittung|invoice/i, 'receipt'], [/letter|postcard|diary|note|journal|telegram|list|recipe|poem|clipping|handwrit/i, 'text'],
+    [/concert|grateful|korn|midnight|letov|sven|jackson|buffett|presley/i, 'music'], [/movie|theat|programme|cinema/i, 'film'], [/matchbook|bier|beer/i, 'night'],
+    [/envelope|postcard|telegram/i, 'mail'], [/shopping|recipe|menu|cake/i, 'home'], [/darwin|lyell|lepidoptera|swedenborg/i, 'mind']];
+  const scanTopics = p => { const t = KW.filter(([re]) => re.test(decodeURIComponent(p))).map(k => k[1]); return t.length ? t : ['text']; };
   // the paper, mixed: own images and scans interleaved
   function items() {
-    const own = ((window.BOARD && BOARD.images) || []).map(src => ({ src, own: 1, corner: /\/s-\d/.test(src) }));
-    const scans = (window.SCRAPS || []).map(([p, ar, lic, by]) => ({ p, ar, lic, by, scan: 1 }));
-    const pd = PD.map(p => ({ p, ar: .75 }));
+    const own = ((window.BOARD && BOARD.images) || []).map(src => ({ src, own: 1, corner: /\/s-\d/.test(src), topics: (window.TOPICS || {})[src.split('/').pop()] || ['self'] }));
+    const scans = (window.SCRAPS || []).map(([p, ar, lic, by]) => ({ p, ar, lic, by, scan: 1, topics: scanTopics(p) }));
+    const pd = PD.map(p => ({ p, ar: .75, topics: ['film'] }));
     const out = [], n = Math.max(own.length, scans.length);
     for (let i = 0; i < n; i++) { if (own[i]) out.push(own[i]); if (scans[i]) out.push(scans[i]); }
     return out.concat(pd);
@@ -45,44 +50,25 @@ window.Board = (() => {
       const src = it.src || thumb(it.p, w > 300 ? 500 : 330);
       html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
         + `<img src="${src}" alt="" decoding="async" referrerpolicy="no-referrer"><i class="sheen"></i></figure>`);
-      anchors.push([x + ax, y + ay, w]);
+      anchors.push([x + ax, y + ay, w, it.topics, 'ph']);
       G.push({ big: it.src || thumb(it.p, 960), cap: it.scan ? decodeURIComponent(it.p.split('/').pop()).replace(/_/g, ' ').replace(/\.\w+$/, '') + ' · ' + it.by + ' · ' + it.lic + ' · Wikimedia Commons' : '' });
     });
     return { html: html.join(''), anchors };
   }
 
-  // the cord: one photographed stretch of red cord, laid in short rotated pieces along each sagging curve
-  function strings(cv, links) {
-    const W = +cv.getAttribute('width'), H = +cv.getAttribute('height');
-    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(5e6 / (W * H))));   // three layers of cord: keep memory sane
-    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
-    const c = cv.getContext('2d'); if (!c) return; c.scale(dpr, dpr);
-    const curve = (a, b, i) => { const L = Math.hypot(b[0] - a[0], b[1] - a[1]), sag = Math.min(110, L * .09) + (i % 4) * 5;
-      return [L, (a[0] + b[0]) / 2 + (i % 2 ? 10 : -10), (a[1] + b[1]) / 2 + sag]; };
-    const pt = (a, b, mx, my, t) => [(1 - t) ** 2 * a[0] + 2 * (1 - t) * t * mx + t * t * b[0], (1 - t) ** 2 * a[1] + 2 * (1 - t) * t * my + t * t * b[1]];
-    const draw = tex => {
-      c.clearRect(0, 0, W, H);
-      links.forEach(([a, b], i) => {                                       // cast shadows first
-        const [, mx, my] = curve(a, b, i);
-        // a soft cast shadow, built from three faint widening strokes (a blur that works in every browser, no hard outline)
-        c.save(); c.lineCap = 'round'; c.translate(3, 7);
-        [[8, .05], [5, .07], [2.5, .10]].forEach(([lw, al]) => { c.strokeStyle = `rgba(25,10,0,${al})`; c.lineWidth = lw;
-          c.beginPath(); c.moveTo(a[0], a[1]); c.quadraticCurveTo(mx, my, b[0], b[1]); c.stroke(); });
-        c.restore();
-      });
-      links.forEach(([a, b], i) => {
-        const [L, mx, my] = curve(a, b, i), th = 2.6 + (i % 5) * .45, n = Math.max(3, Math.round(L / 16));
-        for (let j = 0; j < n; j++) {
-          const p0 = pt(a, b, mx, my, j / n), p1 = pt(a, b, mx, my, (j + 1) / n), len = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) + 1.2;
-          c.save(); c.translate(p0[0], p0[1]); c.rotate(Math.atan2(p1[1] - p0[1], p1[0] - p0[0]));
-          if (tex) { const sw = Math.min(tex.width, len * tex.height / th), sx = ((i * 37 + j * sw) % Math.max(1, tex.width - sw)); c.drawImage(tex, sx, 0, sw, tex.height, 0, -th / 2, len, th); }
-          else { c.fillStyle = '#7a0c12'; c.fillRect(0, -th / 2, len, th); }
-          c.restore();
-        }
-      });
-    };
-    const src = M().string; if (!src) return draw(null);
-    const t = new Image(); t.onload = () => draw(t); t.onerror = () => draw(null); t.src = src;
+  // topic lines: thin, straight, like the ROI field. each thing reaches its nearest kin by topic; a few long leaps
+  // nodes: [x, y, w, topics[], kind]. ink lines inside a kind, red dashed (rhizome) between kinds
+  function lines(nodes, W, H) {
+    const seen = new Set(), out = [];
+    const share = (a, b) => a[3].some(t => b[3].includes(t));
+    nodes.forEach((a, i) => {
+      const kin = nodes.map((b, j) => [j, Math.hypot(a[0] - b[0], a[1] - b[1])]).filter(([j]) => j !== i && share(a, nodes[j])).sort((p, q) => p[1] - q[1]);
+      const pick = kin.slice(0, 2); if (i % 4 === 0 && kin.length > 6) pick.push(kin[6 + (i % (kin.length - 6))]);
+      pick.forEach(([j]) => { const key = i < j ? i + ':' + j : j + ':' + i; if (seen.has(key)) return; seen.add(key);
+        const b = nodes[j], cross = a[4] !== b[4];
+        out.push(`<line class="${cross ? 'rh' : 'tl'}" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`); });
+    });
+    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out.join('')}</svg>`;
   }
 
   // pins: photographed brass tacks and black cobbler's nails (cut out of Ayelet's photos), one per anchor, above the cord
@@ -120,5 +106,5 @@ window.Board = (() => {
       if (el.classList.contains('ph') && G.length) { const b = gallery(); b.show(+el.dataset.k); b.hidden = false; } });
   }
   const material = () => M();
-  return { build, strings, pins, dress, front, material };
+  return { build, lines, pins, dress, front, material };
 })();
