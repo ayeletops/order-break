@@ -11,7 +11,9 @@ window.Board = (() => {
   const PD = ['d/d2/The_Horse_in_Motion_high_res.jpg', '0/04/Le_Voyage_dans_la_lune.jpg', '0/0b/Kinetoscope.jpg'];
   const CORK = 'https://cdn.pakutaso.com/shared/img/thumb/YUKI1211A1139_TP_V.jpg';             // PAKUTASO, free for any use
   const M = () => Object.assign({ cork: CORK }, (window.BOARD && BOARD.materials) || {});
-  const BLEND = ['normal', 'normal', 'multiply', 'normal', 'darken', 'overlay', 'normal', 'multiply', 'normal', 'darken', 'overlay', 'multiply'];
+  // paper sinks into the cork (multiply / darken); photos sometimes ghost into it (overlay)
+  const BLEND_SCAN = ['multiply', 'multiply', 'darken', 'multiply', 'normal', 'darken', 'multiply', 'overlay'];
+  const BLEND_PHOTO = ['normal', 'overlay', 'multiply', 'normal', 'darken', 'overlay', 'normal', 'multiply', 'darken', 'normal'];
 
   // the paper, mixed: own images and scans interleaved
   function items() {
@@ -36,12 +38,12 @@ window.Board = (() => {
       const y = top - 20 + ((k * .7548776 + Math.abs(o[1]) * .5) % 1) * Math.max(40, height - h * .55);
       const kind = it.scan ? 'scan' : it.corner ? 'print' : (k % 4 === 0 ? 'pol' : 'print');
       const rt = (k * 7 + 3) % 6 === 0;                                                        // red thread: grainy red duotone, like a risograph
-      const blend = rt ? 'normal' : BLEND[Math.abs(Math.round(o3[1] * 1000)) % BLEND.length];
+      const BL = it.scan ? BLEND_SCAN : BLEND_PHOTO, blend = rt ? 'normal' : BL[Math.abs(Math.round(o3[1] * 1000)) % BL.length];
       const r = (o2[1] * (it.scan ? 28 : 18)).toFixed(1), curl = (o3[0] * 7).toFixed(1);
       // the pin: top-centre, or top-right for tiles cut from a saved board; the print rotates around it
       const ax = it.corner ? w * .86 : w * (.5 + o3[0] * .18), ay = it.corner ? w * .12 : Math.min(18, h * .08);
       const src = it.src || thumb(it.p, w > 300 ? 500 : 330);
-      html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}" data-k="${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
+      html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
         + `<img src="${src}" alt="" decoding="async" referrerpolicy="no-referrer"><i class="sheen"></i></figure>`);
       anchors.push([x + ax, y + ay, w]);
       G.push({ big: it.src || thumb(it.p, 960), cap: it.scan ? decodeURIComponent(it.p.split('/').pop()).replace(/_/g, ' ').replace(/\.\w+$/, '') + ' · ' + it.by + ' · ' + it.lic + ' · Wikimedia Commons' : '' });
@@ -103,16 +105,17 @@ window.Board = (() => {
   function gallery() {
     if (box) return box;
     box = document.createElement('div'); box.className = 'gal'; box.hidden = true;
-    box.innerHTML = '<button class="x" aria-label="Close">×</button><button class="pv" aria-label="Previous">‹</button><figure><img alt=""><figcaption></figcaption></figure><button class="nx" aria-label="Next">›</button><b class="ct"></b>';
+    box.innerHTML = '<button class="x" aria-label="Close">CLOSE</button><button class="pv" aria-label="Previous">◀ BACK</button><figure><img alt=""><figcaption></figcaption></figure><button class="nx" aria-label="Next">NEXT ▶</button><b class="ct"></b>';
     document.body.appendChild(box);
     const show = k => { at = (k + G.length) % G.length; const g = G[at]; box.querySelector('img').src = g.big; box.querySelector('figcaption').textContent = g.cap; box.querySelector('.ct').textContent = `${at + 1} / ${G.length}`; };
     box.show = show;
-    box.addEventListener('click', e => { if (e.target.closest('.pv')) show(at - 1); else if (e.target.closest('.nx')) show(at + 1); else if (!e.target.closest('figure img')) box.hidden = true; });
+    box.addEventListener('click', e => { if (e.target.closest('.pv')) show(at - 1); else if (e.target.closest('.nx')) show(at + 1); });
+    document.addEventListener('click', e => { if (!box.hidden && !box.contains(e.target) && !e.target.closest('.ph')) box.hidden = true; });
     document.addEventListener('keydown', e => { if (box.hidden) return; if (e.key === 'Escape') box.hidden = true; if (e.key === 'ArrowLeft') show(at - 1); if (e.key === 'ArrowRight') show(at + 1); });
     return box;
   }
   function front(track) {
-    track.addEventListener('click', e => { const el = e.target.closest('.ph, .role'); if (!el || e.target.closest('a')) return;
+    track.addEventListener('click', e => { const el = e.target.closest('.ph, .role, .dymo'); if (!el || e.target.closest('a')) return;
       el.style.zIndex = ++Z;
       if (el.classList.contains('ph') && G.length) { const b = gallery(); b.show(+el.dataset.k); b.hidden = false; } });
   }

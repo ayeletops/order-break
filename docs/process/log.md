@@ -486,3 +486,9 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 - **Pins:** the tacks are darker aged brass and smaller (9–14px). The four pushpins were cut out of their white ground, with the fringe pulled toward red. The mix is about half tacks, a quarter nails and a quarter pushpins.
 - **Weave:** the cord is on three layers. Two in five threads run under every print, one in five runs between the layers, and the rest run over everything.
 - **Gallery:** clicking a print brings it to the front and opens it large, with its credit. The arrows or keys walk the whole board; Esc or a click outside closes it. A card click brings the card forward.
+
+**Then:** the blending modes aren't working. Lose the category tags and mix them into the chaos board, in the style of embossed label tape (a photo of Dymo labels). The gallery view should just bring the image to the front, with no fading of the background.
+**AI:**
+- **Blending:** the board layer was its own stacking context (z-index), so prints could only blend with each other and never with the cork. It is no longer isolated. Scans now mostly sink into the cork (multiply or darken). Photos are normal, overlay, multiply or darken. A blended print loses its white border and shadow, so it reads as ink on cork.
+- **Category tags:** the row labels are gone in "to be". Each category is now a strip of black embossed label tape (raised white capitals, glossy plastic, a slightly crooked cut) stuck near its cards, with a thread to each card. Clicking one brings it forward. In "not to be" the row labels come back.
+- **Gallery:** no dark veil. The print lifts off the board, large and slightly crooked, over everything. The credit, BACK / NEXT and CLOSE are label tape too. Clicking the board closes it.
