@@ -145,32 +145,34 @@
     d.addEventListener('click', e => { e.stopPropagation(); if (dragged) return; if (open === p) openGallery(p); else { glideTo(p); setTimeout(() => showCard(p), 760); } });
   });
 
-  // ── PRISM: hold still for one beat and the order refracts out of the break.
-  // Every point keeps its place; a red ghost splits off and travels to where the grid wanted it, leaving two echoes.
-  // Underneath, the Swiss structure draws itself in faint red. Release and it folds back.
+  // ── VIEW: grid ⇄ chaos. The same points, two places each: where the grid wants them, where the people put them.
+  // Switching moves everything across in two beats; red after-images are left along the way, like light through a prism.
   const ALLN = N.concat(P);
-  const gsvg = document.createElementNS(svg.namespaceURI, 'g'); gsvg.setAttribute('class', 'prism-grid'); svg.appendChild(gsvg);
-  const pth = (d, cls) => { const l = document.createElementNS(svg.namespaceURI, 'path'); l.setAttribute('d', d); l.setAttribute('class', cls); l.setAttribute('fill', 'none'); gsvg.appendChild(l); };
   ALLN.forEach(n => {
-    if (n.parent) pth(`M${n.parent.gx},${n.parent.gy} L${n.parent.gx},${n.gy} L${n.gx},${n.gy}`, 'pg');   // the grid's own right angles
-    pth(`M${n.dx},${n.dy} L${n.gx},${n.gy}`, 'pr');                                                         // the ray from break to order
-    const gh = document.createElement('div'); gh.className = 'ghost ' + (n.y_ ? 'gproj' : 'glv' + String(n.lv).replace('.', ''));
-    gh.style.left = n.dx + 'px'; gh.style.top = n.dy + 'px';
-    gh.style.setProperty('--tx', (n.gx - n.dx) + 'px'); gh.style.setProperty('--ty', (n.gy - n.dy) + 'px');
-    gh.innerHTML = `<i class="e1"></i><i class="e2"></i><span class="g"><b></b><em>${n.t}</em></span>`;
-    layer.appendChild(gh);
+    const gh = document.createElement('div'); gh.className = 'ghost'; gh.innerHTML = '<i class="e1"></i><i class="e2"></i><i class="e3"></i>'; layer.appendChild(gh); n.gh = gh;
   });
-  let holdT = 0, holdXY = null;
-  const refract = on => field.classList.toggle('refract', on);
-  field.addEventListener('pointerdown', e => {
-    if (card.contains(e.target) || e.target.closest('.dt')) return;
-    holdXY = [e.clientX, e.clientY]; clearTimeout(holdT); holdT = setTimeout(() => refract(true), 500);   // one beat
-  });
-  field.addEventListener('pointermove', e => { if (holdXY && Math.hypot(e.clientX - holdXY[0], e.clientY - holdXY[1]) > 4 && !field.classList.contains('refract')) { clearTimeout(holdT); holdXY = null; } });
-  const release = () => { clearTimeout(holdT); holdXY = null; refract(false); };
-  addEventListener('pointerup', release); addEventListener('pointercancel', release);
-  addEventListener('keydown', e => { if (e.code === 'Space' && !e.repeat) { e.preventDefault(); refract(true); } });
-  addEventListener('keyup', e => { if (e.code === 'Space') refract(false); });
+  let view = 'chaos', anim = 0;
+  function setView(v) {
+    if (v === view) return; view = v;
+    document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === v));
+    field.classList.toggle('gridview', v === 'grid');
+    const toGrid = v === 'grid', from = ALLN.map(n => [n, n.x, n.y]);
+    ALLN.forEach(n => {                                            // after-images from where it was
+      const tx = toGrid ? n.gx : n.dx, ty = toGrid ? n.gy : n.dy;
+      n.gh.style.left = n.x + 'px'; n.gh.style.top = n.y + 'px';
+      n.gh.style.setProperty('--tx', (tx - n.x) + 'px'); n.gh.style.setProperty('--ty', (ty - n.y) + 'px');
+      n.gh.classList.remove('go'); void n.gh.offsetWidth; n.gh.classList.add('go');
+      n.snapped = toGrid;
+    });
+    cancelAnimationFrame(anim); const t0 = performance.now();
+    const f = now => { const p = Math.min(1, (now - t0) / 1000), e = p < .5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2;   // two beats
+      from.forEach(([n, x0, y0]) => { const tx = toGrid ? n.gx : n.dx, ty = toGrid ? n.gy : n.dy;
+        n.x = x0 + (tx - x0) * e; n.y = y0 + (ty - y0) * e; n.el.style.left = n.x + 'px'; n.el.style.top = n.y + 'px'; });
+      EDGES.forEach(shape); render();
+      if (p < 1) anim = requestAnimationFrame(f); };
+    anim = requestAnimationFrame(f);
+  }
+  document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
 
   // ── dictionary pop-up
   const def = document.getElementById('def');

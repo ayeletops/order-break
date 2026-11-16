@@ -37,23 +37,19 @@
   .n.focus{--ts:min(78vh,78vw);z-index:3}
   .n.focus .lb{background:var(--paper);padding:3px 6px}
   .n .dt:hover,.n .lb:hover{outline:var(--gw) solid var(--grid);outline-offset:4px}
-  /* PRISM — hold still: the order refracts out of the break */
-  .prism-grid path{vector-effect:non-scaling-stroke;stroke:var(--grid);stroke-width:.5;opacity:0;transition:opacity var(--beat) var(--ease)}
-  .prism-grid .pr{stroke-dasharray:2 3}
-  #field.refract .prism-grid path{opacity:.9}
-  #field.refract .links .tree,#field.refract .links .rhizome{stroke-opacity:.12}
-  .ghost{position:absolute;width:0;height:0;pointer-events:none;z-index:2}
-  .ghost > *{position:absolute;left:0;top:0;opacity:0;transform:translate(0,0);transition:transform var(--beat) var(--ease),opacity calc(var(--beat) / 2)}
-  .ghost .e1,.ghost .e2{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--grid)}
-  .ghost .g{white-space:nowrap;line-height:1;color:var(--grid)}
-  .ghost .g b{position:absolute;left:-4px;top:-4px;width:8px;height:8px;background:var(--grid)}          /* in the grid, points are squares */
-  .ghost .g em{position:absolute;left:10px;top:0;transform:translateY(-50%);font-style:normal;font-family:var(--f-display)}
-  .ghost.glv0 .g em{font-size:54px;font-weight:900}.ghost.glv05 .g em{font-size:22px;font-style:italic}
-  .ghost.glv1 .g em{font-size:20px;font-weight:700}.ghost.glv2 .g em{font-size:14px}.ghost.gproj .g em{font:700 13px/1 var(--f-slab)}
-  #field.refract .ghost .e1{opacity:.45;transform:translate(calc(var(--tx) * .34),calc(var(--ty) * .34))}
-  #field.refract .ghost .e2{opacity:.7;transform:translate(calc(var(--tx) * .67),calc(var(--ty) * .67));transition-delay:calc(var(--beat) / 8)}
-  #field.refract .ghost .g{opacity:1;transform:translate(var(--tx),var(--ty));transition-delay:calc(var(--beat) / 4)}
-  #field.refract .n .lb{opacity:.35}
+  /* VIEW switch: grid ⇄ chaos, with red after-images (the prism) */
+  .ghost{position:absolute;width:0;height:0;pointer-events:none;z-index:1}
+  .ghost i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;background:var(--grid);opacity:0}
+  .ghost.go .e1{animation:echo calc(var(--beat) * 2) var(--ease) both;--f:.25}
+  .ghost.go .e2{animation:echo calc(var(--beat) * 2) var(--ease) both;--f:.5;animation-delay:calc(var(--beat) / 6)}
+  .ghost.go .e3{animation:echo calc(var(--beat) * 2) var(--ease) both;--f:.75;animation-delay:calc(var(--beat) / 3)}
+  @keyframes echo{0%{opacity:0;transform:translate(0,0)}35%{opacity:.8}100%{opacity:0;transform:translate(calc(var(--tx) * var(--f)),calc(var(--ty) * var(--f)))}}
+  #field.gridview .n .dt{border-radius:0}
+  .views{position:fixed;right:calc(var(--margin-r) + 80px);bottom:var(--gutter);z-index:5;display:flex;align-items:center;gap:4px;background:var(--paper);border:var(--gw) solid var(--ink);padding:4px 6px;
+         font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
+  .views button{font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;border:0;padding:6px 8px;cursor:pointer;color:var(--ink)}
+  .views button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+  .views button:hover{outline:var(--gw) solid var(--grid);outline-offset:2px}
   /* dictionary pop-up */
   .def{position:absolute;z-index:9;width:300px;padding:10px 12px;background:var(--paper);border:var(--gw) solid var(--ink);opacity:0;transform:translateY(-4px);
        pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
@@ -108,8 +104,7 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="ROI"></div>
-    <p class="page-note">A latent field of what I think about. Hover a word for its meaning. Red points are projects. Drag to travel, scroll to zoom. Press and hold to see the order underneath.</p>
-    <p class="colophon">Grid 24 · Beat 120 · Seed <span class="seed">—</span> · Not random</p>
+    <p class="page-note">A latent field of what I think about. Hover a word for its meaning. Red points are projects. Drag to travel, scroll to zoom.</p>
   </header>
   <div id="field" aria-label="Field: drag to travel, click a point to centre it">
     <div class="cross"></div>
@@ -118,6 +113,7 @@
     <div class="def" id="def" role="tooltip"></div>
   </div>
   <p class="hud"><b>Centre:</b> <span id="centre"></span></p>
+  <div class="views" role="group" aria-label="View"><button data-view="grid" aria-pressed="false">Grid</button><span>⇄</span><button data-view="chaos" aria-pressed="true">Rhizome</button></div>
   <div class="zoom"><button data-zoom="1.4" aria-label="Zoom in">+</button><button data-zoom="0.7" aria-label="Zoom out">−</button></div>
 </main>
 <div class="gallery" id="gallery" hidden role="dialog" aria-label="Project gallery">
@@ -128,9 +124,8 @@
   </div>
 </div>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'ROI', [1], { steady: true, every: 1500 });</script>
+<script>Stretch.make(document.getElementById('title'), 'ROI', [1], { steady: true, every: 500 });</script>
 <script src="js/placement.js"></script>
 <script src="js/roi-dict.js"></script>
 <script src="js/roi.js"></script>
-<script>document.querySelectorAll(".seed").forEach(e => e.textContent = (window.PLACEMENT || {}).seed || "—");</script>
 </body></html>

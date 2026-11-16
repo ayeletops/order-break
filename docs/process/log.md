@@ -374,3 +374,17 @@ Two risks: (1) to a visitor, deterministic chaos looks like random chaos, so the
 - **Page titles:** equal slots (classic).
 - **Heartbeat:** `--beat: 500ms`. The Event Horizon balls pulse lub-dub at 120 BPM, the ROI rings beat in sync (rippling outward 30ms apart), and transitions use beat multiples.
 - **Colophon** on every page except the cover: "Grid 24 · Beat 120 · Seed ######### · Not random", the rule shown without the data.
+
+**Then (my direction):**
+- **Stance, my own words:** "The machine already knows what I look like. What I do eat think dream love. / The average won and it is comfortable. / I use the machine every day. How do you use it without being devoured? Keep secrets."
+- **A button on ROI** to switch between grid view and rhizome view, and the same on Work (grid and chaos).
+- **Don't write "grid" or "beat" anywhere:** the mechanism is invisible.
+- **Event Horizon** is just five large black holes, showing a year on hover and beating at 120. The other page titles swap characters at the same rate.
+
+**AI:**
+- The stance is my text, verbatim.
+- The colophon is removed, and the page notes no longer describe the mechanism.
+- **ROI:** a Grid ⇄ Rhizome switch. All points move between their grid place and their secret-offset place over two beats, leaving three red after-images along the way (the prism). In grid view points become squares and links become right angles. Press-and-hold is replaced by the switch.
+- **Work:** a Grid ⇄ Chaos switch. Bars glide over two beats, and a red dashed after-image stays at the old place and fades.
+- **Event Horizon:** five large black holes with no mouse physics. They beat lub-dub at 120 BPM and show their year on hover. `rupture.js` is reduced to the shared layout and the heartbeat.
+- **Page titles** (ROI, Work, Event Horizon, Process) swap a character every 500ms, in step with the beat. The cover is unchanged.
