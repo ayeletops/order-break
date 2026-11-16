@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161233"><link rel="stylesheet" href="css/site.css?v=202611161233">
+<link rel="stylesheet" href="css/grids.css?v=202611161238"><link rel="stylesheet" href="css/site.css?v=202611161238">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -21,26 +21,41 @@
   .cat h2 sup{font-weight:400;letter-spacing:0;margin-left:4px}
   .role{position:absolute;min-width:8px}
   .role{transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1));transition:transform calc(var(--beat) * 2) var(--ease)}
-  /* CHAOS — a 90s detective board: photocopied scraps, tape, pins, red string, ink explosions, halftone and grain */
-  .wrap:has(.track:not(.grid)){background:#efede8 radial-gradient(rgba(0,0,0,.13) .8px,transparent 1.1px) 0 0/7px 7px}
-  .wrap:has(.track:not(.grid))::after{content:"";position:fixed;inset:var(--content-top,0) 0 0 0;pointer-events:none;z-index:30;opacity:.16;mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 -.35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-  .track:not(.grid) .col,.track:not(.grid) .cat{border-color:transparent}
-  .track:not(.grid) .role .txt{background:#fff;padding:12px 14px 16px;border:1px solid #111;box-shadow:5px 5px 0 #111;max-width:26ch;
-    clip-path:polygon(0 0,100% 0,100% 88%,94% 92%,88% 89%,80% 94%,71% 90%,62% 95%,52% 90%,43% 94%,33% 89%,24% 93%,14% 90%,6% 94%,0 90%);filter:url(#xerox)}
-  .track:not(.grid) .role .txt::before{content:"";position:absolute;left:30%;top:-9px;width:64px;height:18px;background:rgba(40,40,40,.18);transform:rotate(-4deg);
-    border-left:1px dashed rgba(0,0,0,.25);border-right:1px dashed rgba(0,0,0,.25)}
-  .track:not(.grid) .role h3{font-family:var(--face,var(--f-slab));font-weight:var(--fw,700);font-style:var(--fst,normal);font-size:21px;line-height:1.05}
-  .track:not(.grid) .role .when{display:inline-block;font:400 12px/1 "Special Elite",var(--f-type);color:var(--grid);border:1.5px solid var(--grid);padding:3px 5px 2px;transform:rotate(-3deg)}
-  .track:not(.grid) .role .bar{filter:url(#rough);height:16px;background:#111;width:min(100%,320px)}
-  .track:not(.grid) .role::after{content:"";position:absolute;left:12px;top:-6px;width:13px;height:13px;border-radius:50%;background:var(--grid);box-shadow:1px 2px 0 rgba(0,0,0,.5);z-index:3}
+  .track.grid .role{transform:none!important}
+  /* CHAOS — another realm: a cork board. Index cards and polaroids pinned in layers, red string, a thin red circle at each event year. */
+  .wrap:has(.track:not(.grid)){background-color:#b4875a;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='9'/><feColorMatrix values='0 0 0 0 .32  0 0 0 0 .2  0 0 0 0 .1  0 0 0 -2.2 1.35'/></filter><rect width='100%' height='100%' filter='url(%23c)'/></svg>"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .3  0 0 0 0 .16  0 0 0 -1.8 .9'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    box-shadow:inset 0 0 120px rgba(40,20,5,.45)}
+  .track:not(.grid) .col,.track:not(.grid) .cat,.track:not(.grid) .years,.track:not(.grid) .years span{border-color:transparent;background:transparent}
+  .track:not(.grid) .years span,.track:not(.grid) .cat h2{color:#2a1a0c}
+  .track:not(.grid) .cat h2{background:#f3ead8;box-shadow:1px 2px 3px rgba(0,0,0,.35);transform:rotate(-1.5deg)}
+  .track:not(.grid) .role{z-index:12;transform:translate(var(--ox,0),var(--oy,0)) rotate(var(--rot,0)) scale(var(--sc,1)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)))}
+  .track:not(.grid) .role .bar{height:6px;background:var(--grid);width:min(100%,260px);opacity:.9}
+  .track:not(.grid) .role .txt{background:#fbf8f1 repeating-linear-gradient(to bottom,transparent 0 21px,rgba(60,90,140,.18) 21px 22px) 0 34px/100% 100% no-repeat;
+    border-top:2px solid rgba(229,51,42,.7);padding:10px 14px 14px;max-width:26ch;box-shadow:0 1px 1px rgba(0,0,0,.25),3px 6px 12px rgba(30,15,0,.35)}
+  .track:not(.grid) .role h3{font:400 18px/1.15 "Special Elite",var(--f-type)}
+  .track:not(.grid) .role .org{font:400 italic 15px/1.2 var(--f-display)}
+  .track:not(.grid) .role .when{font:400 12px/1 "Special Elite",var(--f-type);color:var(--grid)}
+  .track:not(.grid) .role::after{content:"";position:absolute;left:calc(50% - 7px);top:-8px;width:14px;height:14px;border-radius:50%;z-index:3;
+    background:radial-gradient(circle at 35% 30%,#ff8a7a 0 18%,#e5332a 40%,#8c1410 100%);box-shadow:2px 3px 3px rgba(0,0,0,.45)}
   .chaos{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:1;transition:opacity calc(var(--beat) * 2) var(--ease)}
   .track.grid .chaos{opacity:0}
-  .chaos .boom{position:absolute;transform-origin:center;animation:boom var(--beat) var(--ease) infinite}
-  @keyframes boom{0%,66%,100%{transform:scale(1)}17%{transform:scale(1.03)}51%{transform:scale(1.012)}}
+  .chaos .ring{position:absolute;border-radius:50%;border:1px solid var(--grid);opacity:.85}
+  .chaos .pol{position:absolute;background:#fbfaf6;padding:8px 8px 34px;box-shadow:0 1px 1px rgba(0,0,0,.25),4px 8px 16px rgba(30,15,0,.4);
+    transform:rotate(var(--r)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));pointer-events:auto}
+  .chaos .pol img{display:block;width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+  .chaos .pol span{position:absolute;left:10px;right:10px;bottom:9px;font:400 13px/1.2 "Special Elite",var(--f-type);color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chaos .pol::after{content:"";position:absolute;left:calc(50% - 7px);top:-7px;width:14px;height:14px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ff8a7a 0 18%,#e5332a 40%,#8c1410 100%);box-shadow:2px 3px 3px rgba(0,0,0,.45)}
   .chaos svg.strings{position:absolute;left:0;top:0;overflow:visible;z-index:20}
-  .chaos .strings path{fill:none;stroke:var(--grid);stroke-width:1.6;stroke-linecap:round}
-  .track:not(.grid) .role{z-index:12}
+  .chaos .strings path{fill:none;stroke:#c41f15;stroke-width:1.4;stroke-linecap:round;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35))}
+  /* the switch: no words */
+  .views{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:40}
+  .switch{position:relative;width:46px;height:24px;border:1px solid var(--ink);border-radius:12px;background:var(--paper);cursor:pointer;padding:0}
+  .switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--ink);transition:transform calc(var(--beat) / 2) var(--ease)}
+  .switch[aria-checked=true]::after{transform:translateX(22px);background:var(--grid)}
+  .switch:hover{outline:var(--gw) solid var(--grid);outline-offset:3px}
   .role .bar{height:10px;background:var(--ink);position:relative}
   /* the prism: a red after-image stays where the bar was and fades as it moves */
   .role .bar::before{content:"";position:absolute;inset:-1px;border:var(--gw) dashed var(--grid);opacity:0;pointer-events:none}
@@ -48,11 +63,6 @@
   .track.to-chaos .role .bar::before{animation:stay-c calc(var(--beat) * 2) var(--ease) both}
   @keyframes stay-g{from{opacity:1;transform:translate(0,0)}to{opacity:0;transform:translate(var(--ox),var(--oy))}}
   @keyframes stay-c{from{opacity:1;transform:translate(0,0)}to{opacity:0;transform:translate(calc(var(--ox) * -1),calc(var(--oy) * -1))}}
-  .views{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:8;display:flex;align-items:center;gap:4px;background:var(--paper);border:var(--gw) solid var(--ink);padding:4px 6px;
-         font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
-  .views button{font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;border:0;padding:6px 8px;cursor:pointer;color:var(--ink)}
-  .views button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
-  .views button:hover{outline:var(--gw) solid var(--grid);outline-offset:2px}
   .role .bar.open{background:linear-gradient(90deg,var(--ink) 75%,rgba(11,11,11,.15))}
   .role.point .bar{width:14px}
   .role .txt{position:relative;padding:6px 10px 0 0;width:max-content;max-width:30ch;background:var(--paper)}
@@ -87,13 +97,13 @@
     <div class="page-title st-row" id="title" aria-label="Work"></div>
     <p class="page-note">How I got here. Scroll sideways; hover a bar for more.</p>
   </header>
-  <div class="views" role="group" aria-label="View"><button data-view="grid" aria-pressed="false">Grid</button><span>⇄</span><button data-view="chaos" aria-pressed="true">Chaos</button></div>
+  <div class="views"><button class="switch" role="switch" aria-checked="true" aria-label="Order or chaos" id="sw"></button></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161233"></script>
-<script src="js/stretch.js?v=202611161233"></script>
-<script src="js/rupture.js?v=202611161233"></script>
+<script src="js/placement.js?v=202611161238"></script>
+<script src="js/stretch.js?v=202611161238"></script>
+<script src="js/rupture.js?v=202611161238"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -130,13 +140,6 @@ const total = starts[starts.length - 1] + widths[widths.length - 1], LEFT = 240,
 const track = document.getElementById('track'), wrapEl = document.getElementById('wrap');
 const OFF = (window.PLACEMENT && PLACEMENT.offsets) || [[0, 0]];
 const face = i => { const f = Stretch.FACES[(i * 7 + 3) % Stretch.FACES.length]; return `--face:'${f.f}';--fw:${f.w};--fst:${f.s}`; };   // ransom-note titles
-// an ink explosion: a spiky blob, drawn from the secret offsets so every burst is its own
-const splat = (cx, cy, R, k) => { const n = 46; let d = '';
-  for (let i = 0; i <= n; i++) { const a = i / n * 6.283, o = OFF[(k * 31 + i * 5) % OFF.length], sp = i % 2 ? 1 + Math.abs(o[0]) * .55 : .78 + o[1] * .08;
-    const x = cx + Math.cos(a) * R * sp, y = cy + Math.sin(a) * R * sp; d += (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1); }
-  const drops = Array.from({ length: 7 }, (_, j) => { const o = OFF[(k * 13 + j * 17) % OFF.length], a = o[0] * 3.14, dd = R * (1.35 + Math.abs(o[1]) * .7), rr = R * (.04 + Math.abs(o[0]) * .06);
-    return `<circle cx="${(cx + Math.cos(a) * dd).toFixed(1)}" cy="${(cy + Math.sin(a) * dd).toFixed(1)}" r="${rr.toFixed(1)}"/>`; }).join('');
-  return `<path d="${d}Z"/>${drops}`; };
 function build() {
   let OI = 0;
   const avail = wrapEl.clientHeight - YEARS_H, rowH = Math.max(70, Math.floor(avail / CATS.length));
@@ -154,35 +157,45 @@ function build() {
       const when = r.point ? `${r.a}` : `${Math.floor(r.a)}${Math.floor(r.b) > Math.floor(r.a) || r.open ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}`;
       const o = OFF[(OI++) % OFF.length], o2 = OFF[(OI * 5 + 11) % OFF.length];
       const ox = Math.round(o[0] * 340), oy = Math.round(o[1] * rowH * 1.5), rot = (o2[0] * 13).toFixed(1), sc = (1 + o2[1] * .3).toFixed(2);   // the people throw it
-      CENT.push([LEFT + x0 + 18 + ox, YEARS_H + ci * rowH + 12 + r._lane * laneH + oy]);   // the pin
-      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px;--rot:${rot}deg;--sc:${sc};z-index:${10 + (OI % 7)};${face(OI)}">
+      CENT.push([LEFT + x0 + 110 + ox, YEARS_H + ci * rowH + 12 + r._lane * laneH + 16 + oy]);   // the pin (card top)
+      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px;--rot:${rot}deg;--sc:${sc};--depth:${(.5 + Math.abs(o2[0]) * 1.2).toFixed(2)};z-index:${10 + (OI % 7)}">
         <div class="bar ${r.open ? 'open' : ''}"></div>
         <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div>
           <div class="more"><p>${r.d}</p>${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></div></article>`;
     });
     h += `<section class="cat" data-cat="${k}" style="height:${rowH}px"><h2>${name}<sup>${items.length}</sup></h2>${inner}</section>`;
   });
-  // chaos layer: ink explosions at the event years, and red string from pin to pin
+  // chaos layer: a thin red circle at each event year, polaroids of the work pinned in layers, red string pin to pin
   const W2 = LEFT + total + TOOLBOX_W, Hh = wrapEl.clientHeight;
-  const booms = Rupture.YEARS.map((y, i) => { const R = Hh * [.2, .27, .17, .23, .3][i], o = OFF[(i * 9 + 4) % OFF.length], cx = LEFT + X(y + .5), cy = YEARS_H + avail * (.5 + o[1] * .22);
-    return `<svg class="boom" style="left:${cx - R * 2}px;top:${cy - R * 2}px;width:${R * 4}px;height:${R * 4}px" viewBox="${cx - R * 2} ${cy - R * 2} ${R * 4} ${R * 4}" fill="#111">${splat(cx, cy, R, i)}</svg>`; }).join('');
-  const pins = CENT;
-  const str = pins.flatMap((a, i) => [[a, pins[(i + 1) % pins.length]], [a, pins[(i + 4) % pins.length]]])
-    .map(([a, b]) => { const mx = (a[0] + b[0]) / 2, my = Math.max(a[1], b[1]) + Math.hypot(b[0] - a[0], b[1] - a[1]) * .08; return `<path d="M${a[0]},${a[1]} Q${mx},${my} ${b[0]},${b[1]}"/>`; }).join('');
-  h += `<div class="chaos">${booms}<svg class="strings" viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${str}</svg></div>`;
+  const rings = Rupture.YEARS.map((y, i) => { const R = Hh * [.2, .27, .17, .23, .3][i], o = OFF[(i * 9 + 4) % OFF.length], cx = LEFT + X(y + .5), cy = YEARS_H + avail * (.5 + o[1] * .22);
+    return `<i class="ring" style="left:${cx - R}px;top:${cy - R}px;width:${R * 2}px;height:${R * 2}px"></i>`; }).join('');
+  const PICS = [['thumbs/vaccine-futures', 'Vaccine Futures'], ['img/gn-06-rna', 'RNA'], ['thumbs/frequencies', 'Frequencies'], ['thumbs/opt-out-society', 'Opt-Out Society'],
+    ['img/gn-15-bio-glove', 'Bio glove'], ['thumbs/urban-healing', 'Urban Healing'], ['thumbs/this-and-that', 'This and That'], ['img/gn-09-opt-out-kit', 'Opt-out kit'],
+    ['thumbs/learn-not-confirm', 'Learn not Confirm'], ['img/gn-13-petri-dish', 'Petri dish'], ['img/gn-07-material-design', 'Material'], ['img/gn-03-outbreak-map', 'Outbreak map']];
+  const pins = CENT.slice();
+  const pols = PICS.map(([src, cap], i) => { const o = OFF[(i * 11 + 7) % OFF.length], o2 = OFF[(i * 3 + 29) % OFF.length];
+    const w = 150 + Math.abs(o2[0]) * 90, x = LEFT + 120 + ((i + .5) / PICS.length) * (total - 200) + o[0] * 90, y = YEARS_H + 20 + Math.abs(o[1]) * (avail - w - 60);
+    pins.push([x + w / 2 + 8, y]);
+    return `<figure class="pol" style="left:${x}px;top:${y}px;width:${w}px;--r:${(o2[1] * 9).toFixed(1)}deg;--depth:${(.6 + Math.abs(o[0]) * 1.4).toFixed(2)};z-index:${5 + (i % 6)}"><img src="assets/${src}.jpg" alt="" loading="lazy"><span>${cap}</span></figure>`; }).join('');
+  const str = pins.flatMap((a, i) => [[a, pins[(i * 5 + 3) % pins.length]]]).filter(([a, b]) => a !== b)
+    .map(([a, b]) => { const mx = (a[0] + b[0]) / 2, my = Math.max(a[1], b[1]) + Math.hypot(b[0] - a[0], b[1] - a[1]) * .09; return `<path d="M${a[0]},${a[1]} Q${mx},${my} ${b[0]},${b[1]}"/>`; }).join('');
+  h += `<div class="chaos">${rings}${pols}<svg class="strings" viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${str}</svg></div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
 }
 build(); new ResizeObserver(build).observe(wrapEl);
 const wrap = document.getElementById('wrap');
-// view: grid ⇄ chaos
-document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
-  const v = b.dataset.view, tr = document.getElementById('track'); if ((v === 'grid') === tr.classList.contains('grid')) return;
-  document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x === b));
-  tr.classList.remove('to-grid', 'to-chaos'); void tr.offsetWidth; tr.classList.add(v === 'grid' ? 'to-grid' : 'to-chaos'); tr.classList.toggle('grid', v === 'grid');
-}));
+// the switch: order ⇄ chaos (no words)
+document.getElementById('sw').addEventListener('click', e => {
+  const b = e.currentTarget, chaos = b.getAttribute('aria-checked') !== 'true', tr = document.getElementById('track');
+  b.setAttribute('aria-checked', chaos);
+  tr.classList.remove('to-grid', 'to-chaos'); void tr.offsetWidth; tr.classList.add(chaos ? 'to-chaos' : 'to-grid'); tr.classList.toggle('grid', !chaos);
+});
+// layers: a little parallax on the board, by depth
+wrapEl.addEventListener('pointermove', e => { const r = wrapEl.getBoundingClientRect(); const px = ((e.clientX - r.left) / r.width - .5) * -18, py = ((e.clientY - r.top) / r.height - .5) * -12;
+  track.style.setProperty('--px', px.toFixed(1) + 'px'); track.style.setProperty('--py', py.toFixed(1) + 'px'); });
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161233"></script>
+<script src="js/nav.js?v=202611161238"></script>
 </body></html>
