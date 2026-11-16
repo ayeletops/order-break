@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161340"><link rel="stylesheet" href="css/site.css?v=202611161340">
+<link rel="stylesheet" href="css/grids.css?v=202611161346"><link rel="stylesheet" href="css/site.css?v=202611161346">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -57,6 +57,8 @@
   .ph:hover{transform:perspective(900px) rotate(calc(var(--r) * .6)) rotateX(0) scale(1.04);box-shadow:0 2px 2px rgba(0,0,0,.3),12px 30px 40px rgba(30,15,0,.45)}
   .ph.scan{background:none;padding:0;box-shadow:0 1px 1px rgba(0,0,0,.25),3px 8px 14px rgba(30,15,0,.4)}
   .ph.scan .sheen{opacity:.6}
+  .ph.rt > img:first-child{filter:url(#rt)}
+  .ph.rt.scan{background:#a3101a}
   .chaos .strings .tw-hi2{fill:none;stroke:#5e0a06;stroke-width:.7;stroke-dasharray:.8 3.2;stroke-dashoffset:2;opacity:.8}
   /* the board's scraps */
   .sc{position:absolute;pointer-events:auto;transform:rotate(var(--r)) scale(var(--s,1)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));transition:transform .4s var(--ease)}
@@ -141,6 +143,17 @@
   .sc.zig{box-shadow:3px 5px 10px rgba(0,0,0,.5);background:linear-gradient(135deg,#111 25%,transparent 25%) -14px 0/28px 28px,linear-gradient(225deg,#111 25%,transparent 25%) -14px 0/28px 28px,linear-gradient(315deg,#111 25%,transparent 25%) 0 0/28px 28px,linear-gradient(45deg,#111 25%,#f2efe6 25%) 0 0/28px 28px}
   .sc.corridor{background:#f2efe6;box-shadow:2px 4px 10px rgba(0,0,0,.45)}.sc.corridor svg{width:100%;height:100%}.sc.corridor rect,.sc.corridor path{fill:none;stroke:#111;stroke-width:1.5}
   .chaos canvas.strings{position:absolute;left:0;top:0;z-index:900;pointer-events:none}
+  .chaos canvas.s0{z-index:4}.chaos canvas.s1{z-index:17}
+  /* gallery: a print, brought to the front, full size; walk the board with the arrows */
+  .gal{position:fixed;inset:0;z-index:2000;background:rgba(8,6,4,.9);display:grid;place-items:center;cursor:zoom-out}
+  .gal[hidden]{display:none}
+  .gal figure{margin:0;max-width:88vw;max-height:84vh;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:default}
+  .gal img{max-width:88vw;max-height:76vh;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.6);background:#fbfaf7;padding:8px}
+  .gal figcaption{font:400 12px/1.4 "Special Elite",var(--f-type);color:#e9e2d4;max-width:70ch;text-align:center}
+  .gal button{position:absolute;background:none;border:0;color:#f3ead8;font:400 54px/1 "Bodoni Moda",serif;cursor:pointer;padding:10px 18px}
+  .gal button:hover{color:var(--grid)}
+  .gal .x{top:10px;right:14px;font-size:40px}.gal .pv{left:6px;top:calc(50% - 36px)}.gal .nx{right:6px;top:calc(50% - 36px)}
+  .gal .ct{position:absolute;left:18px;bottom:14px;font:700 11px/1 var(--f-type);letter-spacing:.12em;color:#e9e2d4}
   .chaos .pins{position:absolute;inset:0;z-index:901;pointer-events:none}
   .chaos .pins .pin{position:absolute;height:auto;transform-origin:50% 50%}
   .chaos .pins .tack{filter:drop-shadow(1px 2px 1.2px rgba(20,8,0,.6)) drop-shadow(0 0 .5px rgba(0,0,0,.5))}
@@ -195,13 +208,22 @@
   <div class="views" role="group" aria-label="To be or not to be"><button data-v="chaos" aria-pressed="true">to be</button><button data-v="grid" aria-pressed="false">not to be</button></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
+  <!-- red thread: luminance + grain, cut into three inks (deep red, red, skin) like a cheap risograph -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rt" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feColorMatrix in="SourceGraphic" type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0" result="g"/>
+    <feComponentTransfer in="g" result="gc"><feFuncR type="linear" slope="1.5" intercept="-.18"/><feFuncG type="linear" slope="1.5" intercept="-.18"/><feFuncB type="linear" slope="1.5" intercept="-.18"/></feComponentTransfer>
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 0 1" result="nn"/>
+    <feComposite in="gc" in2="nn" operator="arithmetic" k2="1" k3=".7" k4="-.35" result="d"/>
+    <feComponentTransfer in="d"><feFuncR type="discrete" tableValues=".31 .64 .95"/><feFuncG type="discrete" tableValues=".02 .06 .80"/><feFuncB type="discrete" tableValues=".03 .10 .74"/><feFuncA type="identity"/></feComponentTransfer>
+  </filter></svg>
 </main>
-<script src="js/placement.js?v=202611161340"></script>
-<script src="js/stretch.js?v=202611161340"></script>
-<script src="js/rupture.js?v=202611161340"></script>
-<script src="js/board-manifest.js?v=202611161340"></script>
-<script src="js/board-scraps.js?v=202611161340"></script>
-<script src="js/board.js?v=202611161340"></script>
+<script src="js/placement.js?v=202611161346"></script>
+<script src="js/stretch.js?v=202611161346"></script>
+<script src="js/rupture.js?v=202611161346"></script>
+<script src="js/board-manifest.js?v=202611161346"></script>
+<script src="js/board-scraps.js?v=202611161346"></script>
+<script src="js/board.js?v=202611161346"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -280,11 +302,12 @@ function build() {
   CENT.forEach((c, i) => [-220, 140, 420].forEach((dx, j) => links.push([c, near(c, dx * (i % 2 ? 1 : -1) + j * 30)])));
   HUBS.forEach((hb, i) => { for (let j = 0; j < 9; j++) links.push([hb, near(hb, (j - 4) * 230 + (i * 37) % 90)]); if (HUBS[i + 1]) links.push([hb, HUBS[i + 1]]); });
   const L = links.filter(([a, b]) => a !== b && Math.hypot(a[0] - b[0], a[1] - b[1]) > 30);
-  h += `<div class="chaos">${rings}${B.html}<canvas class="strings" width="${W2}" height="${Hh}"></canvas><div class="pins">${Board.pins(A.concat(CENT.map(c => [c[0], c[1], 220]), HUBS), OFF)}</div></div>`;
+  h += `<div class="chaos">${rings}${B.html}<canvas class="strings s0" width="${W2}" height="${Hh}"></canvas><canvas class="strings s1" width="${W2}" height="${Hh}"></canvas><canvas class="strings s2" width="${W2}" height="${Hh}"></canvas><div class="pins">${Board.pins(A.concat(CENT.map(c => [c[0], c[1], 220]), HUBS), OFF)}</div></div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
-  Board.strings(track.querySelector('canvas.strings'), L); Board.dress(track);
+  // the cord weaves: some threads run under every print, some between the layers, some over everything
+  [0, 1, 2].forEach(l => Board.strings(track.querySelector('canvas.s' + l), L.filter((_, i) => (i % 5 < 2 ? 0 : i % 5 === 2 ? 1 : 2) === l)));
   const mat = Board.material(); if (mat.cork) wrapEl.style.setProperty('--cork', `url(${mat.cork})`);
 }
 build(); new ResizeObserver(build).observe(wrapEl); Board.front(track);
@@ -297,5 +320,5 @@ document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('cl
 }));
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161340"></script>
+<script src="js/nav.js?v=202611161346"></script>
 </body></html>

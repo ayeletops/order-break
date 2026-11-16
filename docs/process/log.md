@@ -478,3 +478,11 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 
 **Then:** lose the ugly red pushpins and use tacks or nails (two photos: an antique brass tack, black cobbler's nails on wood).
 **AI:** cut the brass tack's round head out of its white ground and eight single nails out of the wood. Overlapping nails were left out. Most pins are now brass tacks, sized to their print with a tight shadow, as if pressed in. About two in five are black nails, at any angle with a longer shadow. The Commons pushpin is gone.
+
+**Then:** darker string with no weird outline (photos of a thread spool, a loose red thread, a thread on paper). An effect for some images: the *Red Thread* poster look, a grainy two-ink red duotone. Smaller, darker tacks, mixed with red pushpins (a photo of four). Strings sometimes over and sometimes under. Clicking an image brings it to the front in a gallery view.
+**AI:**
+- **Cord:** the string is now a strip of real dark-red thread cut along the spool's wind. It has a rounded shade and a soft one-pixel edge, so there's no outline. The shadow is drawn alone, blurred (the line itself sits off-canvas), and the cord is thinner.
+- **Red thread:** an SVG filter turns luminance plus grain into three inks: deep red, red, and skin. It's on one print in six.
+- **Pins:** the tacks are darker aged brass and smaller (9–14px). The four pushpins were cut out of their white ground, with the fringe pulled toward red. The mix is about half tacks, a quarter nails and a quarter pushpins.
+- **Weave:** the cord is on three layers. Two in five threads run under every print, one in five runs between the layers, and the rest run over everything.
+- **Gallery:** clicking a print brings it to the front and opens it large, with its credit. The arrows or keys walk the whole board; Esc or a click outside closes it. A card click brings the card forward.
