@@ -2,7 +2,7 @@
    Paper: Ayelet's own images (assets/board, listed by tools/board-manifest.py) + real scans of tickets, receipts, telegrams,
    envelopes and handwriting from Wikimedia Commons (js/board-scraps.js) + a few public-domain photographs of early cinema.
    Sizes from tiny to huge, some blended into the cork (multiply / darken / overlay), rotated, layered. Click brings one to the front.
-   Real materials: a cork photograph, photographed tacks, nails and pushpins (assets/board/materials).
+   No pins: it is a map. Things lie on the cork, and arrows run between their edges.
    Thin lines, as on the ROI field, join things that share a topic (js/board-topics.js for her images; keywords for the scans).
    Every position comes from the secret offsets.
 */
@@ -52,7 +52,8 @@ window.Board = (() => {
       const src = it.src || thumb(it.p, w > 300 ? 500 : 330);
       html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" data-id="p${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;mix-blend-mode:${blend};z-index:${5 + (k % 25)}">`
         + `<img src="${src}" alt="" decoding="async" referrerpolicy="no-referrer"><i class="sheen"></i></figure>`);
-      anchors.push([x + ax, y + ay, w, it.topics, 'ph', 'p' + k]);
+      const hh = h + (kind === 'pol' ? 51 : kind === 'scan' || blend !== 'normal' ? 0 : 14), ww = w + (kind === 'scan' || blend !== 'normal' ? 0 : 14);
+      anchors.push([x + ww / 2, y + hh / 2, w, it.topics, 'ph', 'p' + k, ww, hh]);   // a place on the map: centre and size
       G.push({ own: !!it.src, big: it.src || thumb(it.p, 960), cap: it.scan ? decodeURIComponent(it.p.split('/').pop()).replace(/_/g, ' ').replace(/\.\w+$/, '') + ' · ' + it.by + ' · ' + it.lic + ' · Wikimedia Commons' : '' });
     });
     return { html: html.join(''), anchors };
@@ -66,10 +67,14 @@ window.Board = (() => {
     const seen = new Set(), out = [];
     const share = (a, b) => a[3].some(t => b[3].includes(t));
     const f = v => v.toFixed(1);
+    // leave one thing at its edge and arrive at the other's edge, so the arrows run between the pictures, not under them
+    const edge = (n, ux, uy) => { const hw = (n[6] || 0) / 2, hh = (n[7] || 0) / 2; if (!hw || !hh) return 0;
+      return Math.min(Math.abs(ux) > 1e-6 ? hw / Math.abs(ux) : 1e9, Math.abs(uy) > 1e-6 ? hh / Math.abs(uy) : 1e9); };
     const arrow = (a, b, cls, ida, idb) => {
       const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
-      const sx = a[0] + ux * 7, sy = a[1] + uy * 7, ex = b[0] - ux * 13, ey = b[1] - uy * 13;
-      const bow = Math.min(70, L * .14) * (cls === 'bk' ? -1 : 1);
+      const ta = edge(a, ux, uy) + 4, tb = edge(b, ux, uy) + 6; if (ta + tb > L - 12) return '';
+      const sx = a[0] + ux * ta, sy = a[1] + uy * ta, ex = b[0] - ux * tb, ey = b[1] - uy * tb;
+      const bow = Math.min(70, (L - ta - tb) * .14) * (cls === 'bk' ? -1 : 1);
       return `<path class="${cls}" data-a="${ida}" data-b="${idb}" d="M${f(sx)},${f(sy)} Q${f((sx + ex) / 2)},${f((sy + ey) / 2 + bow)} ${f(ex)},${f(ey)}"/>`;
     };
     nodes.forEach((a, i) => {

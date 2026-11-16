@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=Quicksand:wght@700&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161359"><link rel="stylesheet" href="css/site.css?v=202611161359">
+<link rel="stylesheet" href="css/grids.css?v=202611161519"><link rel="stylesheet" href="css/site.css?v=202611161519">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -184,11 +184,6 @@
   .gal .cap{left:50%;top:calc(var(--content-top,240px) + 44px);transform:translateX(-50%) rotate(.6deg);width:max-content;max-width:min(64ch,calc(100vw - 200px));font-size:10px;line-height:1.5;letter-spacing:.24em;text-align:center;pointer-events:none}
   .gal .cap:empty{display:none}
   .gal .ct{right:22px;bottom:62px;font-size:10px;pointer-events:none;transform:rotate(1deg)}
-  .chaos .pins{position:absolute;inset:0;z-index:901;pointer-events:none}
-  .chaos .pins .pin{position:absolute;height:auto;transform-origin:50% 50%}
-  .chaos .pins .tack{filter:drop-shadow(1px 2px 1.2px rgba(20,8,0,.6)) drop-shadow(0 0 .5px rgba(0,0,0,.5))}
-  .chaos .pins .nail{filter:drop-shadow(3px 5px 2px rgba(20,8,0,.45))}
-  .chaos .pins .pin.drawn{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c79a,#8a7440 60%,#4a3a18)}
   /* twine: a dark core, a spiralling highlight (the twist), a soft cast shadow, knots at the pins */
   .chaos .strings .tw{fill:none;stroke:#a8160f;stroke-width:2.4;stroke-linecap:round}
   .chaos .strings .tw-hi{fill:none;stroke:#ff6a55;stroke-width:1.1;stroke-dasharray:1.6 2.4;stroke-linecap:round;opacity:.9}
@@ -248,13 +243,13 @@
     <feComponentTransfer in="d"><feFuncR type="discrete" tableValues=".31 .64 .95"/><feFuncG type="discrete" tableValues=".02 .06 .80"/><feFuncB type="discrete" tableValues=".03 .10 .74"/><feFuncA type="identity"/></feComponentTransfer>
   </filter></svg>
 </main>
-<script src="js/placement.js?v=202611161359"></script>
-<script src="js/stretch.js?v=202611161359"></script>
-<script src="js/rupture.js?v=202611161359"></script>
-<script src="js/board-manifest.js?v=202611161359"></script>
-<script src="js/board-scraps.js?v=202611161359"></script>
-<script src="js/board-topics.js?v=202611161359"></script>
-<script src="js/board.js?v=202611161359"></script>
+<script src="js/placement.js?v=202611161519"></script>
+<script src="js/stretch.js?v=202611161519"></script>
+<script src="js/rupture.js?v=202611161519"></script>
+<script src="js/board-manifest.js?v=202611161519"></script>
+<script src="js/board-scraps.js?v=202611161519"></script>
+<script src="js/board-topics.js?v=202611161519"></script>
+<script src="js/board.js?v=202611161519"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -327,19 +322,19 @@ function build() {
   const CAT_T = { edu: ['edu', 'art', 'film'], edit: ['edit', 'film', 'tv'], rest: ['rest', 'film', 'ticket', 'text'], finish: ['finish', 'film', 'tv'], ai: ['ai', 'meme', 'mind'], prize: ['ai', 'prize'] };
   const TOOL_T = [['ai', 'meme'], ['ai', 'mind'], ['edit', 'finish', 'film'], ['edu', 'art'], ['ai', 'text']];
   const nodes = B.anchors.slice();
-  TAGS.forEach(t => t.pts.forEach(p => nodes.push([p[0], p[1], 220, CAT_T[t.k], 'card', 'c' + CENT.indexOf(p)])));
+  TAGS.forEach(t => t.pts.forEach(p => nodes.push([p[0], p[1] + 34, 220, CAT_T[t.k], 'card', 'c' + CENT.indexOf(p), 240, 96])));
   // the categories leave their rows: embossed label tape stuck on the board near their cards
   const dymo = TAGS.map((t, i) => { const o = OFF[(i * 17 + 9) % OFF.length], cx = t.pts.reduce((s, p) => s + p[0], 0) / Math.max(1, t.pts.length);
     const x = cx + o[0] * 260 - 60, y = YEARS_H + 40 + Math.abs(o[1]) * (avail - 120), r = (o[0] * 9).toFixed(1);
-    nodes.push([x + 40, y + 14, 200, CAT_T[t.k].concat('tag:' + t.k), 'tag', 't' + i]);
+    const tw = 36 + (t.name.length + 1) * 13; nodes.push([x + tw / 2, y + 14, 200, CAT_T[t.k].concat('tag:' + t.k), 'tag', 't' + i, tw, 30]);
     return `<span class="dymo" data-id="t${i}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;--r:${r}deg;z-index:${30 + i}">${t.name}<sup>${t.n}</sup></span>`; }).join('');
   // the tools leave their box: red label tape, scattered, each still a link
   let ti = 0;
   const tools = TOOLS.map(([g, ts], gi) => ts.map(([n, u]) => { const o = OFF[(ti * 23 + 7) % OFF.length], o2 = OFF[(ti * 5 + 31) % OFF.length]; ti++;
     const x = LEFT + 40 + ((ti * .381966 + Math.abs(o[0]) * .3) % 1) * (total + TOOLBOX_W - 160), y = YEARS_H + 30 + Math.abs(o[1]) * (avail - 70), r = (o2[0] * 14).toFixed(1);
-    nodes.push([x + 30, y + 10, 120, TOOL_T[gi].concat('tool'), 'tool', 'o' + ti]);
+    const ow = 26 + n.length * 10; nodes.push([x + ow / 2, y + 11, 120, TOOL_T[gi].concat('tool'), 'tool', 'o' + ti, ow, 22]);
     return `<a class="dymo tool t${gi % 3}" data-id="o${ti}" href="${u}" target="_blank" rel="noopener" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;--r:${r}deg;z-index:${32 + (ti % 6)}" title="${g}">${n}</a>`; }).join('')).join('');
-  h += `<div class="chaos">${rings}${B.html}${dymo}${tools}${Board.lines(nodes, W2, Hh, OFF, LEFT - 40)}<div class="pins">${Board.pins(B.anchors.concat(CENT.map(c => [c[0], c[1], 220])), OFF)}</div></div>`;
+  h += `<div class="chaos">${rings}${B.html}${dymo}${tools}${Board.lines(nodes, W2, Hh, OFF, LEFT - 40)}</div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
@@ -355,5 +350,5 @@ document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('cl
 }));
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161359"></script>
+<script src="js/nav.js?v=202611161519"></script>
 </body></html>

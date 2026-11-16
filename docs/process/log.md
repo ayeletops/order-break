@@ -509,3 +509,6 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
   - They sit under the paper, faint (ink 42%, red 60%, 0.6px), so the images lead. Hovering any print, card, tag or tool lifts that thing's own arrows, in and out, above everything.
 - **Gallery:** there's no copy any more. The print itself leaves its pin (the pin stays on the cork) and travels to the centre, scaled up, in front of the board. Scans swap to a sharper file while lifted. ◀ / ▶ put it back and bring the neighbour; BACK ON THE BOARD, a click on the cork, Esc or scrolling put it back. It lands on its pin at its old height in the pile. The controls and the credit are label tape. Small files are never blown past about 2×.
 - **Sizes:** most pieces now run 70–300px, with a rare 320–410px. Nothing is taller than about half the board, against 660px before.
+
+**Then:** no pushpins and tacks. It's a map.
+**AI:** the pins are gone. Prints, cards, tags and tools just lie on the board. The arrows now leave one thing at its edge and arrive at the other's edge, so they run between the pictures, like routes on a map, not into hidden pin points. Hover still lifts a thing's routes.
