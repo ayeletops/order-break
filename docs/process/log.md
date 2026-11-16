@@ -526,3 +526,16 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
 - **Cork:** `background-attachment: local`, so the cork travels with the board.
 - **Lines:** arrows and heads are white; going back in time stays dashed. The years on the board are white too.
 - **Grid:** rows are as tall as their lanes. Each lane is at least one card high, so cards in the same category never stack onto each other. If that's taller than the window, the grid scrolls vertically.
+
+**Then:** more photos, it should be excessive (eight more saved boards). A black background instead of cork. Thin red lines with no arrows interconnecting things. Take time to make actual connections.
+**AI:**
+- **Photos:** 109 new pieces cut from the boards. I split rows and columns only on the real 16px gutters, so white-ground images stay whole, and painted out the edit icons. 25 of the old square crops were replaced by the full images, and repeats were dropped. The board now holds 203 pieces: 141 of hers, 59 scans and 3 early-cinema photos. They're interleaved two of hers to one scan, smaller, and no taller than about a third of the board.
+- **Black:** the board is black. The cork, cord, tacks, nails and pushpins are gone from the repo. The event-year targets are faint white rings, and the label tape has a hairline edge so it holds on black.
+- **Threads (`js/board-threads.js`):** no more nearest-topic guessing. There are 38 named threads that I read out of the images, each drawn as one thin red line through its members in time order, plus a few cross-ties.
+  - Films: nouvelle vague / Pierrot le fou (the red car, "couldn't care less", "never fall in love again"), Lynch, Napoleon Dynamite, Thelma & Louise.
+  - Moods: confessions in subtitles, this is fine (the sinking NO WORRIES, Uli the nihilist, Godot), fire, the end (mushroom cloud, the event-horizon definition), bat country (Fear and Loathing ↔ Rick & Morty ↔ the whiskey ↔ smoke wheat ↔ Hollyweed).
+  - Everyday: errors (syntax error, error in error message, the autocorrected "Ayelet"), chats, cats, the dog, food / pizza, power, rebels.
+  - Art and culture: art history, surreal, balloons (EGO ↔ the white sphere on the beach), the 80s–90s, TV, animation, music.
+  - Language and paper: Hebrew, words, the paper trail of tickets and receipts, maps of thought (Darwin's tree ↔ "trying to think").
+  - Also: me, money, icons, home, early cinema, pastel order.
+  - The CV cards sit on the threads they belong to: editing ↔ nouvelle vague / subtitles / TV / Hebrew, restoration ↔ early cinema / paper trail, Wix and the hackathon ↔ errors / chats / maps of thought. All 141 of her images are on at least one thread. That's about 440 lines, over the paper, at 0.55px. Hovering a piece brightens its lines and names its threads.

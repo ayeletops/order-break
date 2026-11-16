@@ -2,8 +2,6 @@
 
 Real scans and photographs on the Work board ("to be"), hotlinked from Wikimedia Commons. Each is public domain or under the Creative Commons licence shown.
 
-- Cork: PAKUTASO, "Fine cork board texture" (free for any use) — https://www.pakutaso.com/20191259345post-24708.html
-- Tacks and nails: cut out of photographs supplied by Ayelet.
 - Early cinema (public domain): Muybridge, *The Horse in Motion* (1878); Méliès, *A Trip to the Moon* (1902); the Edison Kinetoscope.
 
 ## Paper

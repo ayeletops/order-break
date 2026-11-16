@@ -2,7 +2,7 @@
    Paper: Ayelet's own images (assets/board, listed by tools/board-manifest.py) + real scans of tickets, receipts, telegrams,
    envelopes and handwriting from Wikimedia Commons (js/board-scraps.js) + a few public-domain photographs of early cinema.
    Sizes from small to medium, a rare large one; rotated, layered, no blending. Click brings one forward; click again puts it back.
-   No pins: it is a map. Things lie on the cork, and arrows run between their edges.
+   No pins: it is a map on black. Thin red threads (js/board-threads.js) run through things that belong together.
    Thin lines, as on the ROI field, join things that share a topic (js/board-topics.js for her images; keywords for the scans).
    Every position comes from the secret offsets.
 */
@@ -10,20 +10,18 @@ window.Board = (() => {
   const WM = 'https://upload.wikimedia.org/wikipedia/commons/thumb/';
   const thumb = (p, w) => WM + p + '/' + w + 'px-' + p.split('/').pop();
   const PD = ['d/d2/The_Horse_in_Motion_high_res.jpg', '0/04/Le_Voyage_dans_la_lune.jpg', '0/0b/Kinetoscope.jpg'];
-  const CORK = 'https://cdn.pakutaso.com/shared/img/thumb/YUKI1211A1139_TP_V.jpg';             // PAKUTASO, free for any use
-  const M = () => Object.assign({ cork: CORK }, (window.BOARD && BOARD.materials) || {});
+  const M = () => Object.assign({}, (window.BOARD && BOARD.materials) || {});
 
-  const KW = [[/ticket|stub|boarding|admission|raffle/i, 'ticket'], [/receipt|quittung|invoice/i, 'receipt'], [/letter|postcard|diary|note|journal|telegram|list|recipe|poem|clipping|handwrit/i, 'text'],
-    [/concert|grateful|korn|midnight|letov|sven|jackson|buffett|presley/i, 'music'], [/movie|theat|programme|cinema/i, 'film'], [/matchbook|bier|beer/i, 'night'],
-    [/envelope|postcard|telegram/i, 'mail'], [/shopping|recipe|menu|cake/i, 'home'], [/darwin|lyell|lepidoptera|swedenborg/i, 'mind']];
-  const scanTopics = p => { const t = KW.filter(([re]) => re.test(decodeURIComponent(p))).map(k => k[1]); return t.length ? t : ['text']; };
-  // the paper, mixed: own images and scans interleaved
+  // every piece has a key the threads can name (js/board-threads.js): n005, s01, p:ego, scan:<file>, pd
+  const keyOf = src => { const f = src.split('/').pop().replace(/\.\w+$/, ''); return f.startsWith('p-') ? 'p:' + f.slice(2) : f.replace('-', ''); };
+  // the paper, mixed: own images and scans interleaved, so the eye never settles
   function items() {
-    const own = ((window.BOARD && BOARD.images) || []).map(src => ({ src, own: 1, corner: /\/s-\d/.test(src), topics: (window.TOPICS || {})[src.split('/').pop()] || ['self'] }));
-    const scans = (window.SCRAPS || []).map(([p, ar, lic, by]) => ({ p, ar, lic, by, scan: 1, topics: scanTopics(p) }));
-    const pd = PD.map(p => ({ p, ar: .75, topics: ['film'] }));
-    const out = [], n = Math.max(own.length, scans.length);
-    for (let i = 0; i < n; i++) { if (own[i]) out.push(own[i]); if (scans[i]) out.push(scans[i]); }
+    const own = ((window.BOARD && BOARD.images) || []).map(e => { const [src, ar] = Array.isArray(e) ? e : [e, 1]; return { src, ar, own: 1, key: keyOf(src) }; });
+    const scans = (window.SCRAPS || []).map(([p, ar, lic, by]) => ({ p, ar, lic, by, scan: 1, key: 'scan:' + decodeURIComponent(p.split('/').pop()) }));
+    const pd = PD.map(p => ({ p, ar: .75, key: 'pd' }));
+    const out = []; let j = 0;
+    own.forEach((o, i) => { out.push(o); if (i % 2 === 1 && scans[j]) out.push(scans[j++]); });   // two of hers, one scan
+    while (scans[j]) out.push(scans[j++]);
     return out.concat(pd);
   }
 
@@ -31,69 +29,60 @@ window.Board = (() => {
     const list = items(), html = [], anchors = []; G.length = 0;
     list.forEach((it, k) => {
       const o = OFF[(k * 13 + 5) % OFF.length], o2 = OFF[(k * 7 + 19) % OFF.length], o3 = OFF[(k * 11 + 3) % OFF.length];
-      // size: mostly small, some medium, a rare large one; nothing taller than about half the board
-      let w = Math.round(70 + Math.pow(Math.abs(o2[0]), 1.8) * 230);
-      if (k % 23 === 4) w = Math.round(320 + Math.abs(o3[0]) * 90);
-      const ar = it.ar || 1, hMax = height * (it.scan ? .5 : .46);
-      if (w * ar > hMax) w = Math.round(hMax / ar);
-      w = Math.max(56, w);
+      // size: excess. mostly small, many medium, a rare large one; nothing taller than ~40% of the board
+      const ar = it.ar || 1;
+      let w = Math.round(70 + Math.pow(Math.abs(o2[0]), 1.6) * 210);
+      if (k % 29 === 4) w = Math.round(250 + Math.abs(o3[0]) * 70);
+      const hMax = height * .34; if (w * ar > hMax) w = Math.round(hMax / ar);
+      w = Math.max(54, w);
       const h = w * ar;
       const x = left + ((k * .6180339) % 1) * (width - w * .6) + o[0] * 90 - w * .2;
       const y = top - 20 + ((k * .7548776 + Math.abs(o[1]) * .5) % 1) * Math.max(40, height - h * .55);
-      const kind = it.scan ? 'scan' : it.corner ? 'print' : (k % 4 === 0 ? 'pol' : 'print');
+      const kind = it.scan ? 'scan' : (k % 5 === 0 && ar < 1.15 && ar > .85 ? 'pol' : 'print');
       const rt = (k * 7 + 3) % 6 === 0;                                                        // red thread: grainy red duotone, like a risograph
       const blend = 'normal';   // no blending: every piece is itself
       const r = (o2[1] * (it.scan ? 28 : 18)).toFixed(1), curl = (o3[0] * 7).toFixed(1);
       // the pin: top-centre, or top-right for tiles cut from a saved board; the print rotates around it
-      const ax = it.corner ? w * .86 : w * (.5 + o3[0] * .18), ay = it.corner ? w * .12 : Math.min(18, h * .08);
+      const ax = w * (.5 + o3[0] * .18), ay = Math.min(18, h * .08);
       const src = it.src || thumb(it.p, w > 300 ? 500 : 330);
       html.push(`<figure class="ph ${kind}${rt ? ' rt' : ''}${blend !== 'normal' ? ' bl' : ''}" data-k="${k}" data-id="p${k}" style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w}px;--r:${r}deg;--curl:${curl}deg;transform-origin:${ax.toFixed(0)}px ${ay.toFixed(0)}px;z-index:${5 + (k % 25)}">`
         + `<img src="${src}" alt="" decoding="async" referrerpolicy="no-referrer"><i class="sheen"></i></figure>`);
       const hh = h + (kind === 'pol' ? 51 : kind === 'scan' || blend !== 'normal' ? 0 : 14), ww = w + (kind === 'scan' || blend !== 'normal' ? 0 : 14);
-      anchors.push([x + ww / 2, y + hh / 2, w, it.topics, 'ph', 'p' + k, ww, hh]);   // a place on the map: centre and size
+      anchors.push([x + ww / 2, y + hh / 2, w, it.key, 'ph', 'p' + k, ww, hh]);   // a place on the map: centre and size
       G.push({ own: !!it.src, big: it.src || thumb(it.p, 960), cap: it.scan ? decodeURIComponent(it.p.split('/').pop()).replace(/_/g, ' ').replace(/\.\w+$/, '') + ' · ' + it.by + ' · ' + it.lic + ' · Wikimedia Commons' : '' });
     });
     return { html: html.join(''), anchors };
   }
 
-  // arrows between kin. time runs left to right, so an arrow can lead on into later years (ink, bowing down),
-  // reach back into earlier ones (red, dashed, bowing up), run straight off the right edge into the future,
-  // or arrive from before the board begins. They sit under the paper; hovering a thing lifts its own arrows on top.
-  // nodes: [x, y, w, topics[], kind, id]
-  function lines(nodes, W, H, OFF, x0) {
-    const seen = new Set(), out = [];
-    const share = (a, b) => a[3].some(t => b[3].includes(t));
-    const f = v => v.toFixed(1);
-    // leave one thing at its edge and arrive at the other's edge, so the arrows run between the pictures, not under them
+  // threads: each named thread (js/board-threads.js) runs as one thin red line through its members in time order (left to right),
+  // with a few cross-ties inside it. A piece on several threads is where they cross. No arrows: everything is already connected.
+  // nodes: [cx, cy, w, key, kind, id, width, height]
+  function lines(nodes, W, H, OFF) {
+    const T = window.THREADS || {}, seen = new Set(), out = [], f = v => v.toFixed(1);
+    const match = (m, n) => m === n[3] || (m === 'pd' && n[3] === 'pd') || (m.startsWith('scan:') && n[3].startsWith('scan:') && new RegExp(m.slice(5), 'i').test(n[3]));
     const edge = (n, ux, uy) => { const hw = (n[6] || 0) / 2, hh = (n[7] || 0) / 2; if (!hw || !hh) return 0;
       return Math.min(Math.abs(ux) > 1e-6 ? hw / Math.abs(ux) : 1e9, Math.abs(uy) > 1e-6 ? hh / Math.abs(uy) : 1e9); };
-    const arrow = (a, b, cls, ida, idb) => {
-      const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
-      const ta = edge(a, ux, uy) + 4, tb = edge(b, ux, uy) + 6; if (ta + tb > L - 12) return '';
-      const sx = a[0] + ux * ta, sy = a[1] + uy * ta, ex = b[0] - ux * tb, ey = b[1] - uy * tb;
-      const bow = Math.min(70, (L - ta - tb) * .14) * (cls === 'bk' ? -1 : 1);
-      return `<path class="${cls}" data-a="${ida}" data-b="${idb}" d="M${f(sx)},${f(sy)} Q${f((sx + ex) / 2)},${f((sy + ey) / 2 + bow)} ${f(ex)},${f(ey)}"/>`;
-    };
-    nodes.forEach((a, i) => {
-      const o = OFF[(i * 19 + 7) % OFF.length], hsh = Math.abs(Math.round(o[0] * 613 + o[1] * 389));
-      const kin = nodes.map((b, j) => [j, Math.hypot(a[0] - b[0], (a[1] - b[1]) * 1.4)]).filter(([j]) => j !== i && share(a, nodes[j])).sort((p, q) => p[1] - q[1]);
-      const pick = kin.slice(0, hsh % 3 ? 1 : 2);
-      if (hsh % 5 === 0 && kin.length > 8) pick.push(kin[8 + (hsh % (kin.length - 8))]);              // a leap across the years
-      pick.forEach(([j]) => { const key = i < j ? i + ':' + j : j + ':' + i; if (seen.has(key)) return; seen.add(key);
-        const b = nodes[j], [early, late] = a[0] <= b[0] ? [a, b] : [b, a], back = (hsh + j) % 4 === 0;
-        out.push(back ? arrow(late, early, 'bk', late[5], early[5]) : arrow(early, late, 'fw', early[5], late[5])); });
-      if (hsh % 17 === 5) out.push(arrow(a, [W - 6, Math.max(20, Math.min(H - 20, a[1] + o[1] * 60))], 'fu', a[5], 'future'));   // straight to the future
-      if (hsh % 23 === 11) out.push(arrow([x0, Math.max(20, Math.min(H - 20, a[1] - o[0] * 60))], a, 'pa', 'before', a[5]));     // from before
+    const tie = (a, b, name) => { const key = a[5] < b[5] ? a[5] + '|' + b[5] : b[5] + '|' + a[5]; if (a === b || seen.has(key)) return; seen.add(key);
+      const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L, ta = edge(a, ux, uy) + 2, tb = edge(b, ux, uy) + 2;
+      if (ta + tb > L - 6) return;
+      out.push(`<path data-a="${a[5]}" data-b="${b[5]}" data-t="${name}" d="M${f(a[0] + ux * ta)},${f(a[1] + uy * ta)} L${f(b[0] - ux * tb)},${f(b[1] - uy * tb)}"/>`); };
+    Object.entries(T).forEach(([name, members], ti) => {
+      const ms = []; members.forEach(m => nodes.forEach(n => { if (n[3] && match(m, n) && !ms.includes(n)) ms.push(n); }));
+      ms.sort((p, q) => p[0] - q[0]);
+      ms.forEach((n, i) => { if (ms[i + 1]) tie(n, ms[i + 1], name);                               // the thread itself
+        const o = OFF[(i * 7 + ti * 13) % OFF.length]; if (Math.abs(o[0]) > .55 && ms.length > 4) tie(n, ms[(i + 2 + (Math.abs(Math.round(o[1] * 50)) % (ms.length - 2))) % ms.length], name); });   // a cross-tie
     });
-    const head = (id, c) => `<marker id="${id}" viewBox="0 0 8 8" refX="7.2" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M.6,.8 L7.2,4 L.6,7.2" fill="none" stroke="${c}" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></marker>`;
-    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>${head('ah-w', '#fff')}</defs>${out.join('')}</svg>`
+    // the label tape leads to its own cards
+    nodes.filter(n => n[4] === 'tag').forEach(t => nodes.filter(n => n[4] === 'card' && n[3] === t[3]).forEach(c => tie(t, c, 'tag')));
+    return `<svg class="topics" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out.join('')}</svg>`
       + `<svg class="topics hl" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"></svg>`;
   }
   // hover: a thing's own arrows, in and out, come up over the paper
   function trace(track) {
     track.addEventListener('pointerover', e => { const el = e.target.closest('[data-id]'), hl = track.querySelector('svg.topics.hl'), base = track.querySelector('svg.topics:not(.hl)');
       if (!hl || !base) return; if (!el || el.classList.contains('lifted')) { hl.innerHTML = ''; return; }
-      const id = el.dataset.id; hl.innerHTML = [...base.querySelectorAll(`path[data-a="${id}"],path[data-b="${id}"]`)].map(p => p.outerHTML).join(''); });
+      const id = el.dataset.id, mine = [...base.querySelectorAll(`path[data-a="${id}"],path[data-b="${id}"]`)]; hl.innerHTML = mine.map(p => p.outerHTML).join('');
+      if (!el.title) el.title = [...new Set(mine.map(p => p.dataset.t).filter(t => t !== 'tag'))].join(' · '); });   // which threads run through it
     track.addEventListener('pointerleave', () => { const hl = track.querySelector('svg.topics.hl'); if (hl) hl.innerHTML = ''; });
   }
 
