@@ -4,7 +4,7 @@
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161256"><link rel="stylesheet" href="css/site.css?v=202611161256">
+<link rel="stylesheet" href="css/grids.css?v=202611161303"><link rel="stylesheet" href="css/site.css?v=202611161303">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -118,8 +118,24 @@
   .sc.pass em{display:block;font:400 18px/1.3 "Permanent Marker",cursive;margin:8px 0}
   .sc.pass strong{display:block;font:400 44px/1 "Alfa Slab One",serif;color:#e5332a}
   .sc.pass.p2 b{background:#111}
+  .sc.poi{background:#f6f2e6;padding:10px 12px 12px;box-shadow:2px 5px 12px rgba(30,15,0,.45);border:1px solid #222;font:400 12px/1.35 "Courier Prime",monospace}
+  .sc.poi .tag{display:block;background:#111;color:#fff;font:700 9px/1 var(--f-type);letter-spacing:.14em;padding:4px 6px;margin:-10px -12px 8px}
+  .sc.poi .sil{width:96px;height:104px;margin:0 auto 6px;background:#d8d2c4;border:1px solid #222}.sc.poi .sil svg{width:100%;height:100%;fill:#3a3a3a}
+  .sc.poi strong{display:block;font:400 20px/1 "Special Elite",var(--f-type);margin-bottom:4px}
+  .sc.poi small{display:block}.sc.poi em{display:block;margin-top:6px;font:400 16px/1.1 "Permanent Marker",cursive;color:#e5332a;font-style:normal}
+  .sc.ticket strong{display:block;font:400 17px/1.05 "Alfa Slab One",serif;margin:3px 0}
+  .sc.ticket.tk2{background:#f4ff3a;color:#111}
+  .sc.tv{background:#fff;padding:8px 10px;box-shadow:2px 4px 8px rgba(0,0,0,.35);font:400 11px/1.3 "Courier Prime",monospace;border-top:3px double #111}
+  .sc.tv small{font-weight:700;letter-spacing:.14em}.sc.tv b{display:block;font:900 22px/1 "Bodoni Moda",serif}.sc.tv em{font-style:normal}
+  .sc.curtain{box-shadow:3px 5px 10px rgba(0,0,0,.5);background:repeating-linear-gradient(90deg,#5c0a06 0 6px,#a3150c 12px,#d2281a 16px,#a3150c 20px,#5c0a06 26px)}
+  .sc.zig{box-shadow:3px 5px 10px rgba(0,0,0,.5);background:linear-gradient(135deg,#111 25%,transparent 25%) -14px 0/28px 28px,linear-gradient(225deg,#111 25%,transparent 25%) -14px 0/28px 28px,linear-gradient(315deg,#111 25%,transparent 25%) 0 0/28px 28px,linear-gradient(45deg,#111 25%,#f2efe6 25%) 0 0/28px 28px}
+  .sc.corridor{background:#f2efe6;box-shadow:2px 4px 10px rgba(0,0,0,.45)}.sc.corridor svg{width:100%;height:100%}.sc.corridor rect,.sc.corridor path{fill:none;stroke:#111;stroke-width:1.5}
   .chaos svg.strings{position:absolute;left:0;top:0;overflow:visible;z-index:20}
-  .chaos .strings path{fill:none;stroke:#c41f15;stroke-width:1.4;stroke-linecap:round;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35))}
+  /* twine: a dark core, a spiralling highlight (the twist), a soft cast shadow, knots at the pins */
+  .chaos .strings .tw{fill:none;stroke:#a8160f;stroke-width:2.4;stroke-linecap:round}
+  .chaos .strings .tw-hi{fill:none;stroke:#ff6a55;stroke-width:1.1;stroke-dasharray:1.6 2.4;stroke-linecap:round;opacity:.9}
+  .chaos .strings .tw-sh{fill:none;stroke:rgba(40,18,4,.32);stroke-width:2.6;filter:blur(1.2px)}
+  .chaos .strings .knot{fill:#8c1410}
   .role .bar{height:10px;background:var(--ink);position:relative}
   /* the prism: a red after-image stays where the bar was and fades as it moves */
   .role .bar::before{content:"";position:absolute;inset:-1px;border:var(--gw) dashed var(--grid);opacity:0;pointer-events:none}
@@ -165,10 +181,10 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161256"></script>
-<script src="js/stretch.js?v=202611161256"></script>
-<script src="js/rupture.js?v=202611161256"></script>
-<script src="js/board.js?v=202611161256"></script>
+<script src="js/placement.js?v=202611161303"></script>
+<script src="js/stretch.js?v=202611161303"></script>
+<script src="js/rupture.js?v=202611161303"></script>
+<script src="js/board.js?v=202611161303"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -239,7 +255,7 @@ function build() {
   B.pins.forEach(p => pins.push(p));
   const pols = B.html;
   const str = pins.flatMap((a, i) => [[a, pins[(i * 5 + 3) % pins.length]], [a, pins[(i * 11 + 7) % pins.length]]]).filter(([a, b]) => a !== b)
-    .map(([a, b]) => { const mx = (a[0] + b[0]) / 2, my = Math.max(a[1], b[1]) + Math.hypot(b[0] - a[0], b[1] - a[1]) * .09; return `<path d="M${a[0]},${a[1]} Q${mx},${my} ${b[0]},${b[1]}"/>`; }).join('');
+    .map(([a, b], i) => Board.twine(a, b, i)).join('');
   h += `<div class="chaos">${rings}${pols}<svg class="strings" viewBox="0 0 ${W2} ${Hh}" width="${W2}" height="${Hh}">${str}</svg></div>`;
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
@@ -250,7 +266,7 @@ build(); new ResizeObserver(build).observe(wrapEl);
 const wrap = document.getElementById('wrap');
 // to be (chaos) / not to be (the grid)
 document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('click', () => {
-  const chaos = b.dataset.v === 'chaos', tr = document.getElementById('track'); if (chaos !== !tr.classList.contains('grid')) return;
+  const chaos = b.dataset.v === 'chaos', tr = document.getElementById('track'); if (chaos === !tr.classList.contains('grid')) return;   // already there
   document.querySelectorAll('.views [data-v]').forEach(x => x.setAttribute('aria-pressed', x === b));
   tr.classList.remove('to-grid', 'to-chaos'); void tr.offsetWidth; tr.classList.add(chaos ? 'to-chaos' : 'to-grid'); tr.classList.toggle('grid', !chaos);
 }));
@@ -259,5 +275,5 @@ wrapEl.addEventListener('pointermove', e => { const r = wrapEl.getBoundingClient
   track.style.setProperty('--px', px.toFixed(1) + 'px'); track.style.setProperty('--py', py.toFixed(1) + 'px'); });
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161256"></script>
+<script src="js/nav.js?v=202611161303"></script>
 </body></html>

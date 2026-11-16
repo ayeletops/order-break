@@ -451,3 +451,14 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
   - Flickering TV-static screens, coffee rings, staples, and wobbly marker scribbles (circles, arrows, crosses) in red, black and pink.
   - Big red marker notes.
 - **Switch:** one shared component, bottom left on ROI and Work: TO BE (chaos, default) | NOT TO BE (grid).
+
+**Then:** no images from my school projects on the Work board at all. Movie references and quotes; directors' portraits (David Lynch, Kubrick, Lanthimos, Sofia Coppola); MTV Oddities and Alternative Nation. Make the string look like real string, not a graphic line. And it isn't working: run a pass to verify functionality before I push.
+**AI:**
+- **Functional test** (`tools/test-pages.js`, jsdom): loads every page with its scripts, clicks the controls and reports errors. It found the real bug: Work's switch condition was inverted, so "not to be" never switched. Fixed. Now all five pages pass with no script errors, and the switch flips both ways.
+- **The board:** none of my images (verified: 0). Instead:
+  - **Persons of interest** for Lynch, Kubrick, Lanthimos and Coppola: a generic silhouette (no photos of real people), the name, the films, a marker note.
+  - Tickets for 14 films with their years, and TV-guide clippings (Alternative Nation, 120 Minutes, MTV Oddities, Headbangers Ball, Liquid Television).
+  - Homage motifs drawn in code: a red curtain, a zig-zag floor, a one-point corridor.
+  - "Quotes" are film titles or a public-domain proverb ("All work and no play makes Jack a dull boy"); no copyrighted dialogue.
+  - Public-domain film history is now also used in the camcorder frames, duotones and film strip.
+- **String:** twine with a dark core, a dashed spiral highlight (the twist), a blurred cast shadow, varied sag and a knot at each pin.

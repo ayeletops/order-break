@@ -57,7 +57,8 @@ References: `docs/research/references.md`.
 4. At the end of each phase: save a screenshot to `docs/iterations/phase-NN.png`. Tag `phase-NN` only once the site has real content and drafts (decided in Phase 0). Create tags in GitHub Desktop (History → right-click commit → Create Tag), because Desktop only pushes tags it made. These feed the final hover-to-see-iterations feature.
 5. Wacom hand annotations go in `docs/process/annotations/phase-NN/` (PNG/SVG). Reference them in the log.
 6. Before every commit that changes css/js, run `python3 tools/stamp.py` (cache-busting, so a push shows up immediately).
-7. Never commit secrets (dates, keys, passphrases). Keep them in `secrets/` (git-ignored).
+7. Before asking Ayelet to push: run `node tools/test-pages.js <repo>` (jsdom functional test: every page loads, the switches flip, no script errors).
+8. Never commit secrets (dates, keys, passphrases). Keep them in `secrets/` (git-ignored).
 
 ## Phases
 
