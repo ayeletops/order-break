@@ -8,7 +8,7 @@
    - scale: steps of --scale (1.482) from a 15px base
 */
 :root{
-  --ink:#0b0b0b; --paper:#ffffff; --grid:#e5332a; --gw:.5px; --signal:var(--grid); --signal-deep:var(--grid); --rule:rgba(11,11,11,.12);
+  --ink:#0b0b0b; --paper:#ffffff; --grid:#e5332a; --gw:.5px; --beat:500ms; --ease:cubic-bezier(.2,.8,.2,1); --signal:var(--grid); --signal-deep:var(--grid); --rule:rgba(11,11,11,.12);
   --f-display:"Bodoni Moda","Bodoni 72","Bodoni MT",Didot,serif;
   --f-slab:"Zilla Slab",Rockwell,"Roboto Slab",serif;
   --f-type:"Courier Prime","Courier New",Courier,monospace;
@@ -78,3 +78,10 @@ main{padding-top:var(--nav-h)}
 .secret:hover,.secret:focus-visible{opacity:1;transform:scale(1.6);background:currentColor}
 
 
+
+/* ── the heartbeat: 120 BPM. Every animation outside the cover moves on this beat (lub-dub every 0.5s). ── */
+@keyframes heartbeat{0%{transform:translate(-50%,-50%) scale(1)}10%{transform:translate(-50%,-50%) scale(1.07)}22%{transform:translate(-50%,-50%) scale(1)}
+  32%{transform:translate(-50%,-50%) scale(1.04)}48%,100%{transform:translate(-50%,-50%) scale(1)}}
+
+/* ── colophon: the system, stated (every page but the cover) ── */
+.colophon{margin:8px 0 0;font:700 10px/1.4 var(--f-type);letter-spacing:.16em;text-transform:uppercase;color:var(--grid)}

@@ -353,3 +353,24 @@ The typology confrontation, the stance text and the process documentation are fo
 **Then:** hide the Event Horizon tab; make its button only a circle. **AI:** the menu item is now a 14px black circle, no label (it grows on hover).
 **Then:** the intro text isn't good. It should sound dry and cynical, Matrix-like, eye-opening; ask questions to get it right. **AI asked; I answered:** first person, about the machine; the eye-opener is "the default is everywhere"; about 60 words; keep only "devoured". **New stance (58 words):** "The machine already knows what I look like. It has seen a million of me: a gradient, rounded corners, a hand waving hello. / The average won. It is everywhere now, and it is comfortable. / I use the machine every day. I just don't let it finish my sentences. / How do you use it without being devoured? Stay slightly wrong."
 **Then:** drop the circle distortion entirely, bring back the Event Horizon tab, slow the cover's font switching. **AI:** lenses removed from Home, Work and ROI (`rupture.js` now only runs the physics of the Event Horizon balls). The menu shows "Event Horizon" as text again. The cover now mutates every 0.65s (flicker 70ms).
+
+---
+
+## People as the break (2026-11-16)
+
+**My idea:** make the grid family classic, and let the *placement* be the chaos, derived from the secret file: "an unrandom randomness". Does that answer the brief?
+**AI's assessment:** mostly yes, and better than before:
+- A classic grid reads as conscious modernism and contrasts clearly with the typology.
+- Data-derived placement is authored, specific and impossible for a model to reproduce.
+- The encounter becomes the idea itself.
+Two risks: (1) to a visitor, deterministic chaos looks like random chaos, so there has to be a way to show *that* a rule exists; (2) it's still code, so a non-computable trace (hand or voice) would make it unarguable. It also flagged a story shift: from "people are the order" to "people are the break".
+**I chose:** snapping back to the grid (on a gesture). Event Horizon on a 120 BPM heartbeat that sets the rhythm for everything else; the cover stays the same. And it has to be award-level. Then I refined: not a snap but an offset, a prism breaking from the original place to the grid position.
+**AI recommended press-and-hold** over hover (it fires constantly and doesn't exist on phones) and over click (already used). Hold is deliberate, works on a phone, and you have to *stay* to see the order. It triggers after one beat of stillness; moving turns it into a drag.
+
+**Built:**
+- **Placement data:** `tools/derive-grids.py` hashes the dates with the secret seed (SHA-256) into 128 offsets in [-1, 1] and a derived seed, written to `js/placement.js`. No dates are written.
+- **ROI:** a true Swiss layout underneath (24px module). Every point is pushed off it by its offset (regions a little, terms a lot), then a deterministic relaxation keeps labels from colliding. Hold: red square ghosts split off each point and travel to their grid positions, with two echoes along the way, and the grid's right-angle structure draws in red. Release folds it back.
+- **Work:** classic equal year columns (200px). Each role drifts by its offset. Hold: a red dashed ghost shows where each bar belongs.
+- **Page titles:** equal slots (classic).
+- **Heartbeat:** `--beat: 500ms`. The Event Horizon balls pulse lub-dub at 120 BPM, the ROI rings beat in sync (rippling outward 30ms apart), and transitions use beat multiples.
+- **Colophon** on every page except the cover: "Grid 24 · Beat 120 · Seed ######### · Not random", the rule shown without the data.

@@ -22,10 +22,9 @@
   /* node: dot + its own target + label */
   .n{position:absolute;width:0;height:0}
   .n .tg{position:absolute;left:0;top:0;width:var(--ts);height:var(--ts);transform:translate(-50%,-50%);pointer-events:none;
-         transition:width .9s cubic-bezier(.2,.8,.2,1),height .9s cubic-bezier(.2,.8,.2,1),opacity .6s}
+         transition:width calc(var(--beat) * 2) var(--ease),height calc(var(--beat) * 2) var(--ease),opacity var(--beat)}
   .n .tg i{position:absolute;left:50%;top:50%;width:calc(var(--r) * 1);aspect-ratio:1;border:var(--gw) solid var(--grid);border-radius:50%;
-           transform:translate(-50%,-50%);animation:breathe var(--dur,6s) ease-in-out infinite alternate;animation-delay:var(--dl,0s)}
-  @keyframes breathe{from{transform:translate(-50%,-50%) scale(.9)}to{transform:translate(-50%,-50%) scale(1.06)}}
+           transform:translate(-50%,-50%);animation:heartbeat var(--beat) linear infinite;animation-delay:var(--dl,0s)}
   .n .dt{position:absolute;left:0;top:0;width:var(--ds);height:var(--ds);transform:translate(-50%,-50%);border-radius:50%;background:var(--ink);cursor:pointer;border:0;padding:0}
   .n .lb{position:absolute;left:calc(var(--ds) / 2 + 8px);top:0;transform:translateY(-50%);white-space:nowrap;cursor:help;line-height:1;font-family:var(--f-display);font-weight:400}
   .n.lv0{--ds:12px;--ts:150px}.n.lv0 .lb{font-size:54px;font-weight:900;letter-spacing:-.02em}
@@ -38,6 +37,23 @@
   .n.focus{--ts:min(78vh,78vw);z-index:3}
   .n.focus .lb{background:var(--paper);padding:3px 6px}
   .n .dt:hover,.n .lb:hover{outline:var(--gw) solid var(--grid);outline-offset:4px}
+  /* PRISM — hold still: the order refracts out of the break */
+  .prism-grid path{vector-effect:non-scaling-stroke;stroke:var(--grid);stroke-width:.5;opacity:0;transition:opacity var(--beat) var(--ease)}
+  .prism-grid .pr{stroke-dasharray:2 3}
+  #field.refract .prism-grid path{opacity:.9}
+  #field.refract .links .tree,#field.refract .links .rhizome{stroke-opacity:.12}
+  .ghost{position:absolute;width:0;height:0;pointer-events:none;z-index:2}
+  .ghost > *{position:absolute;left:0;top:0;opacity:0;transform:translate(0,0);transition:transform var(--beat) var(--ease),opacity calc(var(--beat) / 2)}
+  .ghost .e1,.ghost .e2{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--grid)}
+  .ghost .g{white-space:nowrap;line-height:1;color:var(--grid)}
+  .ghost .g b{position:absolute;left:-4px;top:-4px;width:8px;height:8px;background:var(--grid)}          /* in the grid, points are squares */
+  .ghost .g em{position:absolute;left:10px;top:0;transform:translateY(-50%);font-style:normal;font-family:var(--f-display)}
+  .ghost.glv0 .g em{font-size:54px;font-weight:900}.ghost.glv05 .g em{font-size:22px;font-style:italic}
+  .ghost.glv1 .g em{font-size:20px;font-weight:700}.ghost.glv2 .g em{font-size:14px}.ghost.gproj .g em{font:700 13px/1 var(--f-slab)}
+  #field.refract .ghost .e1{opacity:.45;transform:translate(calc(var(--tx) * .34),calc(var(--ty) * .34))}
+  #field.refract .ghost .e2{opacity:.7;transform:translate(calc(var(--tx) * .67),calc(var(--ty) * .67));transition-delay:calc(var(--beat) / 8)}
+  #field.refract .ghost .g{opacity:1;transform:translate(var(--tx),var(--ty));transition-delay:calc(var(--beat) / 4)}
+  #field.refract .n .lb{opacity:.35}
   /* dictionary pop-up */
   .def{position:absolute;z-index:9;width:300px;padding:10px 12px;background:var(--paper);border:var(--gw) solid var(--ink);opacity:0;transform:translateY(-4px);
        pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
@@ -47,7 +63,7 @@
   .def span{display:block;margin-top:6px;font:400 12px/17px var(--f-type)}
   /* thumbnail card: eases in from the dot */
   .card{position:absolute;z-index:8;background:var(--paper);border:var(--gw) solid var(--ink);cursor:pointer;opacity:0;transform:scale(.4);pointer-events:none;
-        transition:opacity .35s cubic-bezier(.2,.7,.2,1),transform .45s cubic-bezier(.2,.8,.2,1)}
+        transition:opacity calc(var(--beat) / 2) var(--ease),transform var(--beat) var(--ease)}
   .card.on{opacity:1;transform:scale(1);pointer-events:auto}
   .card:hover{outline:var(--gw) solid var(--grid);outline-offset:4px}
   .card .media{aspect-ratio:4/3;overflow:hidden;border-bottom:var(--gw) solid var(--ink)}
@@ -92,7 +108,8 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="ROI"></div>
-    <p class="page-note">A latent field of what I think about. Hover a word for its meaning. Red points are projects. Drag to travel, scroll to zoom.</p>
+    <p class="page-note">A latent field of what I think about. Hover a word for its meaning. Red points are projects. Drag to travel, scroll to zoom. Press and hold to see the order underneath.</p>
+    <p class="colophon">Grid 24 · Beat 120 · Seed <span class="seed">—</span> · Not random</p>
   </header>
   <div id="field" aria-label="Field: drag to travel, click a point to centre it">
     <div class="cross"></div>
@@ -111,7 +128,9 @@
   </div>
 </div>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'ROI', Stretch.weights('ages'), { steady: true, every: 1500 });</script>
+<script>Stretch.make(document.getElementById('title'), 'ROI', [1], { steady: true, every: 1500 });</script>
+<script src="js/placement.js"></script>
 <script src="js/roi-dict.js"></script>
 <script src="js/roi.js"></script>
+<script>document.querySelectorAll(".seed").forEach(e => e.textContent = (window.PLACEMENT || {}).seed || "—");</script>
 </body></html>

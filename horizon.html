@@ -12,6 +12,7 @@
   .nav{background:var(--grid);border-bottom-color:var(--ink)}
   .page-head{background:var(--grid);border-bottom:0}
   .page-head .st-slot::after{border-color:transparent}
+  .page-head .colophon{color:var(--ink)}
   #sky{position:fixed;left:0;top:var(--content-top, 240px);width:100vw;height:calc(100vh - var(--content-top, 240px));display:block}
 </style>
 </head>
@@ -28,11 +29,14 @@
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="Event Horizon"></div>
     <p class="page-note">Ask me in person. I might even answer.</p>
+    <p class="colophon">Grid 24 · Beat 120 · Seed <span class="seed">—</span> · Not random</p>
   </header>
   <canvas id="sky" aria-label="A field of stars with five black holes, marked only by year"></canvas>
 </main>
+<script src="js/placement.js"></script>
 <script src="js/stretch.js"></script>
 <script src="js/rupture.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', Stretch.weights('months'), { steady: true, every: 1500 });</script>
+<script>Stretch.make(document.getElementById('title'), 'EVENTHORIZON', [1], { steady: true, every: 1500 });</script>
 <script src="js/horizon.js"></script>
+<script>document.querySelectorAll(".seed").forEach(e => e.textContent = (window.PLACEMENT || {}).seed || "—");</script>
 </body></html>

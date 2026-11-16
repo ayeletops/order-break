@@ -62,6 +62,7 @@
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="Process"></div>
     <p class="page-note">How this was made: the page the machine proposed, what I took from others, and every decision as it happened.</p>
+    <p class="colophon">Grid 24 · Beat 120 · Seed <span class="seed">—</span> · Not random</p>
   </header>
   <div class="wrap">
     <section>
@@ -96,8 +97,9 @@
     </section>
   </div>
 </main>
+<script src="js/placement.js"></script>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'PROCESS', Stretch.weights('days'), { steady: true, every: 1500 });</script>
+<script>Stretch.make(document.getElementById('title'), 'PROCESS', [1], { steady: true, every: 1500 });</script>
 <script>
 // the default: redact line by line, or restore
 const stage = document.getElementById('stage'), lines = stage.querySelectorAll('.ln');
@@ -127,4 +129,5 @@ function md(src) {
 fetch('docs/process/log.md').then(r => r.ok ? r.text() : Promise.reject()).then(t => document.getElementById('log').innerHTML = md(t))
   .catch(() => document.getElementById('log').innerHTML = '<p>The log lives at <a href="https://github.com/ayeletops/order-break/blob/main/docs/process/log.md">docs/process/log.md</a>.</p>');
 </script>
+<script>document.querySelectorAll(".seed").forEach(e => e.textContent = (window.PLACEMENT || {}).seed || "—");</script>
 </body></html>

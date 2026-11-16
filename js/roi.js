@@ -67,39 +67,48 @@
   const N = [];   // {t, x, y, lv}
   const byName = {};
   const add = (t, x, y, lv) => { const n = { t, x, y, lv }; N.push(n); byName[t] = n; return n; };
-  // Organic layout: each region sits off-centre; its fields fan away from the middle at irregular angles and distances,
-  // terms sprout around each field. Then a few rounds of relaxation push crowded points apart, so it's dense, not overlapping.
-  const CENTRES = { Biology: [-640, -400], Governance: [660, -380], Communication: [-620, 420], Freedom: [640, 400] };
+  // ORDER underneath: a Swiss layout on a 24px module (region block per quadrant, fields in two columns, terms listed).
+  // BREAK on top: each point is pushed off its grid position by an offset from the secret file (js/placement.js).
+  // Hover a cluster and it snaps back into the grid: the order was there all along.
+  const M = 24, snap = v => Math.round(v / M) * M;
+  const QUAD = { Biology: [-1, -1], Governance: [1, -1], Communication: [-1, 1], Freedom: [1, 1] };
   Object.entries(TREE).forEach(([R, def]) => {
-    const [rx, ry] = CENTRES[R], reg = add(R, rx, ry, 0);
-    const fs = Object.entries(def.fields), out = Math.atan2(ry, rx);
+    const [sx, sy] = QUAD[R], fs = Object.entries(def.fields), colW = 13 * M, blockH = f => (f[1].length + 1) * M + 2 * M;
+    const colH = [0, 0]; fs.forEach((f, i) => colH[i % 2] += blockH(f));
+    const W = 2 * colW, H = Math.max(...colH) + 4 * M, x0 = sx < 0 ? -W - 6 * M : 6 * M, y0 = sy < 0 ? -H - 4 * M : 4 * M;
+    const reg = add(R, snap(x0), snap(y0), 0); reg.cl = R;
+    const cy = [y0 + 4 * M, y0 + 4 * M];
     fs.forEach(([F, terms], i) => {
-      const a = out + (i - (fs.length - 1) / 2) * (Math.PI * 1.55 / fs.length) + (rnd() - .5) * .35;
-      const fr = 190 + rnd() * 90, fx = rx + Math.cos(a) * fr, fy = ry + Math.sin(a) * fr;
-      const f = add(F, fx, fy, 1); f.parent = reg;
-      terms.forEach((T, j) => {
-        const b = a + (j - (terms.length - 1) / 2) * .62 + (rnd() - .5) * .35, tr = 78 + rnd() * 52;
-        const t = add(T, fx + Math.cos(b) * tr, fy + Math.sin(b) * tr, 2); t.parent = f;
-      });
+      const c = i % 2, fx = snap(x0 + c * colW + M), fy = snap(cy[c]);
+      const f = add(F, fx, fy, 1); f.parent = reg; f.cl = R;
+      terms.forEach((T, j) => { const t = add(T, fx + M, fy + (j + 1) * M, 2); t.parent = f; t.cl = R; });
+      cy[c] += blockH([F, terms]);
     });
   });
-  const HPOS = { 'Biopolitics': [10, -330], 'Contagion of ideas': [-430, 20], 'The right to opt out': [450, -10], 'Free radio': [-10, 340],
-                 'Bodily autonomy': [-200, 170], 'Electromagnetic colonialism': [210, -160], 'Invisible systems': [0, 0] };
-  HYBRIDS.forEach(([t]) => { const [hx, hy] = HPOS[t] || [0, 0]; add(t, hx, hy, t === 'Invisible systems' ? 0 : 0.5); });
-  // relaxation: labels extend to the right, so measure boxes roughly and push apart overlapping ones (regions stay put)
-  const box = n => { const fs = n.lv === 0 ? 54 : n.lv === 1 ? 20 : n.lv === .5 ? 22 : 14; return { w: n.t.length * fs * .5 + 14, h: fs * 1.15 }; };
-  for (let it = 0; it < 80; it++) {
-    for (let i = 0; i < N.length; i++) for (let j = i + 1; j < N.length; j++) {
-      const A = N[i], B = N[j], ba = box(A), bb = box(B);
-      const ox = Math.min(A.x + ba.w, B.x + bb.w) - Math.max(A.x - 6, B.x - 6), oy = Math.min(A.y + ba.h / 2, B.y + bb.h / 2) - Math.max(A.y - ba.h / 2, B.y - bb.h / 2);
-      if (ox > 0 && oy > 0) {
-        const push = Math.min(ox, oy) / 2 + .5, vert = oy < ox, dir = vert ? Math.sign(A.y - B.y || 1) : Math.sign(A.x - B.x || 1);
-        const ma = A.lv === 0 ? 0 : 1, mb = B.lv === 0 ? 0 : 1, tot = ma + mb || 1;
-        if (vert) { A.y += dir * push * ma / tot * 2; B.y -= dir * push * mb / tot * 2; } else { A.x += dir * push * ma / tot * 2; B.x -= dir * push * mb / tot * 2; }
-      }
-    }
+  const HPOS = { 'Biopolitics': [0, -8], 'Contagion of ideas': [-14, 0], 'The right to opt out': [14, 0], 'Free radio': [0, 8],
+                 'Bodily autonomy': [-5, 4], 'Electromagnetic colonialism': [5, -4], 'Invisible systems': [0, 0] };
+  HYBRIDS.forEach(([t]) => { const [gx, gy] = HPOS[t] || [0, 0]; const h = add(t, gx * M, gy * M, t === 'Invisible systems' ? 0 : 0.5); h.cl = 'hybrid'; });
+  P.forEach(p => { const n = byName[p.near] || { x: 0, y: 0 }; p.x = n.x - M; p.y = n.y; p.cl = n.cl; });
+  // the break: offsets from the secret file. Regions move little, terms a lot, so the blocks dissolve into a rhizome.
+  const OFF = (window.PLACEMENT && PLACEMENT.offsets) || [[0, 0]];
+  const AMP = { 0: 5 * M, 0.5: 6 * M, 1: 7 * M, 2: 8 * M };
+  N.concat(P).forEach((n, i) => {
+    const o = OFF[i % OFF.length], amp = n.y_ ? 7 * M : AMP[n.lv];
+    n.gx = n.x; n.gy = n.y;                                       // where the grid wants it
+    n.dx = n.x + o[0] * amp; n.dy = n.y + o[1] * amp;             // where the people put it
+    n.x = n.dx; n.y = n.dy;
+  });
+  // keep the break legible: push overlapping labels apart (deterministic, so still the same for everyone)
+  const box = n => { const fs = n.lv === 0 ? 54 : n.lv === 1 ? 20 : n.lv === .5 ? 22 : n.y_ ? 22 : 14; return { w: (n.y_ ? 16 : n.t.length) * fs * .5 + 16, h: fs * 1.2 + (n.y_ ? 16 : 0) }; };
+  const ALLP = N.concat(P);
+  for (let it = 0; it < 120; it++) for (let i = 0; i < ALLP.length; i++) for (let j = i + 1; j < ALLP.length; j++) {
+    const A = ALLP[i], B = ALLP[j], ba = box(A), bb = box(B);
+    const ox = Math.min(A.dx + ba.w, B.dx + bb.w) - Math.max(A.dx - 8, B.dx - 8), oy = Math.min(A.dy + ba.h / 2, B.dy + bb.h / 2) - Math.max(A.dy - ba.h / 2, B.dy - bb.h / 2);
+    if (ox <= 0 || oy <= 0) continue;
+    const push = Math.min(ox, oy) / 2 + .5;
+    if (oy < ox) { const d = Math.sign(A.dy - B.dy || 1); A.dy += d * push; B.dy -= d * push; } else { const d = Math.sign(A.dx - B.dx || 1); A.dx += d * push; B.dx -= d * push; }
   }
-  P.forEach(p => { const n = byName[p.near] || { x: 0, y: 0 }; p.x = n.x - 22; p.y = n.y; });   // a project sits just left of its term
+  ALLP.forEach(n => { n.x = n.dx; n.y = n.dy; });
 
   // ── render: every point is a dot with its own target grid (8 rings, ages) and a label
   const FACES = Stretch.FACES, rand = a => a[Math.floor(Math.random() * a.length)];
@@ -109,12 +118,16 @@
   svg.setAttribute('class', 'links'); svg.setAttribute('viewBox', '-3000 -2000 6000 4000'); layer.appendChild(svg);
   const line = (a, b, cls) => { const l = document.createElementNS(svg.namespaceURI, 'line');
     l.setAttribute('x1', a.x); l.setAttribute('y1', a.y); l.setAttribute('x2', b.x); l.setAttribute('y2', b.y); l.setAttribute('class', cls); svg.appendChild(l); };
-  const curve = (a, b, cls) => { const l = document.createElementNS(svg.namespaceURI, 'path');   // organic: a soft bend, like a root
-    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y, k = .22 * (((a.x * 7 + b.y * 3) % 2) ? 1 : -1);
-    l.setAttribute('d', `M${a.x},${a.y} Q${mx - dy * k},${my + dx * k} ${b.x},${b.y}`); l.setAttribute('class', cls); l.setAttribute('fill', 'none'); svg.appendChild(l); };
+  const EDGES = [];
+  const shape = e => { const { a, b, k } = e, mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y;
+    const sn = a.snapped && b.snapped;                             // in the grid: right angles; in the break: a root-like bend
+    e.el.setAttribute('d', sn ? `M${a.x},${a.y} L${a.x},${b.y} L${b.x},${b.y}` : `M${a.x},${a.y} Q${mx - dy * k},${my + dx * k} ${b.x},${b.y}`); };
+  const curve = (a, b, cls) => { const l = document.createElementNS(svg.namespaceURI, 'path');
+    l.setAttribute('class', cls); l.setAttribute('fill', 'none'); svg.appendChild(l);
+    const e = { a, b, el: l, k: .22 * ((EDGES.length % 2) ? 1 : -1) }; EDGES.push(e); shape(e); };
   N.forEach(n => { if (n.parent) curve(n.parent, n, 'tree'); });
   LINKS.forEach(([a, b]) => { if (byName[a] && byName[b]) curve(byName[a], byName[b], 'rhizome'); });
-  const rings = () => AGES.map((r, i) => `<i style="--r:${r}%;--dur:${5 + (i % 4) * 1.3}s;--dl:${-(i * .7 + Math.random() * 3).toFixed(2)}s"></i>`).join('');
+  const rings = () => AGES.map((r, i) => `<i style="--r:${r}%;--dl:${(i * 30)}ms"></i>`).join('');
   function node(n, cls, label) {
     const d = document.createElement('div'); d.className = 'n ' + cls; d.style.left = n.x + 'px'; d.style.top = n.y + 'px';
     d.innerHTML = `<div class="tg">${rings()}</div><button class="dt" aria-label="${n.t}"></button><span class="lb">${label}</span>`;
@@ -131,6 +144,33 @@
     d.querySelector('.dt').addEventListener('mouseenter', () => showCard(p));
     d.addEventListener('click', e => { e.stopPropagation(); if (dragged) return; if (open === p) openGallery(p); else { glideTo(p); setTimeout(() => showCard(p), 760); } });
   });
+
+  // ── PRISM: hold still for one beat and the order refracts out of the break.
+  // Every point keeps its place; a red ghost splits off and travels to where the grid wanted it, leaving two echoes.
+  // Underneath, the Swiss structure draws itself in faint red. Release and it folds back.
+  const ALLN = N.concat(P);
+  const gsvg = document.createElementNS(svg.namespaceURI, 'g'); gsvg.setAttribute('class', 'prism-grid'); svg.appendChild(gsvg);
+  const pth = (d, cls) => { const l = document.createElementNS(svg.namespaceURI, 'path'); l.setAttribute('d', d); l.setAttribute('class', cls); l.setAttribute('fill', 'none'); gsvg.appendChild(l); };
+  ALLN.forEach(n => {
+    if (n.parent) pth(`M${n.parent.gx},${n.parent.gy} L${n.parent.gx},${n.gy} L${n.gx},${n.gy}`, 'pg');   // the grid's own right angles
+    pth(`M${n.dx},${n.dy} L${n.gx},${n.gy}`, 'pr');                                                         // the ray from break to order
+    const gh = document.createElement('div'); gh.className = 'ghost ' + (n.y_ ? 'gproj' : 'glv' + String(n.lv).replace('.', ''));
+    gh.style.left = n.dx + 'px'; gh.style.top = n.dy + 'px';
+    gh.style.setProperty('--tx', (n.gx - n.dx) + 'px'); gh.style.setProperty('--ty', (n.gy - n.dy) + 'px');
+    gh.innerHTML = `<i class="e1"></i><i class="e2"></i><span class="g"><b></b><em>${n.t}</em></span>`;
+    layer.appendChild(gh);
+  });
+  let holdT = 0, holdXY = null;
+  const refract = on => field.classList.toggle('refract', on);
+  field.addEventListener('pointerdown', e => {
+    if (card.contains(e.target) || e.target.closest('.dt')) return;
+    holdXY = [e.clientX, e.clientY]; clearTimeout(holdT); holdT = setTimeout(() => refract(true), 500);   // one beat
+  });
+  field.addEventListener('pointermove', e => { if (holdXY && Math.hypot(e.clientX - holdXY[0], e.clientY - holdXY[1]) > 4 && !field.classList.contains('refract')) { clearTimeout(holdT); holdXY = null; } });
+  const release = () => { clearTimeout(holdT); holdXY = null; refract(false); };
+  addEventListener('pointerup', release); addEventListener('pointercancel', release);
+  addEventListener('keydown', e => { if (e.code === 'Space' && !e.repeat) { e.preventDefault(); refract(true); } });
+  addEventListener('keyup', e => { if (e.code === 'Space') refract(false); });
 
   // ── dictionary pop-up
   const def = document.getElementById('def');

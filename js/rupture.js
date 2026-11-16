@@ -17,7 +17,10 @@ window.Rupture = (() => {
     let cx = m;
     return YEARS.map((y, i) => { const c = { ev: y, x: cx + pad / 2 + d[i] / 2, y: ys[i] * H, r: d[i] / 2 }; cx += d[i] + gap + pad; return c; });
   }
-  const breathe = (ev, t) => 1 + Math.sin(t / 2400 + ev) * .03;
+  // 120 BPM heartbeat (lub-dub every 500ms), shared with the CSS @keyframes heartbeat
+  const g = (p, c, w) => Math.exp(-(((p - c) / w) ** 2));
+  const beat = t => { const p = (t % 500) / 500; return g(p, .08, .045) + .55 * g(p, .3, .05); };
+  const breathe = (ev, t) => 1 + .07 * beat(t);
 
   // ── the simulation (viewport coordinates)
   const S = { bodies: [], mouse: null, top: 0, W: 0, H: 0, t: 0 };
@@ -70,5 +73,5 @@ window.Rupture = (() => {
 
   // a page can draw the bodies itself (Event Horizon)
   const watch = fn => subs.push(fn);
-  return { YEARS, layout, breathe, view, watch, sim: S };
+  return { YEARS, layout, breathe, beat, view, watch, sim: S };
 })();

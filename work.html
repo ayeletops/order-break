@@ -8,7 +8,7 @@
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
-  .nav{grid-template-columns:var(--work-intervals)}
+  .nav{grid-template-columns:repeat(7,1fr)}
   .page-head{border-bottom-color:var(--grid)}
   html,body{height:100%;overflow:hidden}
   .wrap{position:fixed;left:0;right:0;top:var(--content-top, 240px);bottom:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
@@ -21,7 +21,13 @@
           font:700 11px/1 var(--f-type);letter-spacing:.14em;text-transform:uppercase}
   .cat h2 sup{font-weight:400;letter-spacing:0;margin-left:4px}
   .role{position:absolute;min-width:8px}
-  .role .bar{height:10px;background:var(--ink)}
+  .role{transform:translate(var(--ox,0),var(--oy,0))}
+  .role .bar{height:10px;background:var(--ink);position:relative}
+  /* the prism: hold still and a red ghost appears where the grid wanted the bar */
+  .role .bar::before{content:"";position:absolute;inset:-1px;border:var(--gw) dashed var(--grid);transform:translate(calc(var(--ox,0) * -1),calc(var(--oy,0) * -1));
+                     opacity:0;transition:opacity var(--beat) var(--ease)}
+  .wrap.refract .role .bar::before{opacity:1}
+  .wrap.refract .role .bar{background:rgba(11,11,11,.25)}
   .role .bar.open{background:linear-gradient(90deg,var(--ink) 75%,rgba(11,11,11,.15))}
   .role.point .bar{width:14px}
   .role .txt{position:relative;padding:6px 10px 0 0;width:max-content;max-width:30ch;background:var(--paper)}
@@ -55,12 +61,14 @@
 <main>
   <header class="page-head">
     <div class="page-title st-row" id="title" aria-label="Work"></div>
-    <p class="page-note">How I got here. Each year is as wide as a gap between the birth years of the people I love. Scroll sideways; hover a bar for more.</p>
+    <p class="page-note">How I got here. A classic grid, one column a year. Where each piece lands was decided by the people I love. Scroll sideways; hover a bar for more; press and hold to see where it should have been.</p>
+    <p class="colophon">Grid 24 · Beat 120 · Seed <span class="seed">—</span> · Not random</p>
   </header>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
+<script src="js/placement.js"></script>
 <script src="js/stretch.js"></script>
-<script>Stretch.make(document.getElementById('title'), 'WORK', Stretch.weights('gaps'), { steady: true, every: 1500 });</script>
+<script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 1500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
 const FROM = 2005, TO = 2026, NOW = 2026.85;
@@ -88,13 +96,15 @@ const TOOLS = [
 // ── the grid: one column per year; widths cycle through the gaps between the 8 birth years
 const gaps = getComputedStyle(document.documentElement).getPropertyValue('--work-intervals').trim().split(/\s+/).map(parseFloat);
 const years = []; for (let y = FROM; y <= TO; y++) years.push(y);
-const UNIT = 26, MIN = 120;
-const widths = years.map((_, i) => MIN + gaps[i % gaps.length] * UNIT);
+const COL = 200;                                              // classic: every year the same width
+const widths = years.map(() => COL);
 const starts = widths.reduce((acc, w, i) => (acc.push(i ? acc[i - 1] + widths[i - 1] : 0), acc), []);
 const X = y => { const i = Math.min(years.length - 1, Math.max(0, Math.floor(y) - FROM)); return starts[i] + (y - Math.floor(y)) * widths[i]; };
 const total = starts[starts.length - 1] + widths[widths.length - 1], LEFT = 240, TOOLBOX_W = 520, YEARS_H = 34;
 const track = document.getElementById('track'), wrapEl = document.getElementById('wrap');
+const OFF = (window.PLACEMENT && PLACEMENT.offsets) || [[0, 0]];
 function build() {
+  let OI = 0;
   const avail = wrapEl.clientHeight - YEARS_H, rowH = Math.max(70, Math.floor(avail / CATS.length));
   track.style.width = (LEFT + total + TOOLBOX_W) + 'px';
   let h = `<div class="years">` + years.map((y, i) => `<span style="left:${LEFT + starts[i]}px;width:${widths[i]}px">${y}</span>`).join('') + `</div>`;
@@ -107,7 +117,8 @@ function build() {
     items.forEach(r => {
       const x0 = X(r.a), x1 = r.point ? x0 + 10 : X(r.b);
       const when = r.point ? `${r.a}` : `${Math.floor(r.a)}${Math.floor(r.b) > Math.floor(r.a) || r.open ? '–' + (r.open ? 'now' : Math.floor(r.b)) : ''}`;
-      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px">
+      const o = OFF[(OI++) % OFF.length], ox = Math.round(o[0] * 70), oy = Math.round(o[1] * Math.min(26, laneH * .25));   // the people move it
+      inner += `<article class="role ${r.point ? 'point' : ''}" style="left:${LEFT + x0}px;width:${x1 - x0}px;top:${12 + r._lane * laneH}px;--ox:${ox}px;--oy:${oy}px">
         <div class="bar ${r.open ? 'open' : ''}"></div>
         <div class="txt"><div class="when">${when}</div><h3>${r.t}</h3><div class="org">${r.o}</div>
           <div class="more"><p>${r.d}</p>${r.link ? `<p><a href="${r.link[1]}" target="_blank" rel="noopener">${r.link[0]} ↗</a></p>` : ''}</div></div></article>`;
@@ -120,6 +131,15 @@ function build() {
 }
 build(); new ResizeObserver(build).observe(wrapEl);
 const wrap = document.getElementById('wrap');
+// hold still for one beat to refract the order
+let holdT = 0, hxy = null;
+wrap.addEventListener('pointerdown', e => { hxy = [e.clientX, e.clientY]; clearTimeout(holdT); holdT = setTimeout(() => wrap.classList.add('refract'), 500); });
+wrap.addEventListener('pointermove', e => { if (hxy && Math.hypot(e.clientX - hxy[0], e.clientY - hxy[1]) > 4 && !wrap.classList.contains('refract')) { clearTimeout(holdT); hxy = null; } });
+const rel = () => { clearTimeout(holdT); hxy = null; wrap.classList.remove('refract'); };
+addEventListener('pointerup', rel); addEventListener('pointercancel', rel);
+addEventListener('keydown', e => { if (e.code === 'Space' && !e.repeat) { e.preventDefault(); wrap.classList.add('refract'); } });
+addEventListener('keyup', e => { if (e.code === 'Space') wrap.classList.remove('refract'); });
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
+<script>document.querySelectorAll(".seed").forEach(e => e.textContent = (window.PLACEMENT || {}).seed || "—");</script>
 </body></html>
