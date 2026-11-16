@@ -388,3 +388,12 @@ Two risks: (1) to a visitor, deterministic chaos looks like random chaos, so the
 - **Work:** a Grid ⇄ Chaos switch. Bars glide over two beats, and a red dashed after-image stays at the old place and fades.
 - **Event Horizon:** five large black holes with no mouse physics. They beat lub-dub at 120 BPM and show their year on hover. `rupture.js` is reduced to the shared layout and the heartbeat.
 - **Page titles** (ROI, Work, Event Horizon, Process) swap a character every 500ms, in step with the beat. The cover is unchanged.
+
+**Then (my direction):** bigger, more scattered balls that fill most of the screen, with a fading contour like a real black hole or eclipse. The cover text in one column, typographically good. ROI's rhizome navigation isn't good: the map centre should follow the mouse, and a click should open the data. The grid view is messy with the projects and needs a better layout. Work's grid is good, but chaos should be fully chaotic and grungy, overlapping, a mash-up of rhizome and black holes.
+**AI:**
+- **Event Horizon:** five big black holes scattered by the secret offsets, relaxed so their cores don't touch, together covering most of the screen. Each is an eclipse: a true-black core, an edge fading into the red, and a faint pale corona. They beat at 120 BPM; the year shows on hover.
+- **Cover stance:** a single Bodoni column hung from the third grid column, with balanced lines, a red hairline above, the question in italic and "Keep secrets." in black italic. The size still follows the slider.
+- **ROI:**
+  - The map's centre drifts toward the mouse (with a small dead zone in the middle), eased; scroll zooms. Click a term and its dictionary entry pins open; click a project and its thumbnail opens, then the gallery. Click empty space to close.
+  - In grid view, the projects form their own index column on the right, in year order, linked to their terms by red right-angle threads.
+- **Work, chaos view:** roles are thrown far (up to 340px sideways and 1.5 rows vertically), rotated (±13°), scaled (±30%) and overlapping. The text and bars invert (difference blend) over five black holes at the event years. Bars have rough, displaced edges, a red dashed rhizome tangles the roles, and a grain overlay sits on top. Grid view is unchanged.

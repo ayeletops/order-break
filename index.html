@@ -19,12 +19,14 @@
   .switch button:hover{outline:1px solid var(--grid);outline-offset:2px}
   .size input{width:min(32vw,220px);accent-color:var(--ink)}
   .size output{min-width:3ch;text-align:right;font-weight:400}
-  /* STANCE — two wide columns; type and columns follow the size slider */
-  .stance{columns:2 22em;column-gap:calc(var(--gutter) * 4);padding:calc(var(--baseline)*3) var(--margin-r) calc(var(--baseline)*6) var(--margin-l);
-          font:400 clamp(17px, calc(var(--fs, 220) * .12px), 40px)/1.32 var(--f-display)}
-  .stance p{margin:0 0 .9em;break-inside:avoid}
-  .stance p:first-child{font-weight:900;font-style:italic}
-  @media (max-width:900px){.stance{columns:1}}
+  /* STANCE — one column, set like a title page: hung off the left third of the grid, balanced lines, the last line struck harder */
+  .stance{padding:calc(var(--baseline)*5) var(--margin-r) calc(var(--baseline)*7) var(--margin-l);display:grid;grid-template-columns:var(--cover-cols);gap:0 var(--gutter)}
+  .stance .col{grid-column:3 / -2;max-width:15em;font:400 clamp(30px, calc(var(--fs, 220) * .2px), 76px)/1.04 var(--f-display);letter-spacing:-.015em;font-feature-settings:"kern","liga"}
+  .stance p{margin:0 0 .55em;text-wrap:balance;hanging-punctuation:first}
+  .stance .q{font-style:italic}
+  .stance .end{font-weight:900;font-style:italic}
+  .stance .rule{display:block;width:2.2em;height:var(--gw);background:var(--grid);margin:0 0 .7em}
+  @media (max-width:900px){.stance{display:block}.stance .col{font-size:clamp(28px,8vw,44px)}}
 </style>
 </head>
 <body>
@@ -40,9 +42,12 @@
   <section class="cover st-row" id="cover" aria-label="ayeletops" role="img" title="click to switch"></section>
 
   <section class="stance" id="stance" aria-label="Stance">
-    <p>The machine already knows what I look like. What I do eat think dream love.</p>
-    <p>The average won and it is comfortable.</p>
-    <p>I use the machine every day. How do you use it without being devoured? Keep secrets.</p>
+    <div class="col">
+      <span class="rule"></span>
+      <p>The machine already knows what I look like. What I do eat think dream love.</p>
+      <p>The average won and it is comfortable.</p>
+      <p>I use the machine every day. <span class="q">How do you use it without being devoured?</span> <span class="end">Keep secrets.</span></p>
+    </div>
   </section>
 </main>
 

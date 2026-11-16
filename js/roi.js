@@ -98,6 +98,9 @@
     n.dx = n.x + o[0] * amp; n.dy = n.y + o[1] * amp;             // where the people put it
     n.x = n.dx; n.y = n.dy;
   });
+  // in the grid, projects get their own column on the right, in order of year: an index, not a crowd
+  const gxMax = Math.max(...N.map(n => n.gx)), gyMin = Math.min(...N.map(n => n.gy));
+  P.slice().sort((a, b) => a.y_ - b.y_ || a.t.localeCompare(b.t)).forEach((p, i) => { p.gx = snap(gxMax + 16 * M); p.gy = snap(gyMin + 2 * M + i * 3 * M); });
   // keep the break legible: push overlapping labels apart (deterministic, so still the same for everyone)
   const box = n => { const fs = n.lv === 0 ? 54 : n.lv === 1 ? 20 : n.lv === .5 ? 22 : n.y_ ? 22 : 14; return { w: (n.y_ ? 16 : n.t.length) * fs * .5 + 16, h: fs * 1.2 + (n.y_ ? 16 : 0) }; };
   const ALLP = N.concat(P);
@@ -135,14 +138,12 @@
   }
   N.forEach(n => {
     const d = node(n, 'lv' + String(n.lv).replace('.', ''), n.t);
-    d.addEventListener('click', () => { if (!dragged) glideTo(n); });
-    d.querySelector('.lb').addEventListener('mouseenter', e => showDef(n, e.currentTarget));
-    d.querySelector('.lb').addEventListener('mouseleave', hideDef);
+    d.addEventListener('click', e => { e.stopPropagation(); hideCard(); if (pinned === n) { unpin(); return; } pinned = n; showDef(n, d.querySelector('.lb')); });
   });
+  P.forEach(p => { const t = byName[p.near]; if (t) curve(p, t, 'plink'); });   // red threads from each project to its term
   P.forEach(p => {
     const d = node(p, 'proj', `<b>${p.t}</b>${p.y_}`);
-    d.querySelector('.dt').addEventListener('mouseenter', () => showCard(p));
-    d.addEventListener('click', e => { e.stopPropagation(); if (dragged) return; if (open === p) openGallery(p); else { glideTo(p); setTimeout(() => showCard(p), 760); } });
+    d.addEventListener('click', e => { e.stopPropagation(); unpin(); if (open === p) openGallery(p); else showCard(p); });
   });
 
   // ── VIEW: grid ⇄ chaos. The same points, two places each: where the grid wants them, where the people put them.
@@ -177,7 +178,7 @@
   // ── dictionary pop-up
   const def = document.getElementById('def');
   function showDef(n, el) {
-    const e = (window.DICT || {})[n.t]; if (!e || dragged) return;
+    const e = (window.DICT || {})[n.t] || ['', 'An open term in the field.'];
     def.innerHTML = `<b>${n.t}</b> <i>${e[0]}</i><span>${e[1]}</span>`;
     const r = el.getBoundingClientRect(), fr = field.getBoundingClientRect();
     let x = r.left - fr.left, y = r.bottom - fr.top + 10;
@@ -186,6 +187,7 @@
     def.classList.remove('on'); void def.offsetWidth; def.classList.add('on');
   }
   function hideDef() { def.classList.remove('on'); }
+  let pinned = null; const unpin = () => { pinned = null; hideDef(); };
 
   // ── thumbnail card
   let open = null;
@@ -233,34 +235,30 @@
       centre.textContent = b.y_ ? `${b.t} · ${b.y_}` : (b.parent ? (b.parent.parent ? b.parent.parent.t + ' › ' + b.parent.t + ' › ' : b.parent.t + ' › ') : '') + b.t; }
   }
   function animTo(tx, ty, tz, ms = 750) {
-    cancelAnimationFrame(raf); hideCard();
+    cancelAnimationFrame(raf); hideCard(); follow = false; clearTimeout(animTo.t); animTo.t = setTimeout(() => follow = true, ms + 50);
     const f0 = { ...off }, z0 = z, t0 = performance.now();
     const f = now => { const p = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - p, 3);
       off = { x: f0.x + (tx - f0.x) * e, y: f0.y + (ty - f0.y) * e }; z = z0 + (tz - z0) * e; render(); if (p < 1) raf = requestAnimationFrame(f); };
     raf = requestAnimationFrame(f);
   }
   const glideTo = (n, ms) => animTo(-n.x * z, -n.y * z, z, ms);
-  function coast(vx, vy) {
-    cancelAnimationFrame(raf); let last = performance.now();
-    const f = now => { const dt = Math.min(32, now - last) / 16.7; last = now;
-      off.x += vx * dt; off.y += vy * dt; const k = Math.pow(0.93, dt); vx *= k; vy *= k; render();
-      if (Math.hypot(vx, vy) > 0.35) raf = requestAnimationFrame(f); else glideTo(nearest(), 520); };
-    raf = requestAnimationFrame(f);
-  }
-  let start = null, dragged = false, hist = [];
-  field.addEventListener('pointerdown', e => {
-    if (card.contains(e.target)) return; if (!e.target.closest('.dot')) hideCard();
-    cancelAnimationFrame(raf); start = { x: e.clientX - off.x, y: e.clientY - off.y }; dragged = false; hist = [{ x: e.clientX, y: e.clientY, t: performance.now() }];
-  });
+  // the map's centre follows the mouse: point toward an edge and the field slides that way, easing like a lens
+  let dragged = false, follow = true, aim = { x: 0, y: 0 }, inside = false;
+  const ext = () => { let mx = 0, my = 0; ALL.forEach(n => { mx = Math.max(mx, Math.abs(n.x)); my = Math.max(my, Math.abs(n.y)); }); return { x: mx + 200, y: my + 160 }; };
   field.addEventListener('pointermove', e => {
-    if (!start) return; const nx = e.clientX - start.x, ny = e.clientY - start.y;
-    if (!dragged && Math.hypot(nx - off.x, ny - off.y) > 3) { dragged = true; field.classList.add('drag'); field.setPointerCapture(e.pointerId); hideCard(); }
-    if (!dragged) return; off = { x: nx, y: ny }; render(); hist.push({ x: e.clientX, y: e.clientY, t: performance.now() }); if (hist.length > 6) hist.shift();
+    const r = field.getBoundingClientRect(); inside = true;
+    aim = { x: ((e.clientX - r.left) / r.width - .5) * 2, y: ((e.clientY - r.top) / r.height - .5) * 2 };
   });
-  const end = () => { if (!start) return; start = null; field.classList.remove('drag');
-    if (dragged && hist.length > 1) { const a = hist[0], b = hist[hist.length - 1], dt = Math.max(1, b.t - a.t) / 16.7; coast((b.x - a.x) / dt, (b.y - a.y) / dt); }
-    setTimeout(() => dragged = false, 0); };
-  field.addEventListener('pointerup', end); field.addEventListener('pointercancel', end);
+  field.addEventListener('pointerleave', () => inside = false);
+  (function tick() {
+    if (follow && inside && !open && !pinned) {
+      const E = ext(), dz = Math.max(0, Math.abs(aim.x) - .12) * Math.sign(aim.x), dy = Math.max(0, Math.abs(aim.y) - .12) * Math.sign(aim.y);   // a small dead zone in the middle
+      const tx = -dz / .88 * E.x * z, ty = -dy / .88 * E.y * z;
+      off.x += (tx - off.x) * .045; off.y += (ty - off.y) * .045; render();
+    }
+    requestAnimationFrame(tick);
+  })();
+  field.addEventListener('pointerdown', e => { if (!card.contains(e.target) && !e.target.closest('.n') && !def.contains(e.target)) { hideCard(); unpin(); } });
   field.addEventListener('wheel', e => {   // zoom toward the centre
     e.preventDefault(); cancelAnimationFrame(raf); hideCard();
     const nz = Math.min(2.2, Math.max(.22, z * Math.exp(-e.deltaY * .0015))); off = { x: off.x * nz / z, y: off.y * nz / z }; z = nz; render();
