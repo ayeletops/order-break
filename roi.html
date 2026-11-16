@@ -4,7 +4,7 @@
 <title>ROI — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161246"><link rel="stylesheet" href="css/site.css?v=202611161246">
+<link rel="stylesheet" href="css/grids.css?v=202611161256"><link rel="stylesheet" href="css/site.css?v=202611161256">
 <style>
   /* ROI — a vast latent field. Every dot carries its own target grid (8 rings = the ages of the people I love).
      The rings breathe. The dot nearest the centre is chosen: its target grows into the big grid. */
@@ -53,11 +53,6 @@
   @keyframes echo{0%{opacity:0;transform:translate(0,0)}35%{opacity:.8}100%{opacity:0;transform:translate(calc(var(--tx) * var(--f)),calc(var(--ty) * var(--f)))}}
   #field.gridview .n .dt{border-radius:0}
   #field.gridview .n.proj .lb{left:calc(var(--ds) / 2 + 10px);right:auto;text-align:left}
-  .views{position:fixed;right:calc(var(--margin-r) + 82px);bottom:calc(var(--gutter) + 4px);z-index:5}
-  .switch{position:relative;width:46px;height:24px;border:1px solid var(--ink);border-radius:12px;background:var(--paper);cursor:pointer;padding:0}
-  .switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--ink);transition:transform calc(var(--beat) / 2) var(--ease)}
-  .switch[aria-checked=true]::after{transform:translateX(22px);background:var(--grid)}
-  .switch:hover{outline:var(--gw) solid var(--grid);outline-offset:3px}
   /* dictionary pop-up */
   .def{position:absolute;z-index:9;width:300px;padding:10px 12px;background:var(--paper);border:var(--gw) solid var(--ink);opacity:0;transform:translateY(-4px);
        pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
@@ -93,7 +88,7 @@
   .gallery footer{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:var(--gw) solid var(--ink);font:700 11px/1 var(--f-type);letter-spacing:.1em;text-transform:uppercase}
   .gallery button,.gallery a{font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;border:var(--gw) solid var(--ink);padding:6px 10px;cursor:pointer;color:var(--ink);text-decoration:none}
   .gallery button:hover,.gallery a:hover{outline:var(--gw) solid var(--grid);outline-offset:2px}
-  .hud{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:5;margin:0;font:400 12px/18px var(--f-type);background:var(--paper);padding:2px 6px}
+  .hud{position:fixed;left:calc(var(--margin-l) + 200px);bottom:calc(var(--gutter) + 6px);z-index:5;margin:0;font:400 12px/18px var(--f-type);background:var(--paper);padding:2px 6px}
   .hud b{font-weight:700;text-transform:uppercase;letter-spacing:.1em}
   .zoom{position:fixed;right:var(--margin-r);bottom:var(--gutter);z-index:5;display:flex;gap:6px}
   .zoom button{font:700 14px/1 var(--f-type);width:32px;height:32px;border:var(--gw) solid var(--ink);background:var(--paper);cursor:pointer}
@@ -121,7 +116,7 @@
     <div class="def" id="def" role="tooltip"></div>
   </div>
   <p class="hud"><b>Centre:</b> <span id="centre"></span></p>
-  <div class="views"><button class="switch" role="switch" aria-checked="true" aria-label="Order or rhizome" id="sw"></button></div>
+  <div class="views" role="group" aria-label="To be or not to be"><button data-v="chaos" aria-pressed="true">to be</button><button data-v="grid" aria-pressed="false">not to be</button></div>
   <div class="zoom"><button data-zoom="1.4" aria-label="Zoom in">+</button><button data-zoom="0.7" aria-label="Zoom out">−</button></div>
 </main>
 <div class="gallery" id="gallery" hidden role="dialog" aria-label="Project gallery">
@@ -131,10 +126,10 @@
     <footer><button id="g-prev">← prev</button><span id="g-n"></span><button id="g-next">next →</button></footer>
   </div>
 </div>
-<script src="js/stretch.js?v=202611161246"></script>
+<script src="js/stretch.js?v=202611161256"></script>
 <script>Stretch.make(document.getElementById('title'), 'ROI', [1], { steady: true, every: 500 });</script>
-<script src="js/placement.js?v=202611161246"></script>
-<script src="js/roi-dict.js?v=202611161246"></script>
-<script src="js/roi.js?v=202611161246"></script>
-<script src="js/nav.js?v=202611161246"></script>
+<script src="js/placement.js?v=202611161256"></script>
+<script src="js/roi-dict.js?v=202611161256"></script>
+<script src="js/roi.js?v=202611161256"></script>
+<script src="js/nav.js?v=202611161256"></script>
 </body></html>

@@ -93,3 +93,10 @@ main{padding-top:var(--nav-h)}
 .nav a[aria-current]{box-shadow:none}
 .nav a:hover{outline:none}
 .nav a:not([aria-current]):hover::after{transform:scaleX(.12)}
+
+/* ── TO BE / NOT TO BE: the one switch, bottom left, the same on every page that has it. to be = chaos (first), not to be = the grid ── */
+.views{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:60;display:flex;background:var(--paper);border:1px solid var(--ink)}
+.views button{font:700 11px/1 var(--f-type);letter-spacing:.12em;text-transform:uppercase;background:none;border:0;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.views button + button{border-left:1px solid var(--ink)}
+.views button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.views button:not([aria-pressed=true]):hover{background:var(--grid);color:var(--paper)}

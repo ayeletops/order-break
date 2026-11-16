@@ -160,7 +160,7 @@
   let anim = 0;
   function setView(v) {
     if (v === view) return; view = v;
-    const sw = document.getElementById('sw'); if (sw) sw.setAttribute('aria-checked', v !== 'grid');
+    document.querySelectorAll('.views [data-v]').forEach(x => x.setAttribute('aria-pressed', x.dataset.v === v));
     field.classList.toggle('gridview', v === 'grid');
     const toGrid = v === 'grid', from = ALLN.map(n => [n, n.x, n.y]);
     ALLN.forEach(n => {                                            // after-images from where it was
@@ -178,7 +178,7 @@
       if (p < 1) anim = requestAnimationFrame(f); };
     anim = requestAnimationFrame(f);
   }
-  document.getElementById('sw').addEventListener('click', () => setView(view === 'grid' ? 'chaos' : 'grid'));
+  document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('click', () => setView(b.dataset.v)));
 
   // ── dictionary pop-up
   const def = document.getElementById('def');

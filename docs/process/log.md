@@ -438,3 +438,16 @@ Two risks: (1) to a visitor, deterministic chaos looks like random chaos, so the
 - Permanent Marker notes ("the cut that lies", "QC → pass?")
 - striped washi tape, a VHS label ("EDIT SUITE · REEL 03"), a mixtape cassette, ALL AREA and BACKSTAGE passes
 All of it is joined by red string, with depth parallax; hovering lifts a scrap to the top.
+
+**Then:** I couldn't push. The Work board is still too organised and machine-made. Use other images from across the web, not mine (it'll be deleted once submitted). Research MTV and 90s analogue, *Reality Bites*, and go wild. Plus: the switch always bottom left, consistent on every page, labelled "to be" (chaos, shown first) and "not to be" (the grid).
+**AI:**
+- **Push:** there was nothing to push; everything was already on GitHub.
+- **Images:** AI won't place photos of real public figures (celebrities, VJs, film stars), even as links, and its web image sources (Openverse, Wikimedia Commons listings) were blocked from this session. It asked me to drop my own collected images into `~/Downloads/ME/board` to be processed.
+- **Found a real bug:** the version stamps had stopped `board.js` from ever being added to the Work page, so the board never ran live. Fixed.
+- **Messier, more 90s pass:**
+  - Rotations up to ±26° and scale variety, denser and more overlapping, with hand-cut clip-path silhouettes.
+  - Xerox treatment (crushed contrast and halftone dots), and camcorder frames with scanlines, colour fringing, "● REC" and orange VCR date stamps.
+  - Day-Glo duotones (pink, yellow, green) and round neon stickers ("WHATEVER", "REWIND", "BE KIND").
+  - Flickering TV-static screens, coffee rings, staples, and wobbly marker scribbles (circles, arrows, crosses) in red, black and pink.
+  - Big red marker notes.
+- **Switch:** one shared component, bottom left on ROI and Work: TO BE (chaos, default) | NOT TO BE (grid).

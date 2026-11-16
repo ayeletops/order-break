@@ -3,8 +3,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Work — ayeletops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/grids.css?v=202611161246"><link rel="stylesheet" href="css/site.css?v=202611161246">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Permanent+Marker&family=VT323&family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/grids.css?v=202611161256"><link rel="stylesheet" href="css/site.css?v=202611161256">
 <style>
   /* WORK — the CV on the birthday grid. Each year takes one column of the uneven grid
      (column widths = gaps between 8 birth years, cycling). Time is not drawn to scale: it is drawn to their scale. */
@@ -49,7 +49,31 @@
   .chaos .pol::after{content:"";position:absolute;left:calc(50% - 7px);top:-7px;width:14px;height:14px;border-radius:50%;
     background:radial-gradient(circle at 35% 30%,#ff8a7a 0 18%,#e5332a 40%,#8c1410 100%);box-shadow:2px 3px 3px rgba(0,0,0,.45)}
   /* the board's scraps */
-  .sc{position:absolute;pointer-events:auto;transform:rotate(var(--r)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));transition:transform .4s var(--ease)}
+  .sc{position:absolute;pointer-events:auto;transform:rotate(var(--r)) scale(var(--s,1)) translate(calc(var(--px,0) * var(--depth,1)),calc(var(--py,0) * var(--depth,1)));transition:transform .4s var(--ease)}
+  .sc.print,.sc.duo,.sc.cam{clip-path:var(--cut,none)}
+  /* xerox: crushed photocopy contrast + halftone dots */
+  .sc.print img,.sc.pol img{filter:grayscale(1) contrast(2.1) brightness(1.08)}
+  .sc.print::after,.sc.pol::after{content:"";position:absolute;inset:6px;pointer-events:none;mix-blend-mode:multiply;opacity:.35;background:radial-gradient(#000 .9px,transparent 1.2px) 0 0/4px 4px}
+  /* camcorder frames: scanlines, colour fringe, REC, date stamp */
+  .sc.cam{background:#000;padding:0;box-shadow:3px 5px 12px rgba(0,0,0,.55)}
+  .sc.cam img{display:block;width:100%;filter:grayscale(.2) contrast(1.4) saturate(1.6) hue-rotate(-12deg) drop-shadow(2px 0 0 rgba(255,0,80,.7)) drop-shadow(-2px 0 0 rgba(0,220,255,.6))}
+  .sc.cam::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.35) 0 1px,transparent 1px 3px);pointer-events:none}
+  .sc.cam b,.sc.cam em,.sc.cam i{position:absolute;font:400 18px/1 "VT323",monospace;color:#fff;text-shadow:0 0 4px rgba(255,255,255,.7);z-index:2;font-style:normal}
+  .sc.cam b{left:10px;top:8px;color:#ff3b3b}.sc.cam em{right:10px;bottom:8px;color:#ffae2b}.sc.cam i{left:10px;bottom:8px}
+  /* day-glo duotones and stickers */
+  .sc.duo{padding:0;box-shadow:2px 4px 10px rgba(0,0,0,.4)}
+  .sc.duo img{mix-blend-mode:multiply;filter:grayscale(1) contrast(2)}
+  .sc.duo.d0{background:#ff2fb3}.sc.duo.d1{background:#f4ff3a}.sc.duo.d2{background:#39ff7a}
+  .sc.glo{border-radius:50%;display:grid;place-items:center;font:400 22px/1 "Alfa Slab One",serif;text-align:center;box-shadow:2px 3px 0 #111;border:3px solid #111}
+  .sc.glo.g0{background:#ff2fb3;color:#111}.sc.glo.g1{background:#f4ff3a;color:#111}.sc.glo.g2{background:#39ff7a;color:#111;border-radius:12px}
+  .sc.static{background:#000;padding:10px 10px 28px;border-radius:14px;box-shadow:inset 0 0 18px rgba(255,255,255,.35),3px 5px 10px rgba(0,0,0,.5)}
+  .sc.static canvas{width:100%;height:100%;display:block;border-radius:30% / 20%;filter:contrast(1.4)}
+  .sc.ring{border-radius:50%;box-shadow:inset 0 0 0 7px rgba(110,62,20,.32),inset 0 0 0 9px rgba(110,62,20,.12);pointer-events:none}
+  .sc.staple{background:linear-gradient(#aaa,#eee 40%,#888);border-radius:2px;box-shadow:1px 1px 1px rgba(0,0,0,.4);pointer-events:none}
+  .sc.scrib{pointer-events:none}.sc.scrib svg{width:100%;height:100%;overflow:visible}
+  .sc.scrib path{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+  .sc.scrib.s0 path{stroke:#e5332a}.sc.scrib.s1 path{stroke:#111}.sc.scrib.s2 path{stroke:#ff2fb3}
+  .sc.marker.m2{font-size:30px;color:#e5332a;transform:rotate(calc(var(--r) * 1.4)) scale(var(--s,1))}
   .sc:hover{z-index:60!important;transform:rotate(0deg) scale(1.08)}
   .sc.pol{background:#fbfaf6;padding:8px 8px 34px;box-shadow:0 1px 1px rgba(0,0,0,.25),4px 8px 16px rgba(30,15,0,.4)}
   .sc.print{background:#fff;padding:6px;box-shadow:2px 4px 10px rgba(30,15,0,.45)}
@@ -96,12 +120,6 @@
   .sc.pass.p2 b{background:#111}
   .chaos svg.strings{position:absolute;left:0;top:0;overflow:visible;z-index:20}
   .chaos .strings path{fill:none;stroke:#c41f15;stroke-width:1.4;stroke-linecap:round;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35))}
-  /* the switch: no words */
-  .views{position:fixed;left:var(--margin-l);bottom:var(--gutter);z-index:40}
-  .switch{position:relative;width:46px;height:24px;border:1px solid var(--ink);border-radius:12px;background:var(--paper);cursor:pointer;padding:0}
-  .switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--ink);transition:transform calc(var(--beat) / 2) var(--ease)}
-  .switch[aria-checked=true]::after{transform:translateX(22px);background:var(--grid)}
-  .switch:hover{outline:var(--gw) solid var(--grid);outline-offset:3px}
   .role .bar{height:10px;background:var(--ink);position:relative}
   /* the prism: a red after-image stays where the bar was and fades as it moves */
   .role .bar::before{content:"";position:absolute;inset:-1px;border:var(--gw) dashed var(--grid);opacity:0;pointer-events:none}
@@ -143,13 +161,14 @@
     <div class="page-title st-row" id="title" aria-label="Work"></div>
     <p class="page-note">How I got here. Scroll sideways; hover a bar for more.</p>
   </header>
-  <div class="views"><button class="switch" role="switch" aria-checked="true" aria-label="Order or chaos" id="sw"></button></div>
+  <div class="views" role="group" aria-label="To be or not to be"><button data-v="chaos" aria-pressed="true">to be</button><button data-v="grid" aria-pressed="false">not to be</button></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".08 .9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter><filter id="xerox"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <div class="wrap" id="wrap"><div class="track" id="track"></div></div>
 </main>
-<script src="js/placement.js?v=202611161246"></script>
-<script src="js/stretch.js?v=202611161246"></script>
-<script src="js/rupture.js?v=202611161246"></script>
+<script src="js/placement.js?v=202611161256"></script>
+<script src="js/stretch.js?v=202611161256"></script>
+<script src="js/rupture.js?v=202611161256"></script>
+<script src="js/board.js?v=202611161256"></script>
 <script>Stretch.make(document.getElementById('title'), 'WORK', [1], { steady: true, every: 500 });</script>
 <script>
 /* From "Ayelet Sella CV May2026". Contact details intentionally left out. */
@@ -225,19 +244,20 @@ function build() {
   h += `<aside class="toolbox" style="left:${LEFT + total}px;width:${TOOLBOX_W}px"><h2>Tools</h2>` +
        TOOLS.map(([g, ts]) => `<section><h4>${g}</h4><div class="tools">${ts.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></section>`).join('') + `</aside>`;
   track.innerHTML = h;
+  Board.live(track);
 }
 build(); new ResizeObserver(build).observe(wrapEl);
 const wrap = document.getElementById('wrap');
-// the switch: order ⇄ chaos (no words)
-document.getElementById('sw').addEventListener('click', e => {
-  const b = e.currentTarget, chaos = b.getAttribute('aria-checked') !== 'true', tr = document.getElementById('track');
-  b.setAttribute('aria-checked', chaos);
+// to be (chaos) / not to be (the grid)
+document.querySelectorAll('.views [data-v]').forEach(b => b.addEventListener('click', () => {
+  const chaos = b.dataset.v === 'chaos', tr = document.getElementById('track'); if (chaos !== !tr.classList.contains('grid')) return;
+  document.querySelectorAll('.views [data-v]').forEach(x => x.setAttribute('aria-pressed', x === b));
   tr.classList.remove('to-grid', 'to-chaos'); void tr.offsetWidth; tr.classList.add(chaos ? 'to-chaos' : 'to-grid'); tr.classList.toggle('grid', !chaos);
-});
+}));
 // layers: a little parallax on the board, by depth
 wrapEl.addEventListener('pointermove', e => { const r = wrapEl.getBoundingClientRect(); const px = ((e.clientX - r.left) / r.width - .5) * -18, py = ((e.clientY - r.top) / r.height - .5) * -12;
   track.style.setProperty('--px', px.toFixed(1) + 'px'); track.style.setProperty('--py', py.toFixed(1) + 'px'); });
 wrap.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { wrap.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 </script>
-<script src="js/nav.js?v=202611161246"></script>
+<script src="js/nav.js?v=202611161256"></script>
 </body></html>
