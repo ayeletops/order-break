@@ -426,3 +426,15 @@ Two risks: (1) to a visitor, deterministic chaos looks like random chaos, so the
 - **Cover:** the stance at 16/25 Bodoni, from the left edge, one column.
 - **Work chaos as a cork board:** a procedural cork texture with an inner vignette. Roles become index cards (ruled lines, a red top rule, typewriter titles) held by glossy red pushpins. Twelve polaroids of my work (graphic-novel panels and project thumbnails, greyscale) are pinned in layers, with typewriter captions. Red string runs pin to pin, with a slight sag and a shadow. The board has a subtle mouse parallax by depth, so the layers separate. Each event year is marked only by a thin red circle. The explosions, halftone, grain and rough edges are removed.
 - **Open:** music and albums. AI asked which ones; real album covers are copyrighted artwork, so it suggested typographic sleeves or my own photos of the records.
+
+**Then:** messier, following my references (a collage journal, cut-outs, a detective board, a tour board with tickets and passes). Find relevant images online (film, cinema, college life) and take complete creative freedom; I said it won't be published.
+**AI flagged:** the site *is* published (public repo, live on GitHub Pages), so copyrighted web images would be a real problem. It used two sources instead. (1) Public-domain film history, hotlinked from Wikimedia Commons after testing which files load: Muybridge's *Horse in Motion* (still and animated), Méliès' *A Trip to the Moon*, the Edison Kinetoscope, SMPTE bars. Modern photos and logos were left out because of uncertain licences. Credited on the Process page. (2) Ephemera drawn in code, owned by no one but me.
+**Built (`js/board.js`)**, placed by the secret offsets:
+- prints and polaroids of my work and of film history, and film strips of my panels
+- red cinema tickets with notched edges, and countdown-leader circles
+- EDL printouts with timecodes (my conform years)
+- yellow and blue sticky notes ("?", "#4", "time?")
+- ransom-note lettering of my own lines ("Physically unable to leave a bad cut alone", "Stay slightly wrong", "Keep secrets", "The average won")
+- Permanent Marker notes ("the cut that lies", "QC → pass?")
+- striped washi tape, a VHS label ("EDIT SUITE · REEL 03"), a mixtape cassette, ALL AREA and BACKSTAGE passes
+All of it is joined by red string, with depth parallax; hovering lifts a scrap to the top.
