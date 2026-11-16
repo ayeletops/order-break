@@ -539,3 +539,6 @@ All of it is joined by red string, with depth parallax; hovering lifts a scrap t
   - Language and paper: Hebrew, words, the paper trail of tickets and receipts, maps of thought (Darwin's tree ↔ "trying to think").
   - Also: me, money, icons, home, early cinema, pastel order.
   - The CV cards sit on the threads they belong to: editing ↔ nouvelle vague / subtitles / TV / Hebrew, restoration ↔ early cinema / paper trail, Wix and the hackathon ↔ errors / chats / maps of thought. All 141 of her images are on at least one thread. That's about 440 lines, over the paper, at 0.55px. Hovering a piece brightens its lines and names its threads.
+
+**Then:** the site should open on Home, with the default look as in my screenshot (ayeletops, positive, the name on two lines: a-y-e-l-e-t / o-p-s, the stance right under it).
+**AI:** Home is the entry point, and a `404.html` now sends any wrong address back to it. The default size is no longer guessed from the window height. It's computed so that six letters fit on the first line and the seventh doesn't, aiming at Ayelet's own 208 on a 1000px-wide window, so every window opens with the same two-line look. Resizing keeps it, until someone moves the slider. Coming back with the back button always resets to the default: ayeletops, positive, default size.
